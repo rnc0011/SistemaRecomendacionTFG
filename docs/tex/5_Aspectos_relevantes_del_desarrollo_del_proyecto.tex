@@ -1,7 +1,37 @@
 \capitulo{5}{Aspectos relevantes del desarrollo del proyecto}
 
-Este apartado pretende recoger los aspectos más interesantes del desarrollo del proyecto, comentados por los autores del mismo.
-Debe incluir desde la exposición del ciclo de vida utilizado, hasta los detalles de mayor relevancia de las fases de análisis, diseño e implementación.
-Se busca que no sea una mera operación de copiar y pegar diagramas y extractos del código fuente, sino que realmente se justifiquen los caminos de solución que se han tomado, especialmente aquellos que no sean triviales.
-Puede ser el lugar más adecuado para documentar los aspectos más interesantes del diseño y de la implementación, con un mayor hincapié en aspectos tales como el tipo de arquitectura elegido, los índices de las tablas de la base de datos, normalización y desnormalización, distribución en ficheros3, reglas de negocio dentro de las bases de datos (EDVHV GH GDWRV DFWLYDV), aspectos de desarrollo relacionados con el WWW...
-Este apartado, debe convertirse en el resumen de la experiencia práctica del proyecto, y por sí mismo justifica que la memoria se convierta en un documento útil, fuente de referencia para los autores, los tutores y futuros alumnos.
+Este apartado pretende recoger los aspectos más interesantes del desarrollo del proyecto.
+
+\section{Metodologías}\label{metodologias}
+Para la gestión del proyecto se ha adaptado la metodología ágil Scrum. Las principales características han sido:
+ \begin{itemize}
+\tightlist
+\item
+	La duración de los sprints fue de dos semanas aproximadamente.
+\item
+	Los sprints finalizaban con una reunión en la que se revisaba el trabajo hecho y se planteaban las tareas del siguiente sprint.
+\item	
+	Se utilizó ZenHub para llevar el seguimiento de las tareas.
+\end{itemize}
+
+\section{Formación}\label{formacion}
+El proyecto ha requerido obtener una serie de conocimientos que no se tenían inicialmente. Se ha estudiado el campo de los sistemas de recomendación y la utilización de aprendizaje profundo en Python.
+Para la formación en los sistemas de recomendación se usó el libro:
+\begin{itemize}
+\tightlist
+\item
+	\emph{Mining of Massive Datasets} (Jure Leskovec, Anand Rajaraman y Jeffrey D. Ullman).
+\end{itemize}
+Para la formación en aprendizaje profundo en Python se realizó el siguiente curso:
+\begin{itemize}
+\tightlist
+\item
+	\emph{Practical Deep Learning For Coders, Part 1} (Jeremy Howard).
+\end{itemize}
+
+\section{Desarrollo del código}\label{desarrollo-codigo}
+El proyecto se ha centrado en dos aspectos fundamentales: obtener un modelo clásico y obtener un modelo basado en aprendizaje profundo.
+Para la obtención del modelo clásico se estudió, en primer lugar, hacer uso de la librería Crab. Esta opción se descartó debido a la cantidad de fallos que saltaron durante la instalación (no se pudo llegar a instalar) y a la falta de actividad por parte de sus autores en el repositorio (no se ha tocado desde hace 7 años). Por todo esto, se decidió utilizar la librería LightFM.
+
+\section{Documentación}\label{documentacion}
+Las opciones que se plantearon para realizar la documentación fueron Apache OpenOffice y Texmaker. Ya que el Trabajo Fin de Grado lo veo como una forma de aprender conceptos nuevos que se desmarcan un poco de lo visto durante la carrera, opté por Texmaker debido a la novedad y al querer aprender y usar \LaTeX (es la primera vez que lo utilizo).
