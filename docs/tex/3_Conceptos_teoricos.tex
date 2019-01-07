@@ -1,57 +1,35 @@
 \capitulo{3}{Conceptos teóricos}
 
-En aquellos proyectos que necesiten para su comprensión y desarrollo de unos conceptos teóricos de una determinada materia o de un determinado dominio de conocimiento, debe existir un apartado que sintetice dichos conceptos.
+Los conceptos teóricos más importantes del proyecto son los relacionados con los sistemas de recomendación y las redes neuronales.
 
-Algunos conceptos teóricos de \LaTeX \footnote{Créditos a los proyectos de Álvaro López Cantero: Configurador de Presupuestos y Roberto Izquierdo Amo: PLQuiz}.
+\section{Sistemas de recomendación}\label{sistemas-de-recomendacion}
+Los sistemas de recomendación son herramientas que generan recomendaciones sobre un determinado objeto de estudio, a partir de las preferencias y opiniones dadas por los usuarios.\cite{definicion-sistemas-recomendacion}
 
-\section{Secciones}
+En un sistema de recomendación hay dos clases de entidades: usuarios e ítems. Los datos están representados en una matriz de utilidad de tal manera que los usuarios son filas y los ítems columnas. Para cada par hay un valor que representa el grado de preferencia de un usuario para un ítem. Se asume que la mayoría de los valores se desconocen. Es por ello, que el objetivo de un sistema de recomendación es rellenar esos espacios en blanco.
 
-Las secciones se incluyen con el comando section.
+\subsection{Tipos de sistemas de recomendación}\label{tipos-sistemas-recomendacion}
+Existen dos tipos de sistemas de recomendación:
+\begin{itemize}
+\tightlist
+\item Content-based systems
+\item Collaborative filtering systems
+\end{itemize}
 
-\subsection{Subsecciones}
+\subsection{Content-based systems}\label{content-based-systems}
+Examinan propiedades de los ítems recomendados. Solo tienen en cuenta los gustos de los usuarios.
 
-Además de secciones tenemos subsecciones.
+En estos sistemas, para cada ítem hay que construir un perfil compuesto por las propiedades del mismo. Por ejemplo, si los ítem son películas, algunas de las propiedades serían género, director, fecha de estreno, actores...
 
-\subsubsection{Subsubsecciones}
+\subsection{Collaborative filtering systems}\label{collaborative-filtering}
+Recomiendan ítems basándose en los gustos de usuarios similares.
 
-Y subsecciones. 
-
-
-\section{Referencias}
-
-Las referencias se incluyen en el texto usando cite \cite{wiki:latex}. Para citar webs, artículos o libros \cite{koza92}.
-
+En este caso, en lugar de usar el vector ítem-perfil de un ítem, usamos las filas de la matriz de utilidad. Los usuarios son parecidos si sus filas se acercan de acuerdo a alguna distancia.
 
 \section{Imágenes}
 
 Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
 
 \imagen{escudoInfor}{Autómata para una expresión vacía}
-
-
-
-\section{Listas de items}
-
-Existen tres posibilidades:
-
-\begin{itemize}
-	\item primer item.
-	\item segundo item.
-\end{itemize}
-
-\begin{enumerate}
-	\item primer item.
-	\item segundo item.
-\end{enumerate}
-
-\begin{description}
-	\item[Primer item] más información sobre el primer item.
-	\item[Segundo item] más información sobre el segundo item.
-\end{description}
-	
-\begin{itemize}
-\item 
-\end{itemize}
 
 \section{Tablas}
 
