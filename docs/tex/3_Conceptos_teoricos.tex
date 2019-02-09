@@ -25,6 +25,34 @@ Recomiendan ítems basándose en los gustos de usuarios similares.
 
 En este caso, en lugar de usar el vector ítem-perfil de un ítem, usamos las filas de la matriz de utilidad. Los usuarios son parecidos si sus filas se acercan de acuerdo a alguna distancia.
 
+\section{Medidas de calidad}\label{medidas-de-calidad}
+Podemos hacer uso de diferentes métricas para conocer cómo de bueno nuestro sistema de recomendación es. Las métricas elegidas son \cite{Ge10beyondaccuracy:}:
+\begin{itemize}
+\tightlist
+\item Cobertura
+\item Serendipia
+\end{itemize}
+
+\subsection{Cobertura}\label{cobertura}
+La cobertura o coverage es el dominio de ítems sobre los que el sistema de recomendación puede recomendar. Podemos distinguir dos tipos de cobertura: la cobertura de predicción (porcentaje de ítems sobre los que se puede recomendar) y la cobertura de catálogo (porcentaje de ítems que son recomendados).
+
+La que vamos a utilizar es la primera, y su fórmula es:
+\begin{equation}
+    \text{PC} = \dfrac{|Ip|}{|I|}
+\end{equation}
+donde \textit{Ip} es el conjunto de ítems sobre los que se puede hacer una predicción e \textit{I} es el conjunto de todos los ítems disponibles.
+
+\subsection{Serendipia}\label{serendipia}
+La serendipia o serendipity es una medida referente a si una recomendación es atractiva y sorprendente para el usuario. Para calcularla, primero tenemos que saber cuáles son las recomendaciones que sorprenden al usuario. Esto se calcula de la siguiente manera:
+\begin{equation}
+    \text{UNEXP} = \text{RS}\setminus \text{PM}
+\end{equation}
+donde \textit{RS} es una recomendación por nuestro sistema de recomendación y \textit{PM} es una recomendación de un modelo primitivo. Una vez hecho esto, ya podemos calcular la serendipia como:
+\begin{equation}
+    \text{SRDP} = \dfrac{\displaystyle\sum_{i=1}^{N}u(RSi)}{N}
+\end{equation}
+donde \textit{RSi} es un elemento de \textit{UNEXP} y \textit{N} es la longitud de \textit{UNEXP}. Si \textit{u(RSi)} es igual a 1, entonces la recomendación es atractiva; y si es 0, la recomendación no es atractiva y no vale.
+
 \section{Imágenes}
 
 Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
