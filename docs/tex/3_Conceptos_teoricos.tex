@@ -47,6 +47,24 @@ El \textit{AUC} (Area Under the Curve, Área Bajo la Curva) score \cite{auc_scor
 \subsection{Ranking recíproco}\label{ranking-reciproco}
 El ranking recíproco \cite{reciprocal_rank} es el inverso del valor más alto del ranking de predicciones.
 
+\section{Tratamiento de los datos}\label{tratamiento-datos}
+Todos los datos que he utilizado a lo largo del proyecto están en formato .csv. Lo más normal es que para cada conjunto de datos tenga los siguientes archivos:
+\begin{itemize}
+\tightlist
+\item \textit{ratings.csv} 
+\item \textit{users.csv}
+\item \textit{items.csv}
+\end{itemize}
+La estructura de estos archivos suele ser: \textit{idUser, idItem, rating, timestamp} para \textit{ratings.csv}, \textit{idUser, name, feature1, ..., featureN} para \textit{users.csv} y i\textit{dItem, name, feature1, ..., featureN} para \textit{items.csv}.
+
+Para poder trabajar con los datos, primero los paso a \textit{DataFrames} de \textit{pandas} \cite{dataframes}.
+ 
+\subsection{Datasets de LightFM}\label{datasets-lightfm}
+\textit{LightFM} trabaja con matrices de \textit{scipy.sparse} \cite{scipy-sparse}, por lo que hace falta convertir los \textit{DataFrames} a las matrices mencionadas. 
+Para ello, \textit{LightFM} proporciona la clase \textit{Dataset} \cite{dataset-lightfm}.
+
+Gracias a esta clase, obtengo una \textit{matriz COO} \cite{coo-matrix} para las interacciones y \textit{matrices CSR} \cite{csr-matrix} para las features de usuarios e ítems. Una vez obtengo estas matrices, ya puedo crear y entrenar los diferentes modelos con \textit{LightFM}.
+
 \section{Imágenes}
 
 Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
