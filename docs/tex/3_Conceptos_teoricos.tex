@@ -3,7 +3,7 @@
 Los conceptos teóricos más importantes del proyecto son los relacionados con los sistemas de recomendación y las redes neuronales.
 
 \section{Sistemas de recomendación}\label{sistemas-de-recomendacion}
-Los sistemas de recomendación son herramientas que generan recomendaciones sobre un determinado objeto de estudio, a partir de las preferencias y opiniones dadas por los usuarios.\cite{definicion-sistemas-recomendacion}
+Los sistemas de recomendación son herramientas que generan recomendaciones sobre un determinado objeto de estudio, a partir de las preferencias y opiniones dadas por los usuarios. \cite{sistemas-recomendacion}
 
 En un sistema de recomendación hay dos clases de entidades: usuarios e ítems. Los datos están representados en una matriz de utilidad de tal manera que los usuarios son filas y los ítems columnas. Para cada par hay un valor que representa el grado de preferencia de un usuario para un ítem. Se asume que la mayoría de los valores se desconocen. Es por ello, que el objetivo de un sistema de recomendación es rellenar esos espacios en blanco.
 
@@ -26,32 +26,26 @@ Recomiendan ítems basándose en los gustos de usuarios similares.
 En este caso, en lugar de usar el vector ítem-perfil de un ítem, usamos las filas de la matriz de utilidad. Los usuarios son parecidos si sus filas se acercan de acuerdo a alguna distancia.
 
 \section{Medidas de calidad}\label{medidas-de-calidad}
-Podemos hacer uso de diferentes métricas para conocer cómo de bueno nuestro sistema de recomendación es. Las métricas elegidas son \cite{Ge10beyondaccuracy:}:
+Podemos hacer uso de diferentes métricas para conocer cómo de bueno nuestro sistema de recomendación es. Las métricas elegidas son:
 \begin{itemize}
 \tightlist
-\item Cobertura
-\item Serendipia
+\item Precisión \textit{k}
+\item Recall \textit{k}
+\item \textit{AUC} Score
+\item Ranking recíproco
 \end{itemize}
 
-\subsection{Cobertura}\label{cobertura}
-La cobertura o coverage es el dominio de ítems sobre los que el sistema de recomendación puede recomendar. Podemos distinguir dos tipos de cobertura: la cobertura de predicción (porcentaje de ítems sobre los que se puede recomendar) y la cobertura de catálogo (porcentaje de ítems que son recomendados).
+\subsection{Precisión \textit{k}}\label{precision-k}
+La precisión \textit{k} \cite{precision_at_k} mide el número de elementos conocidos que se encuentran en las primeras k posiciones del ranking de predicciones, es decir, el porcentaje de coincidencias entre los elementos conocidos y los elementos devueltos por el modelo.
 
-La que vamos a utilizar es la primera, y su fórmula es:
-\begin{equation}
-    \text{PC} = \dfrac{|Ip|}{|I|}
-\end{equation}
-donde \textit{Ip} es el conjunto de ítems sobre los que se puede hacer una predicción e \textit{I} es el conjunto de todos los ítems disponibles.
+\subsection{Recall \textit{k}}\label{recall-k}
+El recall \textit{k} \cite{recall_at_k} la división del número de elementos relevantes conocidos que hay en las primeras \textit{k} posiciones de la lista de predicciones entre el número de elementos relevantes conocidos en toda la lista.
 
-\subsection{Serendipia}\label{serendipia}
-La serendipia o serendipity es una medida referente a si una recomendación es atractiva y sorprendente para el usuario. Para calcularla, primero tenemos que saber cuáles son las recomendaciones que sorprenden al usuario. Esto se calcula de la siguiente manera:
-\begin{equation}
-    \text{UNEXP} = \text{RS}\setminus \text{PM}
-\end{equation}
-donde \textit{RS} es una recomendación por nuestro sistema de recomendación y \textit{PM} es una recomendación de un modelo primitivo. Una vez hecho esto, ya podemos calcular la serendipia como:
-\begin{equation}
-    \text{SRDP} = \dfrac{\displaystyle\sum_{i=1}^{N}u(RSi)}{N}
-\end{equation}
-donde \textit{RSi} es un elemento de \textit{UNEXP} y \textit{N} es la longitud de \textit{UNEXP}. Si \textit{u(RSi)} es igual a 1, entonces la recomendación es atractiva; y si es 0, la recomendación no es atractiva y no vale.
+\subsection{\textit{AUC} Score}\label{auc-score}
+El \textit{AUC} (Area Under the Curve, Área Bajo la Curva) score \cite{auc_score} es la probabilidad de que un elemento relevante escogido aleatoriamente tenga un score mayor que un elemento no relevante escogido aleatoriamente.
+
+\subsection{Ranking recíproco}\label{ranking-reciproco}
+El ranking recíproco \cite{reciprocal_rank} es el inverso del valor más alto del ranking de predicciones.
 
 \section{Imágenes}
 
