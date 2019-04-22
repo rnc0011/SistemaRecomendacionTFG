@@ -48,22 +48,57 @@ El \textit{AUC} (Area Under the Curve, Área Bajo la Curva) score \cite{auc_scor
 El ranking recíproco \cite{reciprocal_rank} es el inverso del valor más alto del ranking de predicciones.
 
 \section{Tratamiento de los datos}\label{tratamiento-datos}
-Todos los datos que he utilizado a lo largo del proyecto están en formato .csv. Lo más normal es que para cada conjunto de datos tenga los siguientes archivos:
+Lo más común en los sistemas de recomendación es tener una gran cantidad de usuarios y de ítems. En cambio, la cantidad de valoraciones de ítems por cada usuario que se tiene es muy pequeña. Esto hace que la matriz con la que representamos las valoraciones sea muy grande pero con muchos valores a 0 (o celdas vacías, dependiendo de la representación escogida).  
+
+Esto es lo que llamamos \textit{matrices dispersas} \cite{wiki:Sparse_matrix}. Trabajar con estas matrices supone un gran coste de rendimiento, por lo que necesitamos convertirlas a otras estructuras con las que poder trabajar mejor.
+
+En el caso de \textit{LightFM}, las estructuras utilizadas son:
 \begin{itemize}
 \tightlist
-\item \textit{ratings.csv} 
-\item \textit{users.csv}
-\item \textit{items.csv}
+\item \textit{Matrices COO}
+\item \textit{Matrices CSR}  
 \end{itemize}
-La estructura de estos archivos suele ser: \textit{idUser, idItem, rating, timestamp} para \textit{ratings.csv}, \textit{idUser, name, feature1, ..., featureN} para \textit{users.csv} y i\textit{dItem, name, feature1, ..., featureN} para \textit{items.csv}.
 
-Para poder trabajar con los datos, primero los paso a \textit{DataFrames} de \textit{pandas} \cite{dataframes}.
- 
-\subsection{Datasets de LightFM}\label{datasets-lightfm}
-\textit{LightFM} trabaja con matrices de \textit{scipy.sparse} \cite{scipy-sparse}, por lo que hace falta convertir los \textit{DataFrames} a las matrices mencionadas. 
-Para ello, \textit{LightFM} proporciona la clase \textit{Dataset} \cite{dataset-lightfm}.
+\subsection{Matrices COO}\label{matrices-coo}
+Las \textit{matrices COO} \cite{coo-matrix}, o matrices coordenadas, dividen la matriz dispersa en tres vectores:
+\begin{itemize}
+\tightlist
+\item Vector con los valores no nulos
+\item Vector con el índice de las filas
+\item Vector con el índice de las columnas
+\end{itemize}
+Esto lo podemos ver más claro con el siguiente ejemplo. Dada la siguiente matriz dispersa
+\[\begin{bmatrix}
+27&0&8&14&0&0\\
+0&7&0&0&0&0\\
+3&0&7&0&0&9\\
+0&0&0&0&0&1\\
+4&0&77&0&0&0\\
+\end{bmatrix}\]
+obtendríamos los siguientes vectores:
+\begin{itemize}
+\tightlist
+\item Vector de valores: \[\begin{bmatrix} 27&8&14&7&3&7&9&1&4&77\\\end{bmatrix}\]
+\item Vector de filas: \[\begin{bmatrix} 1&1&1&2&3&3&3&4&5&5\\\end{bmatrix}\]
+\item Vector de columnas: \[\begin{bmatrix} 1&3&4&2&1&3&6&6&1&3\\
+\end{bmatrix}\]
+\end{itemize}
 
-Gracias a esta clase, obtengo una \textit{matriz COO} \cite{coo-matrix} para las interacciones y \textit{matrices CSR} \cite{csr-matrix} para las features de usuarios e ítems. Una vez obtengo estas matrices, ya puedo crear y entrenar los diferentes modelos con \textit{LightFM}.
+Este tipo de estructura es utilizada por \textit{LightFM} para representar la matriz de interacciones entre usuarios e ítems.
+
+\subsection{Matrices CSR}\label{matrices-csr}
+Otras estructuras ampliamente utilizadas, por ser más compactas que las \textit{matrices COO}, son las \textit{matrices CSR} \cite{csr-matrix}. Las \textit{matrices CSR} (\textit{Compressed Sparse Row}) no almacenan los índices de las filas, si no que almacenan punteros a los inicios de fila.
+
+Utilizando como ejemplo la matriz dispersa del caso anterior, ahora obtendríamos:
+\begin{itemize}
+\tightlist
+\item Vector de valores: \[\begin{bmatrix} 27&8&14&7&3&7&9&1&4&77\\\end{bmatrix}\]
+\item Vector de columnas: \[\begin{bmatrix} 1&3&4&2&1&3&6&6&1&3\\
+\end{bmatrix}\]
+\item Vector de filas: \[\begin{bmatrix} 1&4&5&9&10&11\\\end{bmatrix}\]
+\end{itemize}
+
+Este tipo de estructura es utilizada por \textit{LightFM} para representar las matrices de features de usuarios e ítems.
 
 \section{Imágenes}
 
