@@ -1,11 +1,65 @@
 \apendice{Especificación de diseño}
 
 \section{Introducción}
+En este apéndice se explica cómo están conformados los datos que utilizan las librerías usadas en el proyecto, así como la forma en la que está estructurado el mismo.
 
 \section{Diseño de datos}
+Todos los datos que he utilizado a lo largo del proyecto están en formato .csv. Lo más normal es que para cada conjunto de datos tenga los siguientes archivos:
+\begin{itemize}
+\tightlist
+\item \textit{ratings.csv} 
+\item \textit{users.csv}
+\item \textit{items.csv}
+\end{itemize}
+La estructura de estos archivos suele ser: \textit{idUser, idItem, rating, timestamp} para \textit{ratings.csv}, \textit{idUser, name, feature1, ..., featureN} para \textit{users.csv} y i\textit{dItem, name, feature1, ..., featureN} para \textit{items.csv}.
+
+Para poder trabajar con los datos primero los paso a \textit{DataFrames} de \textit{pandas} \cite{dataframes}.
+
+\subsection{Datos con LightFM}\label{datos-lightfm}
+Una vez obtenidos los \textit{DataFrames} para cada \textit{.csv}, necesito convertirlos a \textit{Dataset} de \textit{LightFM} \cite{dataset-lightfm} para poder trabajar con ellos.
+
+Esta clase se encarga de convertir los datos almacenados en los \textit{DataFrames} en \textit{matrices COO} y \textit{matrices CSR}.
 
 \section{Diseño procedimental}
 
 \section{Diseño arquitectónico}
+Para la realización de este proyecto se ha seguido el patrón arquitectónico MVC (\textit{Modelo Vista Controlador}). El objetivo de este patrón es dividir el código en función de su propósito. Sus partes son:
+\begin{itemize}
+\tightlist
+\item \textit{Modelo}: el acceso a los datos. Se corresponde con las clases de Entrada y Salida, que leen los datos para dárselo al sistema de recomendación y guardan los resultados.
+\item \textit{Vista}: la visualización de los datos. Se corresponde con las clases de Interfaz, que muestran la información solicitada.
+\item \textit{Controlador}: la manipulación de los datos. Se corresponde con los clases de Sistema, que crean los sistemas de recomendación gracias a los datos proporcionados por las clases de Entrada.
+\end{itemize}
+
+\imagen{patronMVC}{Esquema del patrón MVC}
+
+\subsection{Diseño con LightFM}\label{diseño-lightfm}
+Para la parte del modelo clásico, la estructura del proyecto es la siguiente:
+\imagen{umlLightFM}{Diagrama UML de la parte de LightFM}
+En la clase \texttt{EntradaLightFM} tenemos:
+\begin{itemize}
+\tightlist
+\item \texttt{leer\_csv}: este método llama a los distintos métodos de lectura para recoger los datos de los \textit{.csv} en función del conjunto de datos escogido mediante la clase \texttt{InterfazLightFM}.
+\item \texttt{leer\_x}: estos métodos recogen los datos de los \textit{.csv} para cada conjunto de datos.
+\end{itemize}
+
+En la clase \texttt{InterfazLightFM} tenemos:
+\begin{itemize}
+\tightlist
+\item \texttt{elegir\_dataset}: este método muestra un menú mediante el cual elegimos un conjunto de datos que utilizar.
+\item \texttt{elegir\_modelo}: este método muestra un menú mediante el cual elegimos un modelo concreto a crear. 
+\item \texttt{main}: método principal del programa. Es el encargado de llamar a todos los métodos necesarios de la clase \texttt{SistemaLightFM}. 
+\end{itemize}
+
+En la clase \texttt{SistemaLightFM} tenemos:
+\begin{itemize}
+\tightlist
+\item \texttt{obtener\_matrices}: este método llama a los distintos métodos de creación de las matrices necesarias para poder obtener los modelos en función del conjunto de datos escogido mediante la clase \texttt{InterfazLightFM}.
+\item \texttt{matrices\_x}: estos métodos crean las matrices necesarias para cada conjunto de datos. 
+\item \texttt{obtener\_modelos}: este método llama a los distintos métodos de creación de modelos en función del modelo escogido mediante la clase \texttt{InterfazLightFM}.
+\item \texttt{modelo\_x}: estos métodos crean los distintos modelos de recomendación. 
+\item \texttt{obtener\_resultados}: este método llama a los métodos de obtención de resultados en función del modelo escogido mediante la clase \texttt{InterfazLightFM}. 
+\item \texttt{resultados\_x}: estos métodos obtienen los resultados para cada modelo de recomendación. 
+\end{itemize}
 
 
