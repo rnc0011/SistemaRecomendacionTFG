@@ -57,7 +57,7 @@ def main():
     EntradaLightFM.leer_csv(opcion_dataset)
     sistema = SistemaLightFM.SistemaLightFM(opcion_dataset, opcion_modelo)
     sistema.obtener_matrices()
-    sistema.obtener_modelo()
+    sistema.obtener_modelos()
     sistema.obtener_resultados()
     
 main()

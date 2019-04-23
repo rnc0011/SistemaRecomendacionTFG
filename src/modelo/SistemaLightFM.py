@@ -186,7 +186,7 @@ class SistemaLightFM:
         modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
     
     # Método obtener_modelo. Crea los modelos en función de la opción escogida.
-    def obtener_modelo(self):
+    def obtener_modelos(self):
         if self.opcion_modelo == 1:
             self.modelo_colaborativo()
         elif self.opcion_modelo == 2:
