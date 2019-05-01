@@ -36,7 +36,11 @@ Podemos hacer uso de diferentes métricas para conocer cómo de bueno nuestro si
 \end{itemize}
 
 \subsection{Precisión \textit{k}}\label{precision-k}
-La precisión \textit{k} \cite{precision_at_k} mide el número de elementos conocidos que se encuentran en las primeras k posiciones del ranking de predicciones, es decir, el porcentaje de coincidencias entre los elementos conocidos y los elementos devueltos por el modelo.
+La precisión \textit{k} \cite{precision_at_k} mide el número de elementos conocidos que se encuentran en las primeras \textit{k} posiciones del ranking de predicciones, es decir, el porcentaje de coincidencias entre los elementos conocidos y los elementos devueltos por el modelo. La fórmula sería la siguiente:
+\begin{equation}
+Precision\;at\;k = \frac{EC}{kRP}
+\end{equation}
+siendo \textit{EC} los elementos conocidos y \textit{kRP} las primeras \textit{k} posiciones del ranking de predicciones.
 
 \subsection{Recall \textit{k}}\label{recall-k}
 El recall \textit{k} \cite{recall_at_k} la división del número de elementos relevantes conocidos que hay en las primeras \textit{k} posiciones de la lista de predicciones entre el número de elementos relevantes conocidos en toda la lista.
