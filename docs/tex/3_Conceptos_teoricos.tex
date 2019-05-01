@@ -53,7 +53,11 @@ siendo \textit{ERk} los elementos relevantes en las primeras \textit{k} posicion
 El \textit{AUC} (Area Under the Curve, Área Bajo la Curva) score \cite{auc_score} es la probabilidad de que un elemento relevante escogido aleatoriamente tenga un score mayor que un elemento no relevante escogido aleatoriamente.
 
 \subsection{Ranking recíproco}\label{ranking-reciproco}
-El ranking recíproco \cite{reciprocal_rank} es el inverso del valor más alto del ranking de predicciones.
+El ranking recíproco \cite{reciprocal_rank} es el inverso del score del elemento más relevante devuelto en el ranking de resultados. Su fórmula es:
+\begin{equation}
+Reciprocal\;rank = \frac{1}{SER}
+\end{equation}
+siendo \textit{SER} el score del elemento más relevante devuelto en el ranking de resultados.
 
 \section{Tratamiento de los datos}\label{tratamiento-datos}
 Lo más común en los sistemas de recomendación es tener una gran cantidad de usuarios y de ítems. En cambio, la cantidad de valoraciones de ítems por cada usuario que se tiene es muy pequeña. Esto hace que la matriz con la que representamos las valoraciones sea muy grande pero con muchos valores a 0 (o celdas vacías, dependiendo de la representación escogida).  
