@@ -90,7 +90,7 @@ def leer_dating_agency():
     users_df = pd.read_csv(dating_users_path, sep=',', names=['Id Usuario', 'Género'], engine='python')
 
 # Método leer_csv. Lee el conjunto de datos en función de la opción escogida.
-def leer_csv(opcion_dataset):
+"""def leer_csv(opcion_dataset):
     if opcion_dataset == 1:
         leer_movielens()
     elif opcion_dataset == 2:
@@ -101,4 +101,4 @@ def leer_csv(opcion_dataset):
         leer_lastfm()
     else:
         leer_dating_agency()
-        
+"""        

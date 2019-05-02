@@ -10,6 +10,7 @@ import multiprocessing
 #import pickle
 #import os
 import EntradaLightFM
+import Salida
 from lightfm import LightFM
 from lightfm.evaluation import precision_at_k
 from lightfm.evaluation import auc_score
@@ -43,6 +44,9 @@ class SistemaLightFM:
         global item_features
         global user_features
         
+        # Leo los csv
+        EntradaLightFM.leer_movielens()
+        
         # Obtención de los dataset
         ml_dataset = Dataset()
         ml_dataset.fit(EntradaLightFM.ratings_df['Id Usuario'], EntradaLightFM.ratings_df['Id Película'])
@@ -64,6 +68,9 @@ class SistemaLightFM:
         global test
         global item_features
         
+        # Leo los csv
+        EntradaLightFM.leer_anime()
+        
         # Obtención de los dataset
         anime_dataset = Dataset()
         anime_dataset.fit(EntradaLightFM.ratings_df['Id Usuario'], EntradaLightFM.ratings_df['Id Anime'])
@@ -83,6 +90,9 @@ class SistemaLightFM:
         global test
         global item_features
         global user_features
+        
+        # Leo los csv
+        EntradaLightFM.leer_book_crossing()
         
         # Obtención de los dataset
         bc_dataset = Dataset()
@@ -106,6 +116,9 @@ class SistemaLightFM:
         global item_features
         global user_features
         
+        # Leo los csv
+        EntradaLightFM.leer_lastfm()
+        
         # Obtención de los dataset
         lf_dataset = Dataset()
         lf_dataset.fit(EntradaLightFM.ratings_df['Id Usuario'], EntradaLightFM.ratings_df['Id Artista'])
@@ -127,6 +140,9 @@ class SistemaLightFM:
         global test
         global item_features
         global user_features
+        
+        # Leo los csv
+        EntradaLightFM.leer_dating_agency()
         
         # Obtención de los dataset
         dating_dataset = Dataset()
@@ -206,7 +222,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, num_threads=self.CPU_THREADS).mean()
         
-        print(precision, auc, recall, reciprocal)
+        Salida.imprimir_resultados(precision, auc, recall, reciprocal)
         
     # Método resultados_hibrido. Obtiene los resultados del modelo híbrido.
     def resultados_hibrido(self):
@@ -221,7 +237,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
-        print(precision, auc, recall, reciprocal)
+        Salida.imprimir_resultados(precision, auc, recall, reciprocal)
     
     # Método resultados_por_contenido. Obtiene los resultados del modelo por contenido.
     def resultados_por_contenido(self):
@@ -237,7 +253,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
-        print(precision, auc, recall, reciprocal)
+        Salida.imprimir_resultados(precision, auc, recall, reciprocal)
     
     # Método obtener_resultados. Obtiene los resultados en función del modelo escogido.
     def obtener_resultados(self):
