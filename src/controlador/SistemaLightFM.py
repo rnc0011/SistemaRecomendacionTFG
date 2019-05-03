@@ -9,8 +9,11 @@ Created on Tue Apr 23 16:45:27 2019
 import multiprocessing
 #import pickle
 #import os
+import sys
+sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
 import EntradaLightFM
 import Salida
+import PersistenciaLightFM
 from lightfm import LightFM
 from lightfm.evaluation import precision_at_k
 from lightfm.evaluation import auc_score
@@ -62,6 +65,9 @@ class SistemaLightFM:
         ml_train, ml_test = random_train_test_split(ml_interactions, test_percentage=0.2)
         train, test, item_features, user_features = ml_train, ml_test, ml_item_features, ml_user_features
         
+        # Guardo las matrices
+        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'movielens')
+        
     # Método matrices_anime. Crea las matrices de anime con las que poder utilizar los modelos. 
     def matrices_anime(self):
         global train
@@ -83,6 +89,9 @@ class SistemaLightFM:
         # División de los datos
         anime_train, anime_test = random_train_test_split(anime_interactions, test_percentage=0.2)
         train, test, item_features = anime_train, anime_test, anime_item_features
+        
+        # Guardo las matrices
+        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'anime')
         
     # Método matrices_book_crossing. Crea las matrices de book crossing con las que poder utilizar los modelos. 
     def matrices_book_crossing(self):
@@ -109,6 +118,9 @@ class SistemaLightFM:
         bc_train, bc_test = random_train_test_split(bc_interactions, test_percentage=0.2)
         train, test, item_features, user_features = bc_train, bc_test, bc_item_features, bc_user_features
         
+        # Guardo las matrices
+        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'books')
+        
     # Método matrices_lastfm. Crea las matrices de lastfm con las que poder utilizar los modelos. 
     def matrices_lastfm(self):
         global train
@@ -134,6 +146,9 @@ class SistemaLightFM:
         lf_train, lf_test = random_train_test_split(lf_interactions, test_percentage=0.2)
         train, test, item_features, user_features = lf_train, lf_test, lf_item_features, lf_user_features
         
+        # Guardo las matrices
+        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'lastfm')
+        
     # Método matrices_dating_agency. Crea las matrices de dating agency con las que poder utilizar los modelos. 
     def matrices_dating_agency(self):
         global train
@@ -158,6 +173,9 @@ class SistemaLightFM:
         dating_train, dating_test = random_train_test_split(dating_interactions, test_percentage=0.2)
         train, test, item_features, user_features = dating_train, dating_test, dating_item_features, dating_user_features
         
+        # Guardo las matrices
+        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'dating')
+        
     # Método obtener:matrices. Crea las matrices con las que poder utilizar los modelos en función de la opción escogida.
     def obtener_matrices(self):
         if self.opcion_dataset == 1:
@@ -180,6 +198,9 @@ class SistemaLightFM:
         modelo = LightFM(loss='warp')
         modelo.fit(train, epochs=30, num_threads=self.CPU_THREADS)
         
+        # Guardo el modelo
+        PersistenciaLightFM.guardar_modelo(modelo, 'colaborativo', self.opcion_dataset)
+        
     # Método modelo_hibrido. Crea el modelo híbrido.
     def modelo_hibrido(self):
         global train
@@ -189,6 +210,9 @@ class SistemaLightFM:
         # Obtención del modelo
         modelo = LightFM(loss='warp')
         modelo.fit(train, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
+        
+        # Guardo el modelo
+        PersistenciaLightFM.guardar_modelo(modelo, 'hibrido', self.opcion_dataset)
         
     # Método modelo_por_contenido. Crea el modelo por contenido.
     def modelo_por_contenido(self):
@@ -200,6 +224,9 @@ class SistemaLightFM:
         # Obtención del modelo
         modelo = LightFM(loss='warp')
         modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
+        
+        # Guardo el modelo
+        PersistenciaLightFM.guardar_modelo(modelo, 'contenido', self.opcion_dataset)
     
     # Método obtener_modelo. Crea los modelos en función de la opción escogida.
     def obtener_modelos(self):
