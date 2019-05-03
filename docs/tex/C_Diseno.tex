@@ -33,21 +33,35 @@ Para la realización de este proyecto se ha seguido el patrón arquitectónico M
 
 \imagen{patronMVC}{Esquema del patrón MVC}
 
-\subsection{Diseño con LightFM}\label{diseño-lightfm}
-Para la parte del modelo clásico, la estructura del proyecto es la siguiente:
+La estructura del proyecto siguiendo este patrón quedaría de la siguiente forma:
 \imagen{src}{Diagrama UML del proyecto}
 Por separado, los paquetes contienen:
 \imagen{Interfaz}{Diagrama UML del paquete \textit{vista}}
 \imagen{Sistema}{Diagrama UML del paquete \textit{controlador}}
 \imagen{EntradaSalidaPersistencia}{Diagrama UML del paquete \textit{modelo}}
-En la clase \texttt{EntradaLightFM} tenemos:
+
+\subsection{Diseño con LightFM}\label{diseño-lightfm}
+Para la parte del modelo clásico, se tienen los siguientes archivos:
+En la clase \texttt{EntradaLightFM} se tiene:
 \begin{itemize}
 \tightlist
-\item \texttt{leer\_csv}: este método llama a los distintos métodos de lectura para recoger los datos de los \textit{.csv} en función del conjunto de datos escogido mediante la clase \texttt{InterfazLightFM}.
-\item \texttt{leer\_x}: estos métodos recogen los datos de los \textit{.csv} para cada conjunto de datos.
+\item \texttt{leer\_x}: estos métodos recogen los datos de los \textit{.csv} para cada conjunto de datos. Estos métodos son utilizados por los métodos de obtención de matrices de la clase \texttt{SistemaLightFM}.
 \end{itemize}
 
-En la clase \texttt{InterfazLightFM} tenemos:
+En el archivo \texttt{Salida} se tiene:
+\begin{itemize}
+\tightlist
+\item \texttt{imprimir\_resultados}: este método imprime las métricas del modelo escogido.
+\end{itemize}
+
+En el archivo \texttt{PersistenciaLightFM} se tiene:
+\begin{itemize}
+\tightlist
+\item \texttt{guardar\_matrices}: este método guarda en un archivo \textit{pickle} las matrices que \textit{LightFM} necesita para obtener los modelos.
+\item \texttt{guardar\_modelo}: este método guarda el modelo obtenido por \textit{LightFM} en un archivo \textit{pickle}.
+\end{itemize}
+
+En el archivo \texttt{InterfazLightFM} se tiene:
 \begin{itemize}
 \tightlist
 \item \texttt{elegir\_dataset}: este método muestra un menú mediante el cual elegimos un conjunto de datos que utilizar.
