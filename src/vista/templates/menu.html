@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+   <body>
+      <h2 style = "text-align: center;"> Menú</h2>
+      
+      <form action = "http://localhost:5000/menu" method = "POST">
+         <fieldset>
+            <legend>Menú</legend>
+            {{ form.hidden_tag() }}
+            
+            <div style = font-size:20px; font-weight:bold; margin-left:150px;>
+               <br>
+               {{ form.dataset.label }} {{ form.dataset }}
+               <br>
+               {{ form.submit }}
+            </div>
+            
+         </fieldset>
+      </form>
+   </body>
+</html>
