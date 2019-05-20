@@ -249,7 +249,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, num_threads=self.CPU_THREADS).mean()
         
-        Salida.imprimir_resultados(precision, auc, recall, reciprocal)
+        Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
         
     # Método resultados_hibrido. Obtiene los resultados del modelo híbrido.
     def resultados_hibrido(self):
@@ -264,7 +264,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
-        Salida.imprimir_resultados(precision, auc, recall, reciprocal)
+        Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
     # Método resultados_por_contenido. Obtiene los resultados del modelo por contenido.
     def resultados_por_contenido(self):
@@ -280,7 +280,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
-        Salida.imprimir_resultados(precision, auc, recall, reciprocal)
+        Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
     # Método obtener_resultados. Obtiene los resultados en función del modelo escogido.
     def obtener_resultados(self):

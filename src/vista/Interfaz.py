@@ -11,6 +11,7 @@ sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacion
 #sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
 #import EntradaLightFM
 import SistemaLightFM
+import SistemaSpotlight
 
 # Variables globales
 #global opcion_dataset
@@ -51,9 +52,9 @@ def elegir_modelo():
             break
         else:
             print("No has introducido una opción válida")
-
-# Método main. Método principal del programa.
-def main():
+            
+# Método main_clasico. Programa principal si la opción escogida es el modelo clásico.
+def main_clasico():
     opcion_dataset = elegir_dataset()
     opcion_modelo = elegir_modelo()
     #EntradaLightFM.leer_csv(opcion_dataset)
@@ -62,4 +63,34 @@ def main():
     sistema.obtener_modelos()
     sistema.obtener_resultados()
     
+# Método main_dl. Programa principal si la opción escogida es el modelo basado en aprendizaje profundo.
+def main_dl():
+    opcion_dataset = elegir_dataset()
+    sistema = SistemaSpotlight.SistemaSpotlight(opcion_dataset)
+    sistema.obtener_interacciones()
+    sistema.obtener_modelos()
+    sistema.obtener_resultados()
+    
+# Método main. Método principal del programa.
+def main():
+    print("¿Qué modelo quieres utilizar?")
+    while True:
+        print("Introduce el número de la opción que elijas")
+        print("1. Modelo clásico")
+        print("2. Modelo aprendizaje profundo")
+        opcion_inicial = int(input())
+        print(opcion_inicial)
+        if opcion_inicial == 1:
+            main_clasico()
+            break
+        elif opcion_inicial == 2:
+            main_dl()
+            break
+        else:
+            print("No has introducido una opción válida")
+
+    
+# Ejecución del programa.
 main()
+
+
