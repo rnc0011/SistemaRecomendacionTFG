@@ -16,6 +16,8 @@ from spotlight.factorization.explicit import ExplicitFactorizationModel
 from spotlight.interactions import Interactions
 from spotlight.cross_validation import random_train_test_split
 from spotlight.evaluation import rmse_score
+from spotlight.evaluation import mrr_score
+from spotlight.evaluation import precision_recall_score
 
 # Clase SistemaSpotlight.
 class SistemaSpotlight:
@@ -197,13 +199,16 @@ class SistemaSpotlight:
         
     # Método resultados_factorizacion_explicito. Calcula las métricas del modelo de factorización explícito.
     def resultados_factorizacion_explicito(self):
+        global train
         global test
         global modelo
         
-        # Calculo el root mean square error
+        # Calculo las métricas
         rmse = rmse_score(modelo, test)
+        mrr = mrr_score(modelo, test, train=train).mean()
+        precision, recall = precision_recall_score(modelo, test, train=train, k=10)
         
-        Salida.imprimir_resultados_dl(rmse)
+        Salida.imprimir_resultados_dl(rmse, mrr, precision.mean(), recall.mean())
         
     # Método obtener_resultados. Calcula las métricas en función del modelo escogido.
     def obtener_resultados(self):
