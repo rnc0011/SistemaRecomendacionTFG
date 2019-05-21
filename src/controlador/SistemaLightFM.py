@@ -13,7 +13,7 @@ import sys
 sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
 import EntradaLightFM
 import Salida
-import PersistenciaLightFM
+import Persistencia
 from lightfm import LightFM
 from lightfm.evaluation import precision_at_k
 from lightfm.evaluation import auc_score
@@ -66,7 +66,7 @@ class SistemaLightFM:
         train, test, item_features, user_features = ml_train, ml_test, ml_item_features, ml_user_features
         
         # Guardo las matrices
-        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'movielens')
+        Persistencia.guardar_matrices(train, test, item_features, user_features, 'movielens')
         
     # Método matrices_anime. Crea las matrices de anime con las que poder utilizar los modelos. 
     def matrices_anime(self):
@@ -91,7 +91,7 @@ class SistemaLightFM:
         train, test, item_features = anime_train, anime_test, anime_item_features
         
         # Guardo las matrices
-        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'anime')
+        Persistencia.guardar_matrices(train, test, item_features, user_features, 'anime')
         
     # Método matrices_book_crossing. Crea las matrices de book crossing con las que poder utilizar los modelos. 
     def matrices_book_crossing(self):
@@ -119,7 +119,7 @@ class SistemaLightFM:
         train, test, item_features, user_features = bc_train, bc_test, bc_item_features, bc_user_features
         
         # Guardo las matrices
-        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'books')
+        Persistencia.guardar_matrices(train, test, item_features, user_features, 'books')
         
     # Método matrices_lastfm. Crea las matrices de lastfm con las que poder utilizar los modelos. 
     def matrices_lastfm(self):
@@ -147,7 +147,7 @@ class SistemaLightFM:
         train, test, item_features, user_features = lf_train, lf_test, lf_item_features, lf_user_features
         
         # Guardo las matrices
-        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'lastfm')
+        Persistencia.guardar_matrices(train, test, item_features, user_features, 'lastfm')
         
     # Método matrices_dating_agency. Crea las matrices de dating agency con las que poder utilizar los modelos. 
     def matrices_dating_agency(self):
@@ -174,17 +174,17 @@ class SistemaLightFM:
         train, test, item_features, user_features = dating_train, dating_test, dating_item_features, dating_user_features
         
         # Guardo las matrices
-        PersistenciaLightFM.guardar_matrices(train, test, item_features, user_features, 'dating')
+        Persistencia.guardar_matrices(train, test, item_features, user_features, 'dating')
         
     # Método obtener:matrices. Crea las matrices con las que poder utilizar los modelos en función de la opción escogida.
     def obtener_matrices(self):
-        if self.opcion_dataset == 1:
+        if self.opcion_dataset == 'movielens':
             self.matrices_movielens()
-        elif self.opcion_dataset == 2:
+        elif self.opcion_dataset == 'anime':
             self.matrices_anime()
-        elif self.opcion_dataset == 3:
+        elif self.opcion_dataset == 'books':
             self.matrices_book_crossing()
-        elif self.opcion_dataset == 4:
+        elif self.opcion_dataset == 'lastfm':
             self.matrices_lastfm()
         else:
             self.matrices_dating_agency()
@@ -199,7 +199,7 @@ class SistemaLightFM:
         modelo.fit(train, epochs=30, num_threads=self.CPU_THREADS)
         
         # Guardo el modelo
-        PersistenciaLightFM.guardar_modelo(modelo, 'colaborativo', self.opcion_dataset)
+        Persistencia.guardar_modelo_clasico(modelo, 'colaborativo', self.opcion_dataset)
         
     # Método modelo_hibrido. Crea el modelo híbrido.
     def modelo_hibrido(self):
@@ -212,7 +212,7 @@ class SistemaLightFM:
         modelo.fit(train, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
         
         # Guardo el modelo
-        PersistenciaLightFM.guardar_modelo(modelo, 'hibrido', self.opcion_dataset)
+        Persistencia.guardar_modelo_clasico(modelo, 'hibrido', self.opcion_dataset)
         
     # Método modelo_por_contenido. Crea el modelo por contenido.
     def modelo_por_contenido(self):
@@ -226,7 +226,7 @@ class SistemaLightFM:
         modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
         
         # Guardo el modelo
-        PersistenciaLightFM.guardar_modelo(modelo, 'contenido', self.opcion_dataset)
+        Persistencia.guardar_modelo_clasico(modelo, 'contenido', self.opcion_dataset)
     
     # Método obtener_modelo. Crea los modelos en función de la opción escogida.
     def obtener_modelos(self):

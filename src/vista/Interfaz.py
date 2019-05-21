@@ -28,9 +28,9 @@ def elegir_dataset():
         print("3. Book Crossing")
         print("4. LastFM")
         print("5. Dating Agency")
-        opcion_dataset = int(input())
+        opcion_dataset = input()
         print(opcion_dataset)
-        if opcion_dataset > 0 and opcion_dataset < 6:
+        if opcion_dataset in ['movielens', 'anime', 'books', 'lastfm', 'dating']:
             return opcion_dataset
             break
         else:
