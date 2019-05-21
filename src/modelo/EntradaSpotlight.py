@@ -10,7 +10,6 @@ import os
 import pandas as pd           
 
 # Variables globales            
-global opcion_dataset
 global ratings_df
 global users_df
 global items_df
