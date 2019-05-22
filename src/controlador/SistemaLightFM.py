@@ -11,7 +11,7 @@ import multiprocessing
 #import os
 import sys
 sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
-import EntradaLightFM
+import Entrada
 import Salida
 import Persistencia
 from lightfm import LightFM
@@ -48,18 +48,18 @@ class SistemaLightFM:
         global user_features
         
         # Leo los csv
-        EntradaLightFM.leer_movielens()
+        Entrada.leer_movielens()
         
         # Obtención de los dataset
         ml_dataset = Dataset()
-        ml_dataset.fit(EntradaLightFM.ratings_df['Id Usuario'], EntradaLightFM.ratings_df['Id Película'])
-        ml_dataset.fit_partial(users=EntradaLightFM.users_df['Id Usuario'], items=EntradaLightFM.items_df['Id Película'], 
-                               user_features=EntradaLightFM.users_df['Género'], item_features=EntradaLightFM.items_df['Título'])
+        ml_dataset.fit(Entrada.ratings_df['Id Usuario'], Entrada.ratings_df['Id Película'])
+        ml_dataset.fit_partial(users=Entrada.users_df['Id Usuario'], items=Entrada.items_df['Id Película'], 
+                               user_features=Entrada.users_df['Género'], item_features=Entrada.items_df['Título'])
         
         # Obtención de las matrices
-        (ml_interactions, ml_weights) = ml_dataset.build_interactions((row['Id Usuario'], row['Id Película'], row['Valoración']) for index, row in EntradaLightFM.ratings_df.iterrows())
-        ml_item_features = ml_dataset.build_item_features((row['Id Película'], [row['Título']]) for index, row in EntradaLightFM.items_df.iterrows())
-        ml_user_features = ml_dataset.build_user_features((row['Id Usuario'], [row['Género']]) for index, row in EntradaLightFM.users_df.iterrows())
+        (ml_interactions, ml_weights) = ml_dataset.build_interactions((row['Id Usuario'], row['Id Película'], row['Valoración']) for index, row in Entrada.ratings_df.iterrows())
+        ml_item_features = ml_dataset.build_item_features((row['Id Película'], [row['Título']]) for index, row in Entrada.items_df.iterrows())
+        ml_user_features = ml_dataset.build_user_features((row['Id Usuario'], [row['Género']]) for index, row in Entrada.users_df.iterrows())
         
         # División de los datos
         ml_train, ml_test = random_train_test_split(ml_interactions, test_percentage=0.2)
@@ -75,16 +75,16 @@ class SistemaLightFM:
         global item_features
         
         # Leo los csv
-        EntradaLightFM.leer_anime()
+        Entrada.leer_anime()
         
         # Obtención de los dataset
         anime_dataset = Dataset()
-        anime_dataset.fit(EntradaLightFM.ratings_df['Id Usuario'], EntradaLightFM.ratings_df['Id Anime'])
-        anime_dataset.fit_partial(items=EntradaLightFM.items_df['Id Anime'], item_features=EntradaLightFM.items_df['Título'])
+        anime_dataset.fit(Entrada.ratings_df['Id Usuario'], Entrada.ratings_df['Id Anime'])
+        anime_dataset.fit_partial(items=Entrada.items_df['Id Anime'], item_features=Entrada.items_df['Título'])
         
         # Obtención de las matrices
-        (anime_interactions, anime_weights) = anime_dataset.build_interactions((row['Id Usuario'], row['Id Anime'], row['Valoración']) for index, row in EntradaLightFM.ratings_df.iterrows())
-        anime_item_features = anime_dataset.build_item_features((row['Id Anime'], [row['Título']]) for index, row in EntradaLightFM.items_df.iterrows())
+        (anime_interactions, anime_weights) = anime_dataset.build_interactions((row['Id Usuario'], row['Id Anime'], row['Valoración']) for index, row in Entrada.ratings_df.iterrows())
+        anime_item_features = anime_dataset.build_item_features((row['Id Anime'], [row['Título']]) for index, row in Entrada.items_df.iterrows())
         
         # División de los datos
         anime_train, anime_test = random_train_test_split(anime_interactions, test_percentage=0.2)
@@ -101,18 +101,18 @@ class SistemaLightFM:
         global user_features
         
         # Leo los csv
-        EntradaLightFM.leer_book_crossing()
+        Entrada.leer_book_crossing()
         
         # Obtención de los dataset
         bc_dataset = Dataset()
-        bc_dataset.fit(EntradaLightFM.ratings_df['Id Usuario'], EntradaLightFM.ratings_df['ISBN'])
-        bc_dataset.fit_partial(users=EntradaLightFM.users_df['Id Usuario'], items=EntradaLightFM.items_df['ISBN'], 
-                               user_features=EntradaLightFM.users_df['Edad'], item_features=EntradaLightFM.items_df['Título'])
+        bc_dataset.fit(Entrada.ratings_df['Id Usuario'], Entrada.ratings_df['ISBN'])
+        bc_dataset.fit_partial(users=Entrada.users_df['Id Usuario'], items=Entrada.items_df['ISBN'], 
+                               user_features=Entrada.users_df['Edad'], item_features=Entrada.items_df['Título'])
         
         # Obtención de las matrices
-        (bc_interactions, bc_weights) = bc_dataset.build_interactions((row['Id Usuario'], row['ISBN'], row['Valoración']) for index, row in EntradaLightFM.ratings_df.iterrows())
-        bc_item_features = bc_dataset.build_item_features((row['ISBN'], [row['Título']]) for index, row in EntradaLightFM.items_df.iterrows())
-        bc_user_features = bc_dataset.build_user_features((row['Id Usuario'], [row['Edad']]) for index, row in EntradaLightFM.users_df.iterrows())
+        (bc_interactions, bc_weights) = bc_dataset.build_interactions((row['Id Usuario'], row['ISBN'], row['Valoración']) for index, row in Entrada.ratings_df.iterrows())
+        bc_item_features = bc_dataset.build_item_features((row['ISBN'], [row['Título']]) for index, row in Entrada.items_df.iterrows())
+        bc_user_features = bc_dataset.build_user_features((row['Id Usuario'], [row['Edad']]) for index, row in Entrada.users_df.iterrows())
         
         # División de los datos
         bc_train, bc_test = random_train_test_split(bc_interactions, test_percentage=0.2)
@@ -129,18 +129,18 @@ class SistemaLightFM:
         global user_features
         
         # Leo los csv
-        EntradaLightFM.leer_lastfm()
+        Entrada.leer_lastfm()
         
         # Obtención de los dataset
         lf_dataset = Dataset()
-        lf_dataset.fit(EntradaLightFM.ratings_df['Id Usuario'], EntradaLightFM.ratings_df['Id Artista'])
-        lf_dataset.fit_partial(users=EntradaLightFM.users_df['Id Usuario'], items=EntradaLightFM.items_df['Id Artista'], 
-                               user_features=EntradaLightFM.users_df['Id Amigo'], item_features=EntradaLightFM.items_df['Nombre'])
+        lf_dataset.fit(Entrada.ratings_df['Id Usuario'], Entrada.ratings_df['Id Artista'])
+        lf_dataset.fit_partial(users=Entrada.users_df['Id Usuario'], items=Entrada.items_df['Id Artista'], 
+                               user_features=Entrada.users_df['Id Amigo'], item_features=Entrada.items_df['Nombre'])
         
         # Obtención de las matrices
-        (lf_interactions, lf_weights) = lf_dataset.build_interactions((row['Id Usuario'], row['Id Artista'], row['Veces escuchado']) for index, row in EntradaLightFM.ratings_df.iterrows())
-        lf_item_features = lf_dataset.build_item_features((row['Id Artista'], [row['Nombre']]) for index, row in EntradaLightFM.items_df.iterrows())
-        lf_user_features = lf_dataset.build_user_features((row['Id Usuario'], [row['Id Amigo']]) for index, row in EntradaLightFM.users_df.iterrows())
+        (lf_interactions, lf_weights) = lf_dataset.build_interactions((row['Id Usuario'], row['Id Artista'], row['Veces escuchado']) for index, row in Entrada.ratings_df.iterrows())
+        lf_item_features = lf_dataset.build_item_features((row['Id Artista'], [row['Nombre']]) for index, row in Entrada.items_df.iterrows())
+        lf_user_features = lf_dataset.build_user_features((row['Id Usuario'], [row['Id Amigo']]) for index, row in Entrada.users_df.iterrows())
         
         # División de los datos
         lf_train, lf_test = random_train_test_split(lf_interactions, test_percentage=0.2)
@@ -157,17 +157,17 @@ class SistemaLightFM:
         global user_features
         
         # Leo los csv
-        EntradaLightFM.leer_dating_agency()
+        Entrada.leer_dating_agency()
         
         # Obtención de los dataset
         dating_dataset = Dataset()
-        dating_dataset.fit(EntradaLightFM.ratings_df['Id Usuario'], EntradaLightFM.ratings_df['Id Match'])
-        dating_dataset.fit_partial(users=EntradaLightFM.users_df['Id Usuario'], items=EntradaLightFM.users_df['Id Usuario'], user_features=EntradaLightFM.users_df['Género'], item_features=EntradaLightFM.users_df['Género'])
+        dating_dataset.fit(Entrada.ratings_df['Id Usuario'], Entrada.ratings_df['Id Match'])
+        dating_dataset.fit_partial(users=Entrada.users_df['Id Usuario'], items=Entrada.users_df['Id Usuario'], user_features=Entrada.users_df['Género'], item_features=Entrada.users_df['Género'])
         
         # Obtención de las matrices
-        (dating_interactions, dating_weights) = dating_dataset.build_interactions((row['Id Usuario'], row['Id Match'], row['Valoración']) for index, row in EntradaLightFM.ratings_df.iterrows())
-        dating_item_features = dating_dataset.build_item_features((row['Id Usuario'], [row['Género']]) for index, row in EntradaLightFM.users_df.iterrows())
-        dating_user_features = dating_dataset.build_user_features((row['Id Usuario'], [row['Género']]) for index, row in EntradaLightFM.users_df.iterrows())
+        (dating_interactions, dating_weights) = dating_dataset.build_interactions((row['Id Usuario'], row['Id Match'], row['Valoración']) for index, row in Entrada.ratings_df.iterrows())
+        dating_item_features = dating_dataset.build_item_features((row['Id Usuario'], [row['Género']]) for index, row in Entrada.users_df.iterrows())
+        dating_user_features = dating_dataset.build_user_features((row['Id Usuario'], [row['Género']]) for index, row in Entrada.users_df.iterrows())
         
         # División de los datos
         dating_train, dating_test = random_train_test_split(dating_interactions, test_percentage=0.2)

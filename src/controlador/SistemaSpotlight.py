@@ -9,7 +9,7 @@ Created on Mon May 20 18:40:22 2019
 import numpy as np
 import sys
 sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
-import EntradaSpotlight
+import Entrada
 import Salida
 
 from spotlight.factorization.explicit import ExplicitFactorizationModel
@@ -37,21 +37,21 @@ class SistemaSpotlight:
         global test       
     
         # Leo los csv
-        EntradaSpotlight.leer_movielens()
+        Entrada.leer_movielens()
         
         # Obtengo los arrays con los ids de los usuarios y los items
-        users_ids = np.asarray(EntradaSpotlight.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
+        users_ids = np.asarray(Entrada.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
         with np.nditer(users_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
                 
-        items_ids = np.asarray(EntradaSpotlight.ratings_df['Id Película'].tolist(), dtype=np.int32)
+        items_ids = np.asarray(Entrada.ratings_df['Id Película'].tolist(), dtype=np.int32)
         with np.nditer(items_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
           
         # Obtengo el array con las valoraciones    
-        ratings = np.asarray(EntradaSpotlight.ratings_df['Valoración'].tolist(), dtype=np.float32)
+        ratings = np.asarray(Entrada.ratings_df['Valoración'].tolist(), dtype=np.float32)
         
         # Obtengo las interacciones
         interacciones = Interactions(users_ids, items_ids, ratings, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids)))
@@ -65,21 +65,21 @@ class SistemaSpotlight:
         global test       
     
         # Leo los csv
-        EntradaSpotlight.leer_anime()
+        Entrada.leer_anime()
         
         # Obtengo los arrays con los ids de los usuarios y los items
-        users_ids = np.asarray(EntradaSpotlight.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
+        users_ids = np.asarray(Entrada.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
         with np.nditer(users_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
                 
-        items_ids = np.asarray(EntradaSpotlight.ratings_df['Id Anime'].tolist(), dtype=np.int32)
+        items_ids = np.asarray(Entrada.ratings_df['Id Anime'].tolist(), dtype=np.int32)
         with np.nditer(items_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
           
         # Obtengo el array con las valoraciones    
-        ratings = np.asarray(EntradaSpotlight.ratings_df['Valoración'].tolist(), dtype=np.float32)
+        ratings = np.asarray(Entrada.ratings_df['Valoración'].tolist(), dtype=np.float32)
         
         # Obtengo las interacciones
         interacciones = Interactions(users_ids, items_ids, ratings, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids)))
@@ -93,21 +93,21 @@ class SistemaSpotlight:
         global test       
     
         # Leo los csv
-        EntradaSpotlight.leer_book_crossing()
+        Entrada.leer_book_crossing()
         
         # Obtengo los arrays con los ids de los usuarios y los items
-        users_ids = np.asarray(EntradaSpotlight.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
+        users_ids = np.asarray(Entrada.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
         with np.nditer(users_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
                 
-        items_ids = np.asarray(EntradaSpotlight.ratings_df['ISBN'].tolist(), dtype=np.int32)
+        items_ids = np.asarray(Entrada.ratings_df['ISBN'].tolist(), dtype=np.int32)
         with np.nditer(items_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
           
         # Obtengo el array con las valoraciones    
-        ratings = np.asarray(EntradaSpotlight.ratings_df['Valoración'].tolist(), dtype=np.float32)
+        ratings = np.asarray(Entrada.ratings_df['Valoración'].tolist(), dtype=np.float32)
         
         # Obtengo las interacciones
         interacciones = Interactions(users_ids, items_ids, ratings, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids)))
@@ -121,21 +121,21 @@ class SistemaSpotlight:
         global test       
     
         # Leo los csv
-        EntradaSpotlight.leer_lastfm()
+        Entrada.leer_lastfm()
         
         # Obtengo los arrays con los ids de los usuarios y los items
-        users_ids = np.asarray(EntradaSpotlight.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
+        users_ids = np.asarray(Entrada.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
         with np.nditer(users_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
                 
-        items_ids = np.asarray(EntradaSpotlight.ratings_df['Id Artista'].tolist(), dtype=np.int32)
+        items_ids = np.asarray(Entrada.ratings_df['Id Artista'].tolist(), dtype=np.int32)
         with np.nditer(items_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
           
         # Obtengo el array con las valoraciones    
-        ratings = np.asarray(EntradaSpotlight.ratings_df['Veces escuchado'].tolist(), dtype=np.float32)
+        ratings = np.asarray(Entrada.ratings_df['Veces escuchado'].tolist(), dtype=np.float32)
         
         # Obtengo las interacciones
         interacciones = Interactions(users_ids, items_ids, ratings, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids)))
@@ -149,21 +149,21 @@ class SistemaSpotlight:
         global test       
     
         # Leo los csv
-        EntradaSpotlight.leer_dating_agency()
+        Entrada.leer_dating_agency()
         
         # Obtengo los arrays con los ids de los usuarios y los items
-        users_ids = np.asarray(EntradaSpotlight.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
+        users_ids = np.asarray(Entrada.ratings_df['Id Usuario'].tolist(), dtype=np.int32)
         with np.nditer(users_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
                 
-        items_ids = np.asarray(EntradaSpotlight.ratings_df['Id Match'].tolist(), dtype=np.int32)
+        items_ids = np.asarray(Entrada.ratings_df['Id Match'].tolist(), dtype=np.int32)
         with np.nditer(items_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
           
         # Obtengo el array con las valoraciones    
-        ratings = np.asarray(EntradaSpotlight.ratings_df['Valoración'].tolist(), dtype=np.float32)
+        ratings = np.asarray(Entrada.ratings_df['Valoración'].tolist(), dtype=np.float32)
         
         # Obtengo las interacciones
         interacciones = Interactions(users_ids, items_ids, ratings, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids)))

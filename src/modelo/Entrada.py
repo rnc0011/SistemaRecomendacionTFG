@@ -10,7 +10,6 @@ import os
 import pandas as pd           
 
 # Variables globales            
-global opcion_dataset
 global ratings_df
 global users_df
 global items_df
@@ -89,16 +88,6 @@ def leer_dating_agency():
     ratings_df = pd.read_csv(dating_data_path, sep=',', names=['Id Usuario', 'Id Match', 'Valoración'], engine='python')
     users_df = pd.read_csv(dating_users_path, sep=',', names=['Id Usuario', 'Género'], engine='python')
 
-# Método leer_csv. Lee el conjunto de datos en función de la opción escogida.
-"""def leer_csv(opcion_dataset):
-    if opcion_dataset == 1:
-        leer_movielens()
-    elif opcion_dataset == 2:
-        leer_anime()
-    elif opcion_dataset == 3:
-        leer_book_crossing()
-    elif opcion_dataset == 4:
-        leer_lastfm()
-    else:
-        leer_dating_agency()
-"""        
+
+
+    
