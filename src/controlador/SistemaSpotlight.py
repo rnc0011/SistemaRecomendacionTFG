@@ -7,6 +7,7 @@ Created on Mon May 20 18:40:22 2019
 
 # Importo todo lo necesario
 import numpy as np
+import torch
 import sys
 sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
 import Entrada
@@ -63,8 +64,7 @@ class SistemaSpotlight:
             interacciones = Interactions(users_ids, items_ids, timestamps=timestamps, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids))).to_sequence()
             
         train, test = random_train_test_split(interacciones)
-            
-          
+        
         """# Obtengo el array con las valoraciones    
         ratings = np.asarray(Entrada.ratings_df['Valoración'].tolist(), dtype=np.float32)
         
@@ -78,8 +78,7 @@ class SistemaSpotlight:
         
     # Método interacciones_anime. Crea las interacciones de movielens con las que poder utilizar los modelos.        
     def interacciones_anime(self):
-        global train_e
-        global test_e       
+        global train, test       
     
         # Leo los csv
         Entrada.leer_anime()
@@ -106,8 +105,7 @@ class SistemaSpotlight:
         
     # Método interacciones_book_crossing. Crea las interacciones de movielens con las que poder utilizar los modelos.        
     def interacciones_book_crossing(self):
-        global train
-        global test       
+        global train, test       
     
         # Leo los csv
         Entrada.leer_book_crossing()
@@ -134,8 +132,7 @@ class SistemaSpotlight:
         
     # Método interacciones_lastfm. Crea las interacciones de movielens con las que poder utilizar los modelos.        
     def interacciones_lastfm(self):
-        global train
-        global test       
+        global train, test       
     
         # Leo los csv
         Entrada.leer_lastfm()
@@ -162,8 +159,7 @@ class SistemaSpotlight:
         
     # Método interacciones_dating_agency. Crea las interacciones de movielens con las que poder utilizar los modelos.        
     def interacciones_dating_agency(self):
-        global train
-        global test       
+        global train, test    
     
         # Leo los csv
         Entrada.leer_dating_agency()
@@ -239,6 +235,7 @@ class SistemaSpotlight:
             
     # Método obtener_modelos. Crea los modelos en función de la opción escogida.
     def obtener_modelos(self):
+        torch.cuda.empty_cache()
         if self.opcion_modelo == 1:
             self.modelo_factorizacion_explicito()
         elif self.opcion_modelo == 2:
