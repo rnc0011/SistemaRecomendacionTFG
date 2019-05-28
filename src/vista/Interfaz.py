@@ -61,9 +61,10 @@ def elegir_modelo_dl():
         print("Introduce el número de la opción que elijas")
         print("1. Factorización explícito")
         print("2. Factorización implícito")
+        print("3. Secuencia implícito")
         opcion_modelo = int(input())
         #print(opcion_modelo)
-        if opcion_modelo > 0 and opcion_modelo < 3:
+        if opcion_modelo > 0 and opcion_modelo < 4:
             return opcion_modelo
             break
         else:

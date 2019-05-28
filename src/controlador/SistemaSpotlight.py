@@ -14,21 +14,16 @@ import Salida
 
 from spotlight.factorization.explicit import ExplicitFactorizationModel
 from spotlight.factorization.implicit import ImplicitFactorizationModel
+from spotlight.sequence.implicit import ImplicitSequenceModel
 from spotlight.interactions import Interactions
 from spotlight.cross_validation import random_train_test_split
-from spotlight.evaluation import rmse_score, mrr_score, precision_recall_score
-#from spotlight.evaluation import mrr_score
-#from spotlight.evaluation import precision_recall_score
+from spotlight.evaluation import rmse_score, mrr_score, precision_recall_score, sequence_mrr_score#, sequence_precision_recall_score
 
 # Clase SistemaSpotlight.
 class SistemaSpotlight:
     
     # Variables globales
-    global train_e
-    global test_e
-    global train_i
-    global test_i
-    global modelo
+    global train, test, modelo
     
     # Método __init__. Inicializa la clase con el conjunto de datos escogido.
     def __init__(self, opcion_dataset, opcion_modelo):
@@ -37,10 +32,7 @@ class SistemaSpotlight:
      
     # Método interacciones_movielens. Crea las interacciones de movielens con las que poder utilizar los modelos.        
     def interacciones_movielens(self):
-        global train_e
-        global test_e  
-        global train_i
-        global test_i
+        global train, test
     
         # Leo los csv
         Entrada.leer_movielens()
@@ -55,8 +47,25 @@ class SistemaSpotlight:
         with np.nditer(items_ids, op_flags=['readwrite']) as it:
             for x in it:
                 x[...] = x - 1
+                
+        timestamps = np.asarray(Entrada.ratings_df['Fecha'].tolist(), dtype=np.int32)
+        with np.nditer(items_ids, op_flags=['readwrite']) as it:
+            for x in it:
+                x[...] = x - 1
+                
+        if self.opcion_modelo == 1:
+            # Obtengo el array con las valoraciones    
+            ratings = np.asarray(Entrada.ratings_df['Valoración'].tolist(), dtype=np.float32)
+            interacciones = Interactions(users_ids, items_ids, ratings=ratings, timestamps=timestamps, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids)))
+        elif self.opcion_modelo == 2:
+            interacciones = Interactions(users_ids, items_ids, timestamps=timestamps, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids)))
+        else:
+            interacciones = Interactions(users_ids, items_ids, timestamps=timestamps, num_users=len(np.unique(users_ids)), num_items=len(np.unique(items_ids))).to_sequence()
+            
+        train, test = random_train_test_split(interacciones)
+            
           
-        # Obtengo el array con las valoraciones    
+        """# Obtengo el array con las valoraciones    
         ratings = np.asarray(Entrada.ratings_df['Valoración'].tolist(), dtype=np.float32)
         
         # Obtengo las interacciones
@@ -65,7 +74,7 @@ class SistemaSpotlight:
         
         # Divido las interacciones en train y test
         train_e, test_e = random_train_test_split(interacciones_e)
-        train_i, test_i = random_train_test_split(interacciones_i)
+        train_i, test_i = random_train_test_split(interacciones_i)"""
         
     # Método interacciones_anime. Crea las interacciones de movielens con las que poder utilizar los modelos.        
     def interacciones_anime(self):
@@ -194,21 +203,39 @@ class SistemaSpotlight:
             
     # Método modelo_factorizacion_explicito. Crea el modelo de factorización explícito.
     def modelo_factorizacion_explicito(self):
-        global train_e
-        global modelo
+        global train, modelo
         
         # Obtengo y entreno el modelo
         modelo = ExplicitFactorizationModel(loss='logistic', use_cuda=True)
-        modelo.fit(train_e, verbose=True)
+        modelo.fit(train, verbose=True)
         
     # Método modelo_factorizacion_implicito. Crea el modelo de factorización implícito.
     def modelo_factorizacion_implicito(self):
-        global train_i
-        global modelo
+        global train, modelo
         
         # Obtengo y entreno el modelo
         modelo = ImplicitFactorizationModel(loss='bpr', use_cuda=True)
-        modelo.fit(train_i, verbose=True)
+        modelo.fit(train, verbose=True)
+     
+    # Método modelo_secuencia. Crea el modelo de secuencia implícito.    
+    def modelo_secuencia(self):
+        global train, modelo
+        
+        # Obtengo y entreno el modelo
+        modelo = ImplicitSequenceModel()
+        modelo.fit(train, verbose=True)
+        
+    """def modelos(self):
+        global train, modelo
+        
+        if self.opcion_modelo == 1:
+            modelo = ExplicitFactorizationModel(loss='logistic', use_cuda=True)
+        elif self.opcion_modelo == 2:
+            modelo = ImplicitFactorizationModel(loss='bpr', use_cuda=True)
+        else:
+            modelo = ImplicitSequenceModel()
+            
+        modelo.fit(train, verbose=True)"""
             
     # Método obtener_modelos. Crea los modelos en función de la opción escogida.
     def obtener_modelos(self):
@@ -216,32 +243,40 @@ class SistemaSpotlight:
             self.modelo_factorizacion_explicito()
         elif self.opcion_modelo == 2:
             self.modelo_factorizacion_implicito()
+        else:
+            self.modelo_secuencia()
         
     # Método resultados_factorizacion_explicito. Calcula las métricas del modelo de factorización explícito.
     def resultados_factorizacion_explicito(self):
-        global train_e
-        global test_e
-        global modelo
+        global train, test, modelo
         
         # Calculo las métricas
-        rmse = rmse_score(modelo, test_e)
-        mrr = mrr_score(modelo, test_e, train=train_e).mean()
-        precision, recall = precision_recall_score(modelo, test_e, train=train_e, k=10)
+        rmse = rmse_score(modelo, test)
+        mrr = mrr_score(modelo, test, train=train).mean()
+        precision, recall = precision_recall_score(modelo, test, train=train, k=10)
         
         Salida.imprimir_resultados_dl(mrr, precision.mean(), recall.mean(), rmse)
         
     # Método resultados_factorizacion_implicito. Calcula las métricas del modelo de factorización implícito.
     def resultados_factorizacion_implicito(self):
-        global train_i
-        global test_i
-        global modelo
+        global train, test, modelo
         
         # Calculo las métricas
-        #rmse = rmse_score(modelo, test_i)
-        mrr = mrr_score(modelo, test_i, train=train_i).mean()
-        precision, recall = precision_recall_score(modelo, test_i, train=train_i, k=10)
+        mrr = mrr_score(modelo, test, train=train).mean()
+        precision, recall = precision_recall_score(modelo, test, train=train, k=10)
         
         Salida.imprimir_resultados_dl(mrr, precision.mean(), recall.mean())
+        
+    # Método resultados_secuencia. Calcula las métricas del modelo de secuencia implícito.
+    def resultados_secuencia(self):
+        global train, test, modelo
+        
+        mrr = sequence_mrr_score(modelo, test)
+        #precision, recall = sequence_precision_recall_score(modelo, test)
+        
+        #Salida.imprimir_resultados_dl(mrr, precision.mean(), recall.mean())
+        
+        print(mrr)
         
     # Método obtener_resultados. Calcula las métricas en función del modelo escogido.
     def obtener_resultados(self):
@@ -249,6 +284,8 @@ class SistemaSpotlight:
             self.resultados_factorizacion_explicito()
         elif self.opcion_modelo == 2:
             self.resultados_factorizacion_implicito()
+        else:
+            self.resultados_secuencia()
     
     
     
