@@ -14,11 +14,15 @@ global ratings_df
 global users_df
 global items_df
 
-# Método leer_movielens. Lee el conjunto de datos y los almacena en varios dataframes.
 def leer_movielens():
+    """
+    Método leer_movielens. Lee el conjunto de datos y los almacena en varios dataframes.
+    """
+    
     global ratings_df
     global users_df
     global items_df
+    
     movielens_data_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Movielens', 'ml_data.csv')
     movielens_users_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Movielens', 'ml_users.csv')
     movielens_items_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Movielens', 'ml_items.csv')
@@ -30,10 +34,14 @@ def leer_movielens():
                                                                  'Cine negro', 'Horror', 'Musical', 'Misterio', 'Romance', 'Ciencia ficción', 'Thriller', 'Bélico', 
                                                                  'Western'], encoding='latin-1')
 
-# Método leer_anime. Lee el conjunto de datos y los almacena en varios dataframes.
 def leer_anime():
+    """
+    Método leer_anime. Lee el conjunto de datos y los almacena en varios dataframes.
+    """
+    
     global ratings_df
     global items_df
+    
     anime_data1_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Anime', 'ratings1.csv')
     anime_data2_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Anime', 'ratings2.csv')
     anime_data3_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Anime', 'ratings3.csv')
@@ -47,11 +55,15 @@ def leer_anime():
     anime_data_4_df = pd.read_csv(anime_data4_path, sep=',', names=['Id Usuario', 'Id Anime', 'Valoración'], low_memory=False)
     ratings_df = pd.concat([anime_data_1_df, anime_data_2_df, anime_data_3_df, anime_data_4_df])
     
-# Método leer_book_crossing. Lee el conjunto de datos y los almacena en varios dataframes.
 def leer_book_crossing():
+    """
+    Método leer_book_crossing. Lee el conjunto de datos y los almacena en varios dataframes.
+    """
+    
     global ratings_df
     global users_df
     global items_df
+    
     bc_data_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Book-Crossing', 'BX-Book-Ratings.csv'),
     bc_users_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Book-Crossing', 'BX-Users.csv')
     bc_items_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Book-Crossing', 'BX-Books.csv')
@@ -62,11 +74,15 @@ def leer_book_crossing():
     items_df = pd.read_csv(bc_items_path, sep=';', names=['ISBN','Título','Autor','Fecha de publicación','Editorial','URL S','URL M','URL L'], 
                            encoding='cp1252', low_memory=False)
 
-# Método leer_lastfm. Lee el conjunto de datos y los almacena en varios dataframes.
 def leer_lastfm():
+    """
+    Método leer_lastfm. Lee el conjunto de datos y los almacena en varios dataframes.
+    """
+    
     global ratings_df
     global users_df
     global items_df
+    
     lf_data_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Last.FM', 'user_artists.csv')
     lf_users_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Last.FM', 'user_friends.csv')
     lf_artists_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'Last.FM', 'artists.csv')
@@ -79,10 +95,14 @@ def leer_lastfm():
     lf_generos_df = lf_generos_df.drop(['Id Usuario', 'Timestamp'], axis=1)
     items_df = lf_artists_df.merge(lf_generos_df, left_on='Id Artista', right_on='Id Artista')
     
-# Método leer_dating_agency. Lee el conjunto de datos y los almacena en varios dataframes.
 def leer_dating_agency():
+    """
+    Método leer_dating_agency. Lee el conjunto de datos y los almacena en varios dataframes.
+    """
+    
     global ratings_df
     global users_df
+    
     dating_data_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'DatingAgency', 'ratings.csv')
     dating_users_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'DatasetsTFG', 'DatingAgency', 'gender.csv')
     ratings_df = pd.read_csv(dating_data_path, sep=',', names=['Id Usuario', 'Id Match', 'Valoración'], engine='python')

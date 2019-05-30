@@ -13,13 +13,11 @@ sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacion
 import SistemaLightFM
 import SistemaSpotlight
 
-# Variables globales
-#global opcion_dataset
-#global opcion_modelo
-
-# Método elegir_dataset. Muestra un menú para elegir el conjunto de datos a utilizar.
 def elegir_dataset():
-    #global opcion_dataset
+    """
+    Método elegir_dataset. Muestra un menú para elegir el conjunto de datos a utilizar.
+    """
+    
     print("¿Qué conjunto de datos quieres utilizar?")
     while True:
         print("Introduce el número de la opción que elijas")
@@ -36,9 +34,11 @@ def elegir_dataset():
         else:
             print("No has introducido una opción válida")
             
-# Método elegir_modelo_clasico. Muestra un menú para elegir el modelo clásico de recomendación a utilizar.
 def elegir_modelo_clasico():
-    #global opcion_modelo
+    """
+    Método elegir_modelo_clasico. Muestra un menú para elegir el modelo clásico de recomendación a utilizar.
+    """
+    
     print("¿Qué modelo quieres utilizar?")
     while True:
         print("Introduce el número de la opción que elijas")
@@ -53,9 +53,11 @@ def elegir_modelo_clasico():
         else:
             print("No has introducido una opción válida")
             
-# Método elegir_modelo_dl. Muestra un menú para elegir el modelo deep learning de recomendación a utilizar.
 def elegir_modelo_dl():
-    #global opcion_modelo
+    """
+    Método elegir_modelo_dl. Muestra un menú para elegir el modelo deep learning de recomendación a utilizar.
+    """
+    
     print("¿Qué modelo quieres utilizar?")
     while True:
         print("Introduce el número de la opción que elijas")
@@ -70,8 +72,11 @@ def elegir_modelo_dl():
         else:
             print("No has introducido una opción válida")
             
-# Método main_clasico. Programa principal si la opción escogida es el modelo clásico.
 def main_clasico():
+    """
+    Método main_clasico. Programa principal si la opción escogida es el modelo clásico.
+    """
+    
     opcion_dataset = elegir_dataset()
     opcion_modelo = elegir_modelo_clasico()
     #EntradaLightFM.leer_csv(opcion_dataset)
@@ -80,8 +85,11 @@ def main_clasico():
     sistema.obtener_modelos()
     sistema.obtener_resultados()
     
-# Método main_dl. Programa principal si la opción escogida es el modelo basado en aprendizaje profundo.
 def main_dl():
+    """
+    Método main_dl. Programa principal si la opción escogida es el modelo basado en aprendizaje profundo.
+    """
+    
     opcion_dataset = elegir_dataset()
     opcion_modelo = elegir_modelo_dl()
     sistema = SistemaSpotlight.SistemaSpotlight(opcion_dataset, opcion_modelo)
@@ -89,8 +97,11 @@ def main_dl():
     sistema.obtener_modelos()
     sistema.obtener_resultados()
     
-# Método main. Método principal del programa.
 def main():
+    """
+    Método main. Método principal del programa.
+    """
+    
     print("¿Qué modelo quieres utilizar?")
     while True:
         print("Introduce el número de la opción que elijas")
