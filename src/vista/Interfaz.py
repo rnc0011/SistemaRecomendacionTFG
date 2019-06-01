@@ -12,27 +12,6 @@ sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacion
 #import EntradaLightFM
 import SistemaLightFM
 import SistemaSpotlight
-
-def elegir_dataset():
-    """
-    Método elegir_dataset. Muestra un menú para elegir el conjunto de datos a utilizar.
-    """
-    
-    print("¿Qué conjunto de datos quieres utilizar?")
-    while True:
-        print("Introduce el número de la opción que elijas")
-        print("MovieLens")
-        print("Anime")
-        print("Book Crossing")
-        print("LastFM")
-        print("Dating Agency")
-        opcion_dataset = input()
-        #print(opcion_dataset)
-        if opcion_dataset in ['movielens', 'anime', 'books', 'lastfm', 'dating']:
-            return opcion_dataset
-            break
-        else:
-            print("No has introducido una opción válida")
             
 def elegir_modelo_clasico():
     """
@@ -46,7 +25,6 @@ def elegir_modelo_clasico():
         print("2. Híbrido")
         print("3. Por contenido")
         opcion_modelo = int(input())
-        #print(opcion_modelo)
         if opcion_modelo > 0 and opcion_modelo < 4:
             return opcion_modelo
             break
@@ -65,7 +43,6 @@ def elegir_modelo_dl():
         print("2. Factorización implícito")
         print("3. Secuencia implícito")
         opcion_modelo = int(input())
-        #print(opcion_modelo)
         if opcion_modelo > 0 and opcion_modelo < 4:
             return opcion_modelo
             break
@@ -77,22 +54,22 @@ def main_clasico():
     Método main_clasico. Programa principal si la opción escogida es el modelo clásico.
     """
     
-    opcion_dataset = elegir_dataset()
     opcion_modelo = elegir_modelo_clasico()
-    #EntradaLightFM.leer_csv(opcion_dataset)
-    sistema = SistemaLightFM.SistemaLightFM(opcion_dataset, opcion_modelo)
+    sistema = SistemaLightFM.SistemaLightFM(opcion_modelo)
+    """
     sistema.obtener_matrices()
     sistema.obtener_modelos()
     sistema.obtener_resultados()
+    """
+    sistema.obtener_matrices()
     
 def main_dl():
     """
     Método main_dl. Programa principal si la opción escogida es el modelo basado en aprendizaje profundo.
     """
     
-    opcion_dataset = elegir_dataset()
     opcion_modelo = elegir_modelo_dl()
-    sistema = SistemaSpotlight.SistemaSpotlight(opcion_dataset, opcion_modelo)
+    sistema = SistemaSpotlight.SistemaSpotlight(opcion_modelo)
     sistema.obtener_interacciones()
     sistema.obtener_modelos()
     sistema.obtener_resultados()
@@ -108,7 +85,6 @@ def main():
         print("1. Modelo clásico")
         print("2. Modelo aprendizaje profundo")
         opcion_inicial = int(input())
-        #print(opcion_inicial)
         if opcion_inicial == 1:
             main_clasico()
             break
@@ -121,5 +97,7 @@ def main():
     
 # Ejecución del programa.
 main()
+
+
 
 
