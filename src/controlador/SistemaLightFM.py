@@ -19,67 +19,96 @@ from lightfm.evaluation import precision_at_k, auc_score, recall_at_k, reciproca
 from lightfm.data import Dataset
 from lightfm.cross_validation import random_train_test_split
 
-# Clase SistemaLightFM.
 class SistemaLightFM:
+    """
+    Clase SistemaLightFM.
     
-    # Variables globales
-    global train, test, modelo, item_features, user_features
-
+    Parameters
+    ----------
+    
+    opcion_modelo: int
+        modelo que se quiere obtener.
+        
+    Attributes
+    ----------
+    
+    train: np.float32 csr_matrix of shape [n_users, n_items]
+        conjunto de entranamiento.
+    test: np.float32 csr_matrix of shape [n_users, n_items]
+        conjunto de test.
+    modelo: LightFM instance
+        modelo a evaluar.
+    item_features: np.float32 csr_matrix of shape [n_items, n_item_features]
+        características de los items.
+    user_features: np.float32 csr_matrix of shape [n_users, n_user_features]
+        características de los usuarios.
+    """
+    
     # Constantes
     CPU_THREADS = multiprocessing.cpu_count()
     
-    # Método __init__. Inicializa la clase con el conjunto de datos y el modelo escogidos.
+    # Variables globales
+    global train, test, modelo, item_features, user_features
+    
     def __init__(self, opcion_modelo):
         self.opcion_modelo = opcion_modelo
     
     def obtener_matrices(self):
-        Entrada.obtener_datos()
-        # Resto de cosas
-    
-    # Método modelo_colaborativo. Crea el modelo colaborativo.
-    def modelo_colaborativo(self):
-        global train, modelo
+        """
+        Método obtener_matrices. Obtiene las matrices necesarias para la creación de los modelos con LightFM.
+        """
         
-        # Obtención del modelo
-        modelo = LightFM(loss='warp')
-        modelo.fit(train, epochs=30, num_threads=self.CPU_THREADS)
+        global train, test, modelo, item_features, user_features
         
-        # Guardo el modelo
-        Persistencia.guardar_modelo_clasico(modelo, 'colaborativo', self.opcion_dataset)
+        Entrada.obtener_datos(self.opcion_modelo)
+        ratings_df = Entrada.ratings_df
+
+        dataset = Dataset()
+        if self.opcion_modelo == 1:
+            dataset.fit(ratings_df[ratings_df.columns.values[0]], ratings_df[ratings_df.columns.values[1]])
+            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                 row[ratings_df.columns.values[1]],
+                                                                 row[ratings_df.columns.values[2]]) 
+                                                                for index,row in ratings_df.iterrows())
+            train, test = random_train_test_split(interacciones, test_percentage=0.2)
+        else:
+            users_df = Entrada.users_df
+            items_df = Entrada.items_df
+            dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
+                       user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
+            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                 row[ratings_df.columns.values[1]],
+                                                                 row[ratings_df.columns.values[2]]) 
+                                                                for index,row in ratings_df.iterrows())
+            item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
+            user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
+            
+        train, test = random_train_test_split(interacciones, test_percentage=0.2)
+            
+    def obtener_modelos(self):
+        """
+        Método obtener_modelos. Obtiene el modelo escogido.
+        """
         
-    # Método modelo_hibrido. Crea el modelo híbrido.
-    def modelo_hibrido(self):
-        global train, modelo, item_features
-        
-        # Obtención del modelo
-        modelo = LightFM(loss='warp')
-        modelo.fit(train, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
-        
-        # Guardo el modelo
-        Persistencia.guardar_modelo_clasico(modelo, 'hibrido', self.opcion_dataset)
-        
-    # Método modelo_por_contenido. Crea el modelo por contenido.
-    def modelo_por_contenido(self):
         global train, modelo, item_features, user_features
         
-        # Obtención del modelo
         modelo = LightFM(loss='warp')
-        modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
         
-        # Guardo el modelo
-        Persistencia.guardar_modelo_clasico(modelo, 'contenido', self.opcion_dataset)
-    
-    # Método obtener_modelo. Crea los modelos en función de la opción escogida.
-    def obtener_modelos(self):
         if self.opcion_modelo == 1:
-            self.modelo_colaborativo()
+            modelo.fit(train, epochs=30, num_threads=self.CPU_THREADS)
+            #Persistencia.guardar_modelo_clasico(modelo, 'colaborativo', self.opcion_dataset)
         elif self.opcion_modelo == 2:
-            self.modelo_hibrido()
+            modelo.fit(train, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
+            #Persistencia.guardar_modelo_clasico(modelo, 'hibrido', self.opcion_dataset)
         else:
-            self.modelo_por_contenido()
-            
-    # Método resultados_colaboraivo. Obtiene los resultados del modelo colaborativo.
+            modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
+            #Persistencia.guardar_modelo_clasico(modelo, 'contenido', self.opcion_dataset)
+    
     def resultados_colaborativo(self):
+        """
+        Método resultados_colaboraivo. Obtiene los resultados del modelo colaborativo.
+        """
+        
         global train, test, modelo
         
         # Obtención de los resultados
@@ -90,8 +119,11 @@ class SistemaLightFM:
         
         Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
         
-    # Método resultados_hibrido. Obtiene los resultados del modelo híbrido.
     def resultados_hibrido(self):
+        """
+        Método resultados_hibrido. Obtiene los resultados del modelo híbrido.
+        """
+        
         global train, test, modelo, item_features
         
         # Obtención de los resultados
@@ -102,8 +134,11 @@ class SistemaLightFM:
         
         Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
-    # Método resultados_por_contenido. Obtiene los resultados del modelo por contenido.
     def resultados_por_contenido(self):
+        """
+        Método resultados_por_contenido. Obtiene los resultados del modelo por contenido.
+        """
+        
         global train, test, modelo, item_features, user_features
         
         # Obtención de los resultados
@@ -114,8 +149,11 @@ class SistemaLightFM:
         
         Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
-    # Método obtener_resultados. Obtiene los resultados en función del modelo escogido.
     def obtener_resultados(self):
+        """
+        Método obtener_resultados. Obtiene los resultados en función del modelo escogido.
+        """
+        
         if self.opcion_modelo == 1:
             self.resultados_colaborativo()
         elif self.opcion_modelo == 2:

@@ -5,9 +5,21 @@ Created on Thu May  2 21:34:06 2019
 @author: Raúl Negro Carpintero
 """
 
-def imprimir_resultados_clasico(precision=0.00, auc=0.00, recall=0.00, reciprocal=0.00):
+def imprimir_resultados_clasico(precision, auc, recall, reciprocal):
     """
     Método imprimir_resultados_clasico. Imprimo las métricas del modelo.
+    
+    Parameters
+    ----------
+    
+    precision: np.float32
+        precision at k del modelo.
+    auc: np.float32
+        auc score del modelo.
+    recall: np.float64
+        recall at k del modelo.
+    reciprocal: np.float32
+        ranking recíproco del modelo.
     """
     
     print("Precision k: %.4f" % precision)
