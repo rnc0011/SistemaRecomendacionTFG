@@ -114,28 +114,21 @@ def leer_csv(ruta):
         dataframe = pd.read_csv(ruta, sep=sep, encoding=encoding)
     return dataframe
 
-def obtener_datos(opcion_modelo):
+def obtener_datos():
     """
     Método obtener_datos. Obtiene los dataframes requeridos por los modelos.
-    
-    Parameters
-    ----------
-    
-    opcion_modelo: int
-        modelo que se quiere obtener.
     """
     
     global ratings_df
     global users_df
     global items_df
 
-    if opcion_modelo == 2 or opcion_modelo == 3:
-        print("Elige el archivo de usuarios")
-        ruta_users = elegir_archivo('usuarios')
-        users_df = leer_csv(ruta_users)
-        print("Elige el archivo de items")
-        ruta_items = elegir_archivo('items')
-        items_df = leer_csv(ruta_items)          
+    print("Elige el archivo de usuarios")
+    ruta_users = elegir_archivo('usuarios')
+    users_df = leer_csv(ruta_users)
+    print("Elige el archivo de items")
+    ruta_items = elegir_archivo('items')
+    items_df = leer_csv(ruta_items)          
     print("Elige el archivo de valoraciones")
     ruta_ratings = elegir_archivo('valoraciones')
     ratings_df = leer_csv(ruta_ratings)

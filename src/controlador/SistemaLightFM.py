@@ -60,9 +60,11 @@ class SistemaLightFM:
         
         global train, test, modelo, item_features, user_features
         
-        Entrada.obtener_datos(self.opcion_modelo)
+        # Obtengo los datos
+        Entrada.obtener_datos()
         ratings_df = Entrada.ratings_df
 
+        # Obtengo las matrices
         dataset = Dataset()
         if self.opcion_modelo == 1:
             dataset.fit(ratings_df[ratings_df.columns.values[0]], ratings_df[ratings_df.columns.values[1]])
@@ -92,8 +94,10 @@ class SistemaLightFM:
         
         global train, modelo, item_features, user_features
         
+        # Obtengo el modelo
         modelo = LightFM(loss='warp')
         
+        # Entreno el modelo
         if self.opcion_modelo == 1:
             modelo.fit(train, epochs=30, num_threads=self.CPU_THREADS)
             #Persistencia.guardar_modelo_clasico(modelo, 'colaborativo', self.opcion_dataset)
