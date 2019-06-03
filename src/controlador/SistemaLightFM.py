@@ -12,8 +12,8 @@ import multiprocessing
 import sys
 sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
 import Entrada
-import Salida
-import Persistencia
+from Salida import imprimir_resultados_clasico
+from Persistencia import guardar_datos_pickle
 from lightfm import LightFM
 from lightfm.evaluation import precision_at_k, auc_score, recall_at_k, reciprocal_rank
 from lightfm.data import Dataset
@@ -72,7 +72,6 @@ class SistemaLightFM:
                                                                  row[ratings_df.columns.values[1]],
                                                                  row[ratings_df.columns.values[2]]) 
                                                                 for index,row in ratings_df.iterrows())
-            train, test = random_train_test_split(interacciones, test_percentage=0.2)
         else:
             users_df = Entrada.users_df
             items_df = Entrada.items_df
@@ -84,8 +83,19 @@ class SistemaLightFM:
                                                                 for index,row in ratings_df.iterrows())
             item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
             user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
+            # Guardo los datos
+            print("Guarda la matriz de item features")
+            guardar_datos_pickle(item_features, 'la matriz de item features')
+            print("Guarda la matriz de user features")
+            guardar_datos_pickle(user_features, 'la matriz de user feautures')
             
         train, test = random_train_test_split(interacciones, test_percentage=0.2)
+        
+        # Guardo los datos
+        print("Guarda la matriz de entrenamiento")
+        guardar_datos_pickle(train, 'la matriz de entrenamiento')
+        print("Guarda la matriz de test")
+        guardar_datos_pickle(test, 'la matriz de test')
             
     def obtener_modelos(self):
         """
@@ -97,16 +107,16 @@ class SistemaLightFM:
         # Obtengo el modelo
         modelo = LightFM(loss='warp')
         
-        # Entreno el modelo
+        # Entreno y guardo el modelo
         if self.opcion_modelo == 1:
             modelo.fit(train, epochs=30, num_threads=self.CPU_THREADS)
-            #Persistencia.guardar_modelo_clasico(modelo, 'colaborativo', self.opcion_dataset)
+            guardar_datos_pickle(modelo, 'el modelo colaborativo')
         elif self.opcion_modelo == 2:
             modelo.fit(train, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
-            #Persistencia.guardar_modelo_clasico(modelo, 'hibrido', self.opcion_dataset)
+            guardar_datos_pickle(modelo, 'el modelo hibrido')
         else:
             modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
-            #Persistencia.guardar_modelo_clasico(modelo, 'contenido', self.opcion_dataset)
+            guardar_datos_pickle(modelo, 'el modelo por contenido')
     
     def resultados_colaborativo(self):
         """
@@ -121,7 +131,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, num_threads=self.CPU_THREADS).mean()
         
-        Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
+        imprimir_resultados_clasico(precision, auc, recall, reciprocal)
         
     def resultados_hibrido(self):
         """
@@ -136,7 +146,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
-        Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
+        imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
     def resultados_por_contenido(self):
         """
@@ -151,7 +161,7 @@ class SistemaLightFM:
         recall = recall_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
-        Salida.imprimir_resultados_clasico(precision, auc, recall, reciprocal)
+        imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
     def obtener_resultados(self):
         """

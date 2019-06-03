@@ -6,12 +6,12 @@ Created on Mon May 20 18:40:22 2019
 """
 
 # Importo todo lo necesario
-import numpy as np
 import sys
+import numpy as np
 sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
 import Entrada
-import Salida
-
+from Salida import imprimir_resultados_dl
+from Persistencia import guardar_datos_pickle, guardar_modelos_dl
 from spotlight.factorization.explicit import ExplicitFactorizationModel
 from spotlight.factorization.implicit import ImplicitFactorizationModel
 from spotlight.sequence.implicit import ImplicitSequenceModel
@@ -73,6 +73,11 @@ class SistemaSpotlight:
             train, test = random_train_test_split(interacciones)
             train = train.to_sequence()
             test = test.to_sequence()
+            
+        print("Guarda las interacciones de train")
+        guardar_datos_pickle(train, 'las interacciones de entrenamiento')
+        print("Guarda las interacciones de test")
+        guardar_datos_pickle(test, 'las interacciones de test')
 
     def obtener_modelos(self):
         """
@@ -81,14 +86,19 @@ class SistemaSpotlight:
         
         global train, modelo
         
+        # Obtengo entreno y guardo el modelo
         if self.opcion_modelo == 1:
             modelo = ExplicitFactorizationModel(loss='logistic', use_cuda=True)
+            modelo.fit(train, verbose=True)
+            guardar_modelos_dl(modelo, 'el modelo de factorización explícito')
         elif self.opcion_modelo == 2:
             modelo = ImplicitFactorizationModel(loss='bpr', use_cuda=True)
+            modelo.fit(train, verbose=True)
+            guardar_modelos_dl(modelo, 'el modelo de factorización implícito')
         else:
             modelo = ImplicitSequenceModel(loss='bpr',  representation='pooling', use_cuda=True)
-            
-        modelo.fit(train, verbose=True)
+            modelo.fit(train, verbose=True)
+            guardar_modelos_dl(modelo, 'el modelo de secuencia explícito')
         
     def resultados_factorizacion_explicito(self):
         """
@@ -102,7 +112,7 @@ class SistemaSpotlight:
         mrr = mrr_score(modelo, test, train=train).mean()
         precision, recall = precision_recall_score(modelo, test, train=train, k=10)
         
-        Salida.imprimir_resultados_dl(mrr, precision.mean(), recall.mean(), rmse)
+        imprimir_resultados_dl(mrr, precision.mean(), recall.mean(), rmse)
         
     def resultados_factorizacion_implicito(self):
         """
@@ -115,7 +125,7 @@ class SistemaSpotlight:
         mrr = mrr_score(modelo, test, train=train).mean()
         precision, recall = precision_recall_score(modelo, test, train=train, k=10)
         
-        Salida.imprimir_resultados_dl(mrr, precision.mean(), recall.mean())
+        imprimir_resultados_dl(mrr, precision.mean(), recall.mean())
         
     def resultados_secuencia(self):
         """
@@ -127,7 +137,7 @@ class SistemaSpotlight:
         mrr = sequence_mrr_score(modelo, test).mean()
         #precision, recall = sequence_precision_recall_score(modelo, test)
         
-        Salida.imprimir_resultados_dl(mrr)
+        imprimir_resultados_dl(mrr)
         
     def obtener_resultados(self):
         """
