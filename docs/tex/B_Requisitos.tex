@@ -17,30 +17,43 @@ Los requisitos derivados de los objetivos del proyecto son los siguientes:
 \subsection{Requisitos funcionales}
 \begin{itemize}
 \tightlist
-\item \textbf{RF-1 Gestión de usuarios:} el programa tiene que ser capaz de gestionar los nuevos usuarios:
+\item \textbf{RF-1 Gestión de los datos intermedios:} el programa tiene que ser capaz de gestionar los datos intermedios:
 \begin{itemize}
 \tightlist
-\item \textbf{RF-1.1 Añadir usuarios:} el programa tiene que ser capaz de añadir las valoraciones de nuevos usuarios.
+\item \textbf{RF-1.1 Guardar matrices:} el programa tiene que ser capaz de guardar las matrices generadas por los modelos para ahorrar tiempo en siguientes ejecuciones.
+\item \textbf{RF-1.2 Cargar matrices:} el programa tiene que ser capaz de cargar el conjunto de datos que el usuario quiera.
 \end{itemize}
-\item \textbf{RF-2 Gestión de los datos:} el programa tiene que ser capaz de gestionar los datos:
+\item \textbf{RF-2 Gestión de los modelos:} el programa tiene que ser capaz de gestionar los modelos:
 \begin{itemize}
 \tightlist
-\item \textbf{RF-2.1 Guardar datos:} el programa tiene que ser capaz de guardar los datos intermedios generados por los modelos para ahorrar tiempo en siguientes ejecuciones.
-\item \textbf{RF-2.2 Cargar datos:} el programa tiene que ser capaz de cargar el conjunto de datos que el usuario quiera.
+\item \textbf{RF-2.1 Guardar modelos:} el programa tiene que ser capaz de guardar los modelos obtenidos para ahorrar tiempo en futuras ejecuciones.
+\item \textbf{RF-2.2 Cargar modelos:} el programa tiene que ser capaz de cargar los modelos previamente guardados.
 \end{itemize}
 \item \textbf{RF-3 Gestión de los resultados:} el programa tiene que ser capaz de gestionar los resultados:
 \begin{itemize}
 \tightlist
 \item \textbf{RF-3.1 Guardar resultados:} el programa tiene que ser capaz de guardar los resultados generados por los modelos.
-\item \textbf{RF-3.1 Comparar resultados:} el programa tiene que ser capaz de comparar los resultados obtenidos por los distintos modelos.
+\item \textbf{RF-3.2 Comparar resultados:} el programa tiene que ser capaz de comparar los resultados obtenidos por los distintos modelos.
+\item \textbf{RF-3.3 Mostrar resultados:} el programa tiene que ser capaz de mostrar los resultados obtenidos por los distintos modelos.
 \end{itemize}
-\item \textbf{RF-4 Gestión de los modelos:} el programa tiene que ser capaz de gestionar los modelos:
+\item \textbf{RF-4 Gestión de los usuarios:} el programa tiene que ser capaz de introducir las valoraciones de nuevos usuarios:
 \begin{itemize}
 \tightlist
-\item \textbf{RF-4.1 Guardar modelos:} el programa tiene que ser capaz de guardar los modelos generados para ahorrar tiempo en siguientes ejecuciones.
-\item \textbf{RF-4.2 Cargar modelos:} el programa tiene que ser capaz de cargar el modelos seleccionado por el usuario.
+\item \textbf{RF-4.1 Añadir valoraciones:} el programa tiene que ser capaz de simular la entrada de nuevos usuarios permitiendo el añadido de nuevas valoraciones.
 \end{itemize}
-\item \textbf{RF-5 Ayuda de la aplicación:} el usuario debe poder obtener ayuda sobre las funcionalidades del programa.
+\item \textbf{RF-5 Gestión de los conjuntos de datos:} el programa tiene que:
+\begin{itemize}
+\tightlist
+\item \textbf{RF-5.1 Mostrar los conjuntos de datos:} el programa tiene que ser capaz de mostrar los distintos conjuntos de datos de prueba.
+\item \textbf{RF-5.2 Seleccionar el conjunto de datos:} el programa tiene que ser capaz de mostrar dejar que el usuario seleccione uno de los conjuntos de datos de prueba.
+\item \textbf{RF-5.3 Añadir conjunto de datos:} el programa tiene que ser capaz de dejar que el usuario añada un conjunto de datos propio.
+\end{itemize}
+\item \textbf{RF-6 Ayuda de la aplicación:} el programa tiene que ofrecer información al usuario:
+\begin{itemize}
+\tightlist
+\item \textbf{RF-6.1 Mostrar información sobre modelos:} el programa tiene que ser capaz de mostrar información sobre los distintos modelos que se pueden escoger.
+\item \textbf{RF-6.2 Mostrar información sobre conjuntos de datos:} el programa tiene que ser capaz de mostrar información sobre los distintos conjuntos de datos de prueba.
+\end{itemize}
 \end{itemize}
 
 \subsection{Requisitos no funcionales}
