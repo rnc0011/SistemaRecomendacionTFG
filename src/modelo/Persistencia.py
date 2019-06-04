@@ -37,7 +37,7 @@ def guardar_datos_pickle(datos, tipo):
     archivo_pickle.close()
 
 def guardar_modelos_dl(modelo, tipo):
-        """
+    """
     Método guardar_modelos_dl. Guarda los modelos producidos por Spotlight.
     
     Parameters

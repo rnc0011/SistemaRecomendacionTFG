@@ -28,6 +28,8 @@ class SistemaSpotlight:
     
     opcion_modelo: int
         modelo que se quiere obtener.
+    opcion_time: int
+        opcion por si se quiere utilizar timestamps
         
     Attributes
     ----------
@@ -43,8 +45,9 @@ class SistemaSpotlight:
     # Variables globales
     global train, test, modelo
     
-    def __init__(self, opcion_modelo):        
+    def __init__(self, opcion_modelo, opcion_time):        
         self.opcion_modelo = opcion_modelo
+        self.opcion_time = opcion_time
            
     def obtener_interacciones(self):
         """
@@ -58,21 +61,30 @@ class SistemaSpotlight:
         ratings_df = Entrada.ratings_df
         users_ids = np.asarray(ratings_df[ratings_df.columns.values[0]].tolist(), dtype=np.int32)         
         items_ids = np.asarray(ratings_df[ratings_df.columns.values[1]].tolist(), dtype=np.int32)
-        #timestamps = np.asarray(ratings_df['Fecha'].tolist(), dtype=np.int32)
         
         # Obtengo las interacciones
-        if self.opcion_modelo == 1:
-            ratings = np.asarray(ratings_df[ratings_df.columns.values[2]].tolist(), dtype=np.float32)
-            interacciones = Interactions(users_ids, items_ids, ratings=ratings, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
-            train, test = random_train_test_split(interacciones)
-        elif self.opcion_modelo == 2:
-            interacciones = Interactions(users_ids, items_ids, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
-            train, test = random_train_test_split(interacciones)
+        if self.opcion_time == 1:
+            timestamps = np.asarray(ratings_df[ratings_df.columns.values[3]].tolist(), dtype=np.int32)
+            if self.opcion_modelo == 1:
+                ratings = np.asarray(ratings_df[ratings_df.columns.values[2]].tolist(), dtype=np.float32)
+                interacciones = Interactions(users_ids, items_ids, ratings=ratings, timestamps=timestamps, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                train, test = random_train_test_split(interacciones)
+            elif self.opcion_modelo == 2:
+                interacciones = Interactions(users_ids, items_ids, timestamps=timestamps, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                train, test = random_train_test_split(interacciones)
+            else:
+                interacciones = Interactions(users_ids, items_ids, timestamps=timestamps, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                train, test = random_train_test_split(interacciones)
+                train = train.to_sequence()
+                test = test.to_sequence()
         else:
-            interacciones = Interactions(users_ids, items_ids, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
-            train, test = random_train_test_split(interacciones)
-            train = train.to_sequence()
-            test = test.to_sequence()
+            if self.opcion_modelo == 1:
+                ratings = np.asarray(ratings_df[ratings_df.columns.values[2]].tolist(), dtype=np.float32)
+                interacciones = Interactions(users_ids, items_ids, ratings=ratings, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                train, test = random_train_test_split(interacciones)
+            else:
+                interacciones = Interactions(users_ids, items_ids, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                train, test = random_train_test_split(interacciones)
             
         print("Guarda las interacciones de train")
         guardar_datos_pickle(train, 'las interacciones de entrenamiento')
