@@ -6,7 +6,6 @@ Created on Tue Apr 23 12:50:01 2019
 """
 
 # Importo todo lo necesario
-import csv
 import chardet
 import pandas as pd     
 from tkinter import *
@@ -39,28 +38,34 @@ def obtener_encoding(ruta):
     encoding = resultado['encoding']
     return encoding
 
-def obtener_sep(ruta):
+def preguntar_encoding():
     """
-    Método obtener_sep. Obtiene y devuelve el separador del arhcivo csv que se pasa por parámetro.
-    
-    Parameters
-    ----------
-    
-    ruta: str
-        ruta del archivo csv que se quiere utilizar.
+    Método preguntar_encoding. Pregunta al usuario el encoding del arhcivo csv que quiere utilizar.
         
     Returns
     -------
     
-    sep: str
-        separador del archivo csv que se para por parámetro.
+    encoding: str
+        encoding del archivo csv.
     """
     
-    with open(ruta, newline='') as f:
-        sniffer = csv.Sniffer()
-        sniffer.preferred = [';', ',', '|']
-        dialect = sniffer.sniff(f.read(2048))
-        sep = dialect.delimiter
+    print("¿Qué encoding utiliza el archivo?")
+    encoding = str(input())
+    return encoding
+
+def preguntar_sep():
+    """
+    Método preguntar_sep. Pregunta al usuario el separador del arhcivo csv que quiere utilizar.
+    
+    Returns
+    -------
+    
+    sep: str
+        separador del archivo csv.
+    """
+    
+    print("¿Qué separador se utiliza?")
+    sep = str(input())
     return sep
 
 def elegir_archivo(tipo_archivo):
@@ -89,7 +94,7 @@ def elegir_archivo(tipo_archivo):
     root.destroy()
     return ruta
 
-def leer_csv(ruta):
+def leer_csv(ruta, sep, encoding):
     """
     Método leer_csv. Lee el archivo csv cuya ruta se pasa por parámetro y obtiene su dataframe.
     
@@ -106,8 +111,6 @@ def leer_csv(ruta):
         dataframe del archivo csv.
     """
     
-    sep = obtener_sep(ruta)
-    encoding = obtener_encoding(ruta)
     if sep.isspace():
         dataframe = pd.read_csv(ruta, delim_whitespace=True, encoding=encoding)
     else:
@@ -125,13 +128,19 @@ def obtener_datos():
 
     print("Elige el archivo de usuarios")
     ruta_users = elegir_archivo('usuarios')
-    users_df = leer_csv(ruta_users)
+    sep = preguntar_sep()
+    encoding = preguntar_encoding()
+    users_df = leer_csv(ruta_users, sep, encoding)
     print("Elige el archivo de items")
     ruta_items = elegir_archivo('items')
-    items_df = leer_csv(ruta_items)          
+    sep = preguntar_sep()
+    encoding = preguntar_encoding()
+    items_df = leer_csv(ruta_items, sep, encoding)          
     print("Elige el archivo de valoraciones")
     ruta_ratings = elegir_archivo('valoraciones')
-    ratings_df = leer_csv(ruta_ratings)
+    sep = preguntar_sep()
+    encoding = preguntar_encoding()
+    ratings_df = leer_csv(ruta_ratings, sep, encoding)
     ratings_df.sort_values([ratings_df.columns.values[0], ratings_df.columns.values[1]], inplace=True)
 
     
