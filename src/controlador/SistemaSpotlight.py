@@ -7,6 +7,7 @@ Created on Mon May 20 18:40:22 2019
 
 # Importo todo lo necesario
 import sys
+import torch
 import numpy as np
 sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
 import Entrada
@@ -100,15 +101,15 @@ class SistemaSpotlight:
         
         # Obtengo entreno y guardo el modelo
         if self.opcion_modelo == 1:
-            modelo = ExplicitFactorizationModel(loss='logistic', use_cuda=True)
+            modelo = ExplicitFactorizationModel(loss='logistic', use_cuda=torch.cuda.is_available())
             modelo.fit(train, verbose=True)
             guardar_modelos_dl(modelo, 'el modelo de factorización explícito')
         elif self.opcion_modelo == 2:
-            modelo = ImplicitFactorizationModel(loss='bpr', use_cuda=True)
+            modelo = ImplicitFactorizationModel(loss='bpr', use_cuda=torch.cuda.is_available())
             modelo.fit(train, verbose=True)
             guardar_modelos_dl(modelo, 'el modelo de factorización implícito')
         else:
-            modelo = ImplicitSequenceModel(loss='bpr',  representation='pooling', use_cuda=True)
+            modelo = ImplicitSequenceModel(loss='bpr',  representation='pooling', use_cuda=torch.cuda.is_available())
             modelo.fit(train, verbose=True)
             guardar_modelos_dl(modelo, 'el modelo de secuencia explícito')
         
