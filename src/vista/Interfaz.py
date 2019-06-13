@@ -6,10 +6,7 @@ Created on Tue Apr 23 17:02:09 2019
 """
 
 # Importo todo lo necesario
-import sys
-sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\controlador')
-import SistemaLightFM
-import SistemaSpotlight
+from controlador import SistemaLightFM, SistemaSpotlight
             
 def elegir_modelo_clasico():
     """
@@ -116,7 +113,7 @@ def main():
 
     
 # Ejecución del programa.
-main()
+#main()
 
 
 

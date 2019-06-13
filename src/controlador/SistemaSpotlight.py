@@ -6,11 +6,9 @@ Created on Mon May 20 18:40:22 2019
 """
 
 # Importo todo lo necesario
-import sys
 import torch
 import numpy as np
-sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
-import Entrada
+from modelo import Entrada
 from Salida import imprimir_resultados_dl
 from Persistencia import guardar_datos_pickle, guardar_modelos_dl
 from spotlight.factorization.explicit import ExplicitFactorizationModel

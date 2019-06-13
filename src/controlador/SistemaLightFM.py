@@ -7,11 +7,7 @@ Created on Tue Apr 23 16:45:27 2019
 
 # Importo todo lo necesario
 import multiprocessing
-#import pickle
-#import os
-import sys
-sys.path.insert(0, 'C:\\Users\\Raúl\\Google Drive\\GitHub\\SistemaRecomendacionTFG\\src\\modelo')
-import Entrada
+from modelo import Entrada
 from Salida import imprimir_resultados_clasico
 from Persistencia import guardar_datos_pickle
 from lightfm import LightFM
