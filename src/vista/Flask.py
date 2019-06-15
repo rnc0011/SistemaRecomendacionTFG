@@ -2,7 +2,11 @@ from flask import Flask, render_template
 from Forms import FormMenu
 
 app = Flask(__name__)
-app.secret_key = 'development key'
+#app.secret_key = 'development key'
+
+@app.route("/")
+def main():
+    return "Página principal"
 
 @app.route("/menu", methods=['GET','POST'])
 def menu():
