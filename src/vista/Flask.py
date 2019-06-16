@@ -1,16 +1,18 @@
-from flask import Flask, render_template, flash, request
+from flask import Flask, render_template, flash, request, redirect, url_for
 from Forms import HomeForm
 
 app = Flask(__name__)
 app.secret_key = 'development key'
 
-@app.route("/home", methods=['POST'])
+@app.route("/home", methods=['GET','POST'])
 def home():
 	form = HomeForm(request.form)
-	print(form.menu.data)
-	if form.menu.data == 1:
-		print("hola")
+	if form.menu.data == '1':
 		return redirect(url_for('construir_modelo'))
+	elif form.menu.data == '2':
+		print("opcion 2")
+	else:
+		print("opcion 3")
 	return render_template('home.html', titulo='Página Principal', form=form)
 
 @app.route("/construir_modelo", methods=['GET','POST'])
