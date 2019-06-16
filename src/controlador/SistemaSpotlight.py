@@ -9,8 +9,8 @@ Created on Mon May 20 18:40:22 2019
 import torch
 import numpy as np
 from modelo import Entrada
-from Salida import imprimir_resultados_dl
-from Persistencia import guardar_datos_pickle, guardar_modelos_dl
+from modelo.Salida import imprimir_resultados_dl
+from modelo.Persistencia import guardar_datos_pickle, guardar_modelos_dl
 from spotlight.factorization.explicit import ExplicitFactorizationModel
 from spotlight.factorization.implicit import ImplicitFactorizationModel
 from spotlight.sequence.implicit import ImplicitSequenceModel

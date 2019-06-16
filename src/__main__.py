@@ -11,3 +11,7 @@ from vista import Interfaz
 # Llamada al programa principal
 Interfaz.main()
 
+"""import os
+myCmd = 'python vista/Flask.py'
+os.system(myCmd)"""
+

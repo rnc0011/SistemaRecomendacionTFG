@@ -8,8 +8,8 @@ Created on Tue Apr 23 16:45:27 2019
 # Importo todo lo necesario
 import multiprocessing
 from modelo import Entrada
-from Salida import imprimir_resultados_clasico
-from Persistencia import guardar_datos_pickle
+from modelo.Salida import imprimir_resultados_clasico
+from modelo.Persistencia import guardar_datos_pickle
 from lightfm import LightFM
 from lightfm.evaluation import precision_at_k, auc_score, recall_at_k, reciprocal_rank
 from lightfm.data import Dataset
