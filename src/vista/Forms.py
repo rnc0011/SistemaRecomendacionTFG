@@ -1,8 +1,8 @@
-from flask_wtf import Form
-from wtforms import RadioField
+from flask_wtf import FlaskForm
+from wtforms import RadioField, SubmitField
+from wtforms.validators import DataRequired
 
-class HomeForm(Form):
+class HomeForm(FlaskForm):
 	choices = [(1, 'Construir modelo de recomendación'),(2, 'Cargar modelo'),(3, 'Añadir valoraciones a conjunto existente')]
-	menu = RadioField('¿Qué quieres hacer?', choices=choices)
-
-	
+	menu = RadioField(choices=choices)
+	submit = SubmitField('Enviar')

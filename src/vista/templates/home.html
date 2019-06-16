@@ -1,16 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-	<h1>Página Principal</h1>
-	<form action = "http://localhost:5000/home" method = "POST">
-		<fieldset>
+	<div class='content-section'>
+		<form action="" method="POST">
 			{{ form.hidden_tag() }}
-			<div style = font-size:20px; font-weight:bold; margin-left:150px;>
-				<br>
-				{{ form.menu.label }} {{ form.menu }}
-				<br>
-				{{ form.submit }}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">¿Qué quieres hacer?</legend>
+				{% for opcion in form.menu %}
+					<div class="form-group">
+						{{ opcion(class="form-control form-control-lg") }}
+						{{ opcion.label(class="form-control-label") }}
+					</div>
+				{% endfor %}
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
 			</div>
-		</fieldset>
-	</form>
+		</form>
+	</div>
 {% endblock content %}
+
 
