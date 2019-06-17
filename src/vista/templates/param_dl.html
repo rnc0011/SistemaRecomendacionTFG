@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class='content-section'>
+		<form action="" method="POST">
+			{{ form.hidden_tag() }}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Introduce los parámetros</legend>
+				<div class="form-group">
+					{{ form.loss.label(class="form-control-label") }}
+					{{ form.loss(class="form-control form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.embedding_dim.label(class="form-control-label") }}
+					{{ form.embedding_dim(class="form-control form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.n_iter.label(class="form-control-label") }}
+					{{ form.n_iter(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.batch_size.label(class="form-control-label") }}
+					{{ form.batch_size(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.l2.label(class="form-control-label") }}
+					{{ form.l2(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.learning_rate.label(class="form-control-label") }}
+					{{ form.learning_rate(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.epochs.label(class="form-control-label") }}
+					{{ form.epochs(class="form-control-file form-control-lg") }}
+				</div>
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>
+{% endblock content %}
+

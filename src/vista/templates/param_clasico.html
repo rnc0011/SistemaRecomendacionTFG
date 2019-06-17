@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class='content-section'>
+		<form action="" method="POST">
+			{{ form.hidden_tag() }}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Introduce los parámetros</legend>
+				<div class="form-group">
+					{{ form.no_components.label(class="form-control-label") }}
+					{{ form.no_components(class="form-control form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.k.label(class="form-control-label") }}
+					{{ form.k(class="form-control form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.n.label(class="form-control-label") }}
+					{{ form.n(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.learning_schedule.label(class="form-control-label") }}
+					{{ form.learning_schedule(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.loss.label(class="form-control-label") }}
+					{{ form.loss(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.learning_rate.label(class="form-control-label") }}
+					{{ form.learning_rate(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.rho.label(class="form-control-label") }}
+					{{ form.rho(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.epsilon.label(class="form-control-label") }}
+					{{ form.epsilon(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.item_alpha.label(class="form-control-label") }}
+					{{ form.item_alpha(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.user_alpha.label(class="form-control-label") }}
+					{{ form.user_alpha(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.max_sampled.label(class="form-control-label") }}
+					{{ form.max_sampled(class="form-control-file form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.epochs.label(class="form-control-label") }}
+					{{ form.epochs(class="form-control-file form-control-lg") }}
+				</div>
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>
+{% endblock content %}
+
