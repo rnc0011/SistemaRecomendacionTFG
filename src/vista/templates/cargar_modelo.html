@@ -4,7 +4,15 @@
 		<form action="" method="POST">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Construir modelo de recomendación</legend>
+				<legend class="border-bottom mb-4">¿Qué modelo quieres cargar?</legend>
+				<div class="form-group">
+					{{ form.modelo.label(class="form-control-label") }}
+					{{ form.modelo(class="form-control form-control-lg") }}
+				</div>
+				<div class="form-group">
+					{{ form.archivos.label(class="form-control-label") }}
+					{{ form.archivos(class="form-control form-control-lg") }}
+				</div>
 				{% for opcion in form.menu %}
 					<div class="form-group">
 						{{ opcion(class="form-control form-control-lg") }}

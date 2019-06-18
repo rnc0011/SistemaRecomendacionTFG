@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class='content-section'>
+		<form action="" method="POST">
+			{{ form.hidden_tag() }}
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>
+{% endblock content %}
+

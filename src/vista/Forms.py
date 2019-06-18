@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import RadioField, SubmitField, SelectField, MultipleFileField, IntegerField, FloatField
+from wtforms import RadioField, SubmitField, SelectField, MultipleFileField, IntegerField, FloatField, FileField
 
 class HomeForm(FlaskForm):
 	choices = [(1, 'Construir modelo de recomendación'), (2, 'Cargar modelo'), (3, 'Añadir valoraciones a conjunto existente')]
@@ -71,3 +71,34 @@ class ParamDLForm(FlaskForm):
 	submit = SubmitField('Construir')
 
 
+class AnadirValoracionesForm(FlaskForm):
+	modelo = FileField()
+	valoraciones = FileField()
+	submit = SubmitField('Añadir')
+
+
+class CargarModeloForm(FlaskForm):
+	modelo = FileField()
+	archivos = MultipleFileField('Matrices')
+	menu = RadioField(choices=[(1, 'Métricas'), (2, 'Predicciones')])
+	submit = SubmitField('Siguiente')
+
+
+class ElegirUsuarioForm(FlaskForm):
+	usuario = IntegerField()
+	submit = SubmitField('Siguiente')
+
+
+class PrediccionesForm(FlaskForm):
+	submit = SubmitField('Finalizar')
+
+
+class PrediccionesForm(FlaskForm):
+	submit = SubmitField('Finalizar')
+
+
+class MetricasForm(FlaskForm):
+	submit = SubmitField('Finalizar')
+
+
+	

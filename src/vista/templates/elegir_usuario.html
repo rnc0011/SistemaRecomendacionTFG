@@ -4,13 +4,11 @@
 		<form action="" method="POST">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Construir modelo de recomendación</legend>
-				{% for opcion in form.menu %}
-					<div class="form-group">
-						{{ opcion(class="form-control form-control-lg") }}
-						{{ opcion.label(class="form-control-label") }}
-					</div>
-				{% endfor %}
+				<legend class="border-bottom mb-4">Elige el usuario</legend>
+				<div class="form-group">
+					{{ form.usuario(class="form-control form-control-lg") }}
+					{{ form.usuario.label(class="form-control-label") }}
+				</div>
 			</fieldset>
 			<div class="form-group">
 				{{ form.submit(class="btn btn-outline-info") }}
