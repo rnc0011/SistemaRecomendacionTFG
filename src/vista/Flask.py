@@ -8,6 +8,7 @@ Created on Tue Apr 20 17:02:09 2019
 # Importo todo lo necesario
 from flask import Flask, render_template, request, redirect, url_for
 from Forms import *
+from modelo import Entrada
 
 app = Flask(__name__)
 app.secret_key = 'development key'
@@ -44,8 +45,13 @@ def nuevo_dataset():
 	if request.method == 'GET':
 		return render_template('nuevo_dataset.html', titulo='Nuevo Dataset', form=form)
 	else:
-		print(request.form['encoding'], request.form['separador'])
 		# obtener los dataframes
+		separador = request.form['separador']
+		encoding = request.form['encoding']
+		archivo = request.form['archivo']
+		dataframe = Entrada.leer_csv(archivo, separador, encoding)
+		if 'mas_archivos' in request.form and form.validate_on_submit():
+			return redirect(url_for('nuevo_dataset'))
 		return redirect(url_for('elegir_modelo'))
 
 

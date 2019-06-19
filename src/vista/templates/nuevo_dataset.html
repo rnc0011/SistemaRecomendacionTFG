@@ -14,10 +14,13 @@
 					{{ form.separador(class="form-control form-control-lg") }}
 				</div>
 				<div class="form-group">
-					{{ form.archivos.label(class="form-control-label") }}
-					{{ form.archivos(class="form-control-file form-control-lg") }}
+					{{ form.archivo.label(class="form-control-label") }}
+					{{ form.archivo(class="form-control-file form-control-lg") }}
 				</div>
 			</fieldset>
+			<div class="form-group">
+				{{ form.mas_archivos(class="btn btn-outline-info") }}
+			</div>
 			<div class="form-group">
 				{{ form.submit(class="btn btn-outline-info") }}
 			</div>

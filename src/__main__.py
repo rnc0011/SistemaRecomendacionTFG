@@ -5,13 +5,18 @@ Created on Thu Jun 13 19:31:59 2019
 @author: Raúl
 """
 
-# Importo todo lo necesario
-from vista import Interfaz
+print("¿Qué modelo quieres utilizar?")
+print("1. Interfaz de texto")
+print("2. Interfaz gráfica")
+opcion = int(input())
+if opcion == 1:
+	from vista import Interfaz
+	Interfaz.main()
+elif opcion == 2:
+	import os
+	myCmd = 'python vista/Flask.py'
+	os.system(myCmd)
+else:
+	print("No has introducido una opción válida")
 
-# Llamada al programa principal
-Interfaz.main()
-
-"""import os
-myCmd = 'python vista/Flask.py'
-os.system(myCmd)"""
 
