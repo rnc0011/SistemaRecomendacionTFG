@@ -13,9 +13,8 @@ if opcion == 1:
 	from vista import Interfaz
 	Interfaz.main()
 elif opcion == 2:
-	import os
-	myCmd = 'python vista/Flask.py'
-	os.system(myCmd)
+	from vista import Flask
+	Flask.app.run()
 else:
 	print("No has introducido una opción válida")
 

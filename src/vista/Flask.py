@@ -7,7 +7,7 @@ Created on Tue Apr 20 17:02:09 2019
 
 # Importo todo lo necesario
 from flask import Flask, render_template, request, redirect, url_for
-from Forms import *
+from .Forms import *
 from modelo import Entrada
 
 app = Flask(__name__)
