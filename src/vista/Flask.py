@@ -10,8 +10,11 @@ from flask import Flask, render_template, request, redirect, url_for
 from .Forms import *
 from modelo import Entrada
 
+UPLOAD_FOLDER = '/path/to/the/uploads'
+
 app = Flask('vista')
 app.secret_key = 'development key'
+app.config['UPLOAD_FOLDER'] = ''
 
 @app.route("/home", methods=['GET','POST'])
 def home():
