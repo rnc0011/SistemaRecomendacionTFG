@@ -10,7 +10,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from .Forms import *
 from modelo import Entrada
 
-app = Flask(__name__)
+app = Flask('vista')
 app.secret_key = 'development key'
 
 @app.route("/home", methods=['GET','POST'])
@@ -48,8 +48,10 @@ def nuevo_dataset():
 		# obtener los dataframes
 		separador = request.form['separador']
 		encoding = request.form['encoding']
-		archivo = request.form['archivo']
-		dataframe = Entrada.leer_csv(archivo, separador, encoding)
+		#archivo = Entrada.elegir_archivo('datos')
+		#dataframe = Entrada.leer_csv(archivo, separador, encoding)
+		archivo = request.files['archivo']
+		print(archivo)
 		if 'mas_archivos' in request.form and form.validate_on_submit():
 			return redirect(url_for('nuevo_dataset'))
 		return redirect(url_for('elegir_modelo'))
@@ -170,7 +172,7 @@ def anadir_valoraciones():
 		return redirect(url_for('home'))
 
 
-if __name__ == '__main__':
+"""if __name__ == '__main__':
 	app.run(debug=True)
-
+"""
 

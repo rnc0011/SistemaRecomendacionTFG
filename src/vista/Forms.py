@@ -15,10 +15,11 @@ class DatasetForm(FlaskForm):
 
 class NuevoDatasetForm(FlaskForm):
 	encoding = SelectField(choices=[('utf-8', 'utf-8'), ('ISO-8859-1', 'ISO-8859-1')])
-	separador = SelectField(choices=[('|', '|'), ('\t', '\t'), (',', ','), (';', ';')])
+	separador = SelectField(choices=[('|', '|'), (' ', ' '), (',', ','), (';', ';')])
 	archivo = FileField('Archivo .csv')
-	submit = SubmitField('Siguiente')
+	#archivo = SubmitField('Elegir archivo')
 	mas_archivos = SubmitField('Más archivos')
+	submit = SubmitField('Siguiente')
 
 
 class DatasetsPruebaForm(FlaskForm):
