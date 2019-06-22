@@ -19,6 +19,8 @@ app = Flask('vista')
 app.secret_key = 'development key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+global sistema
+
 @app.route("/home", methods=['GET','POST'])
 def home():
 	form = HomeForm(request.form)
@@ -68,10 +70,12 @@ def elegir_modelo_dl():
 
 @app.route("/home/elegir_modelo/elegir_modelo_clasico/param_clasico/<int:tipo>", methods=['GET','POST'])
 def param_clasico(tipo):
+	global sistema
 	form = ParamClasicoForm(request.form)
 	if request.method == 'GET':
 		return render_template('param_clasico.html', titulo='Parámetros Modelo Clásico', form=form)
 	else:
+		epochs = int(request.form['epochs'])
 		lista_param = list()
 		lista_param.append(int(request.form['no_components']))
 		lista_param.append(int(request.form['k']))
@@ -84,8 +88,7 @@ def param_clasico(tipo):
 		lista_param.append(float(request.form['item_alpha']))
 		lista_param.append(float(request.form['user_alpha']))
 		lista_param.append(int(request.form['max_sampled']))
-		#lista_param.append(int(request.form['epochs']))
-		sistema = SistemaLightFM.SistemaLightFM(tipo)
+		sistema = SistemaLightFM.SistemaLightFM(tipo, epochs)
 		sistema.obtener_modelo_gui(lista_param)
 		return redirect(url_for('elegir_dataset', anterior='/home/elegir_modelo/elegir_modelo_clasico/param_clasico/'+str(tipo)))
 
@@ -107,29 +110,40 @@ def elegir_dataset(anterior):
 		return render_template('elegir_dataset.html', titulo='Elegir Dataset', form=form)
 	else:
 		if form.menu.data == '1':
-			return redirect(url_for('nuevo_dataset'), ruta='/<path:anterior>/elegir_dataset')
+			return redirect(url_for('nuevo_dataset', ruta=anterior+'/elegir_dataset'))
 		else:
-			return redirect(url_for('datasets_prueba'), ruta='/<path:anterior>/elegir_dataset')
+			return redirect(url_for('datasets_prueba', ruta=anterior+'/elegir_dataset'))
 
 
 @app.route("/<path:ruta>/nuevo_dataset", methods=['GET','POST'])
 def nuevo_dataset(ruta):
+	global sistema
 	form = NuevoDatasetForm(request.form)
 	if request.method == 'GET':
 		return render_template('nuevo_dataset.html', titulo='Nuevo Dataset', form=form)
 	else:
-		if 'submit' in request.form and form.validate_on_submit():
-			return redirect(url_for('home'))
-		else:
-			# obtener el dataframe
-			separador = request.form['separador']
-			encoding = request.form['encoding']
-			archivo = request.files['archivo']
-			nombre_archivo = secure_filename(archivo.filename)
-			archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo))
-			dataframe = Entrada.leer_csv('./uploads/'+nombre_archivo, separador, encoding)
-			if 'mas_archivos' in request.form and form.validate_on_submit():
-				return redirect(url_for('nuevo_dataset'))
+		# obtener el dataframe
+		separador_ratings = request.form['separador_ratings']
+		encoding_ratings = request.form['encoding_ratings']
+		archivo_ratings = request.files['archivo_ratings']
+		nombre_archivo_ratings = secure_filename(archivo_ratings.filename)
+		archivo_ratings.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_ratings))
+		dataframe_ratings = Entrada.leer_csv('./uploads/'+nombre_archivo_ratings, separador_ratings, encoding_ratings)
+		separador_users = request.form['separador_users']
+		encoding_users = request.form['encoding_users']
+		archivo_users = request.files['archivo_users']
+		nombre_archivo_users = secure_filename(archivo_users.filename)
+		archivo_users.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_users))
+		dataframe_users = Entrada.leer_csv('./uploads/'+nombre_archivo_users, separador_users, encoding_users)
+		separador_items = request.form['separador_items']
+		encoding_items = request.form['encoding_items']
+		archivo_items = request.files['archivo_items']
+		nombre_archivo_items = secure_filename(archivo_items.filename)
+		archivo_items.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_items))
+		dataframe_items = Entrada.leer_csv('./uploads/'+nombre_archivo_items, separador_items, encoding_items)
+		sistema.obtener_matrices_gui(dataframe_ratings, dataframe_users, dataframe_items)
+		sistema.entrenar_modelo_gui()
+		return redirect(url_for('home'))
 
 
 @app.route("/<string:ruta>/datasets_prueba", methods=['GET','POST'])

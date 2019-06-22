@@ -46,8 +46,10 @@ class SistemaLightFM:
     # Variables globales
     global train, test, modelo, item_features, user_features
     
-    def __init__(self, opcion_modelo):
+    def __init__(self, opcion_modelo, epochs=None):
         self.opcion_modelo = opcion_modelo
+        if epochs is not None:
+            self.epochs = epochs
     
     def obtener_matrices(self):
         """
@@ -93,6 +95,40 @@ class SistemaLightFM:
         print("Guarda la matriz de test")
         guardar_datos_pickle(test, 'la matriz de test')
             
+    def obtener_matrices_gui(self, ratings_df, users_df, items_df):
+        global train, test, item_features, user_features
+
+        # Obtengo las matrices
+        dataset = Dataset()
+        if self.opcion_modelo == 1:
+            dataset.fit(ratings_df[ratings_df.columns.values[0]], ratings_df[ratings_df.columns.values[1]])
+            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                 row[ratings_df.columns.values[1]],
+                                                                 row[ratings_df.columns.values[2]]) 
+                                                                for index,row in ratings_df.iterrows())
+        else:
+            dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
+                       user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
+            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                 row[ratings_df.columns.values[1]],
+                                                                 row[ratings_df.columns.values[2]]) 
+                                                                for index,row in ratings_df.iterrows())
+            item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
+            user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
+            # Guardo los datos
+            print("Guarda la matriz de item features")
+            guardar_datos_pickle(item_features, 'la matriz de item features')
+            print("Guarda la matriz de user features")
+            guardar_datos_pickle(user_features, 'la matriz de user feautures')
+            
+        train, test = random_train_test_split(interacciones, test_percentage=0.2)
+        
+        # Guardo los datos
+        print("Guarda la matriz de entrenamiento")
+        guardar_datos_pickle(train, 'la matriz de entrenamiento')
+        print("Guarda la matriz de test")
+        guardar_datos_pickle(test, 'la matriz de test')
+
     def obtener_modelos(self):
         """
         Método obtener_modelos. Obtiene el modelo escogido.
@@ -130,6 +166,20 @@ class SistemaLightFM:
         max_sampled = lista_param[10]
         modelo = LightFM(no_components=no_components, k=k, n=n, learning_schedule=learning_schedule, loss=loss, learning_rate=learning_rate, rho=rho, 
             epsilon=epsilon, item_alpha=item_alpha, user_alpha=user_alpha, max_sampled=max_sampled)
+
+    def entrenar_modelo_gui(self):
+        global modelo
+
+        # Entreno y guardo el modelo
+        if self.opcion_modelo == 1:
+            modelo.fit(train, epochs=self.epochs, num_threads=self.CPU_THREADS)
+            guardar_datos_pickle(modelo, 'el modelo colaborativo')
+        elif self.opcion_modelo == 2:
+            modelo.fit(train, item_features=item_features, epochs=self.epochs, num_threads=self.CPU_THREADS)
+            guardar_datos_pickle(modelo, 'el modelo hibrido')
+        else:
+            modelo.fit(train, user_features=user_features, item_features=item_features, epochs=self.epochs, num_threads=self.CPU_THREADS)
+            guardar_datos_pickle(modelo, 'el modelo por contenido')
     
     def resultados_colaborativo(self):
         """
