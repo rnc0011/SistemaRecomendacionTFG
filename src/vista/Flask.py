@@ -6,15 +6,18 @@ Created on Tue Apr 20 17:02:09 2019
 """
 
 # Importo todo lo necesario
+import os
 from flask import Flask, render_template, request, redirect, url_for
+from werkzeug.utils import secure_filename
 from .Forms import *
 from modelo import Entrada
+from controlador import SistemaLightFM, SistemaSpotlight
 
-UPLOAD_FOLDER = '/path/to/the/uploads'
+UPLOAD_FOLDER = './uploads'
 
 app = Flask('vista')
 app.secret_key = 'development key'
-app.config['UPLOAD_FOLDER'] = ''
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/home", methods=['GET','POST'])
 def home():
@@ -23,54 +26,14 @@ def home():
 		return render_template('home.html', titulo='Página Principal', form=form)
 	else:
 		if form.menu.data == '1':
-			return redirect(url_for('construir_modelo'))
+			return redirect(url_for('elegir_modelo'))
 		elif form.menu.data == '2':
 			return redirect(url_for('cargar_modelo'))
 		else:
 			return redirect(url_for('anadir_valoraciones'))
 
 
-@app.route("/home/construir_modelo", methods=['GET','POST'])
-def construir_modelo():
-	form = DatasetForm(request.form)
-	if request.method == 'GET':
-		return render_template('construir_modelo.html', titulo='Construir Modelo', form=form)
-	else:
-		if form.menu.data == '1':
-			return redirect(url_for('nuevo_dataset'))
-		else:
-			return redirect(url_for('datasets_prueba'))
-
-
-@app.route("/home/construir_modelo/nuevo_dataset", methods=['GET','POST'])
-def nuevo_dataset():
-	form = NuevoDatasetForm(request.form)
-	if request.method == 'GET':
-		return render_template('nuevo_dataset.html', titulo='Nuevo Dataset', form=form)
-	else:
-		# obtener los dataframes
-		separador = request.form['separador']
-		encoding = request.form['encoding']
-		#archivo = Entrada.elegir_archivo('datos')
-		#dataframe = Entrada.leer_csv(archivo, separador, encoding)
-		archivo = request.files['archivo']
-		print(archivo)
-		if 'mas_archivos' in request.form and form.validate_on_submit():
-			return redirect(url_for('nuevo_dataset'))
-		return redirect(url_for('elegir_modelo'))
-
-
-@app.route("/home/construir_modelo/datasets_prueba", methods=['GET','POST'])
-def datasets_prueba():
-	form = DatasetsPruebaForm(request.form)
-	if request.method == 'GET':
-		return render_template('datasets_prueba.html', titulo='Datasets Prueba', form=form)
-	else:
-		# Lo que sea
-		return redirect(url_for('elegir_modelo'))
-
-
-@app.route("/home/construir_modelo/elegir_modelo", methods=['GET','POST'])
+@app.route("/home/elegir_modelo", methods=['GET','POST'])
 def elegir_modelo():
 	form = ElegirModeloForm(request.form)
 	if request.method == 'GET':
@@ -83,17 +46,17 @@ def elegir_modelo():
 			return redirect(url_for('elegir_modelo_dl'))
 
 
-@app.route("/home/construir_modelo/elegir_modelo/elegir_modelo_clasico", methods=['GET','POST'])
+@app.route("/home/elegir_modelo/elegir_modelo_clasico", methods=['GET','POST'])
 def elegir_modelo_clasico():
 	form = ElegirModeloClasicoForm(request.form)
 	if request.method == 'GET':
 		return render_template('elegir_modelo_clasico.html', titulo='Modelos Clásicos', form=form)
 	else:
-		# hacer cosas
-		return redirect(url_for('param_clasico'))
+		tipo_modelo = request.form['menu']
+		return redirect(url_for('param_clasico', tipo=tipo_modelo))
 
 
-@app.route("/home/construir_modelo/elegir_modelo/elegir_modelo_dl", methods=['GET','POST'])
+@app.route("/home/elegir_modelo/elegir_modelo_dl", methods=['GET','POST'])
 def elegir_modelo_dl():
 	form = ElegirModeloDLForm(request.form)
 	if request.method == 'GET':
@@ -103,23 +66,79 @@ def elegir_modelo_dl():
 		return redirect(url_for('param_dl'))
 
 
-@app.route("/home/construir_modelo/elegir_modelo/elegir_modelo_clasico/param_clasico", methods=['GET','POST'])
-def param_clasico():
+@app.route("/home/elegir_modelo/elegir_modelo_clasico/param_clasico/<int:tipo>", methods=['GET','POST'])
+def param_clasico(tipo):
 	form = ParamClasicoForm(request.form)
-	# hacer cosas
 	if request.method == 'GET':
 		return render_template('param_clasico.html', titulo='Parámetros Modelo Clásico', form=form)
 	else:
-		return redirect(url_for('home'))
+		lista_param = list()
+		lista_param.append(int(request.form['no_components']))
+		lista_param.append(int(request.form['k']))
+		lista_param.append(int(request.form['n']))
+		lista_param.append(request.form['learning_schedule'])
+		lista_param.append(request.form['loss'])
+		lista_param.append(float(request.form['learning_rate']))
+		lista_param.append(float(request.form['rho']))
+		lista_param.append(float(request.form['epsilon']))
+		lista_param.append(float(request.form['item_alpha']))
+		lista_param.append(float(request.form['user_alpha']))
+		lista_param.append(int(request.form['max_sampled']))
+		#lista_param.append(int(request.form['epochs']))
+		sistema = SistemaLightFM.SistemaLightFM(tipo)
+		sistema.obtener_modelo_gui(lista_param)
+		return redirect(url_for('elegir_dataset', anterior='/home/elegir_modelo/elegir_modelo_clasico/param_clasico/'+str(tipo)))
 
 
-@app.route("/home/construir_modelo/elegir_modelo/elegir_modelo_dl/param_dl", methods=['GET','POST'])
+@app.route("/home/elegir_modelo/elegir_modelo_dl/param_dl", methods=['GET','POST'])
 def param_dl():
 	form = ParamDLForm(request.form)
 	# hacer cosas
 	if request.method == 'GET':
 		return render_template('param_dl.html', titulo='Parámetros Modelo Deep Learning', form=form)
 	else:
+		return redirect(url_for('elegir_dataset', anterior='/home/elegir_modelo/elegir_modelo_dl/param_dl'))
+
+
+@app.route("/<path:anterior>/elegir_dataset", methods=['GET','POST'])
+def elegir_dataset(anterior):
+	form = DatasetForm(request.form)
+	if request.method == 'GET':
+		return render_template('elegir_dataset.html', titulo='Elegir Dataset', form=form)
+	else:
+		if form.menu.data == '1':
+			return redirect(url_for('nuevo_dataset'), ruta='/<path:anterior>/elegir_dataset')
+		else:
+			return redirect(url_for('datasets_prueba'), ruta='/<path:anterior>/elegir_dataset')
+
+
+@app.route("/<path:ruta>/nuevo_dataset", methods=['GET','POST'])
+def nuevo_dataset(ruta):
+	form = NuevoDatasetForm(request.form)
+	if request.method == 'GET':
+		return render_template('nuevo_dataset.html', titulo='Nuevo Dataset', form=form)
+	else:
+		if 'submit' in request.form and form.validate_on_submit():
+			return redirect(url_for('home'))
+		else:
+			# obtener el dataframe
+			separador = request.form['separador']
+			encoding = request.form['encoding']
+			archivo = request.files['archivo']
+			nombre_archivo = secure_filename(archivo.filename)
+			archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo))
+			dataframe = Entrada.leer_csv('./uploads/'+nombre_archivo, separador, encoding)
+			if 'mas_archivos' in request.form and form.validate_on_submit():
+				return redirect(url_for('nuevo_dataset'))
+
+
+@app.route("/<string:ruta>/datasets_prueba", methods=['GET','POST'])
+def datasets_prueba(ruta):
+	form = DatasetsPruebaForm(request.form)
+	if request.method == 'GET':
+		return render_template('datasets_prueba.html', titulo='Datasets Prueba', form=form)
+	else:
+		# Lo que sea
 		return redirect(url_for('home'))
 
 

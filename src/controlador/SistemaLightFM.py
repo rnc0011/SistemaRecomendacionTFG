@@ -113,6 +113,23 @@ class SistemaLightFM:
         else:
             modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
             guardar_datos_pickle(modelo, 'el modelo por contenido')
+
+    def obtener_modelo_gui(self, lista_param):
+        global modelo
+
+        no_components = lista_param[0]
+        k = lista_param[1]
+        n = lista_param[2]
+        learning_schedule = lista_param[3]
+        loss = lista_param[4]
+        learning_rate = lista_param[5]
+        rho = lista_param[6]
+        epsilon = lista_param[7]
+        item_alpha = lista_param[8]
+        user_alpha = lista_param[9]
+        max_sampled = lista_param[10]
+        modelo = LightFM(no_components=no_components, k=k, n=n, learning_schedule=learning_schedule, loss=loss, learning_rate=learning_rate, rho=rho, 
+            epsilon=epsilon, item_alpha=item_alpha, user_alpha=user_alpha, max_sampled=max_sampled)
     
     def resultados_colaborativo(self):
         """
