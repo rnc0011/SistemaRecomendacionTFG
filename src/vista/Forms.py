@@ -50,6 +50,12 @@ class ElegirModeloDLForm(FlaskForm):
 	submit = SubmitField('Siguiente')
 
 
+class TimestampsForm(FlaskForm):
+	choices = [(1, 'Utilizar timestamps'), (2, 'No utilizar timestamps')]
+	menu = RadioField(choices=choices)
+	submit = SubmitField('Siguiente')
+
+
 class ParamClasicoForm(FlaskForm):
 	no_components = IntegerField(default=10)
 	k = IntegerField(default=5)
@@ -73,7 +79,7 @@ class ParamDLForm(FlaskForm):
 	batch_size = IntegerField(default=256)
 	l2 = FloatField(default=0.0)
 	learning_rate = FloatField(default=0.01)
-	epochs = IntegerField(default=30)
+	representation = SelectField(choices=[('pooling', 'Pooling'), ('cnn', 'cnn'), ('lstm', 'lstm'), ('mixture', 'mixture')])
 	submit = SubmitField('Construir')
 
 

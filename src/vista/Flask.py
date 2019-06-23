@@ -19,7 +19,7 @@ app = Flask('vista')
 app.secret_key = 'development key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-global sistema
+global sistema, modelo_clasico_dl
 
 @app.route("/home", methods=['GET','POST'])
 def home():
@@ -37,14 +37,16 @@ def home():
 
 @app.route("/home/elegir_modelo", methods=['GET','POST'])
 def elegir_modelo():
+	global modelo_clasico_dl
 	form = ElegirModeloForm(request.form)
 	if request.method == 'GET':
 		return render_template('elegir_modelo.html', titulo='Elegir Modelo', form=form)
 	else:
 		if form.menu.data == '1':
+			modelo_clasico_dl = 1
 			return redirect(url_for('elegir_modelo_clasico'))
 		else:
-			# hacer cosas
+			modelo_clasico_dl = 2
 			return redirect(url_for('elegir_modelo_dl'))
 
 
@@ -64,8 +66,20 @@ def elegir_modelo_dl():
 	if request.method == 'GET':
 		return render_template('elegir_modelo_dl.html', titulo='Modelos Deep Learning', form=form)
 	else:
-		# hacer cosas
-		return redirect(url_for('param_dl'))
+		tipo_modelo = request.form['menu']
+		return redirect(url_for('timestamps', tipo=tipo_modelo))
+
+
+@app.route("/home/elegir_modelo/elegir_modelo_dl/timestamps/<int:tipo>", methods=['GET','POST'])
+def timestamps(tipo):
+	global sistema
+	form = TimestampsForm(request.form)
+	if request.method == 'GET':
+		return render_template('timestamps.html', titulo='Usar timestamps', form=form)
+	else:
+		timestamps = request.form['menu']
+		sistema = SistemaSpotlight.SistemaSpotlight(tipo, timestamps)
+		return redirect(url_for('param_dl', anterior='/home/elegir_modelo/elegir_modelo_dl/timestamps/'+str(tipo)))
 
 
 @app.route("/home/elegir_modelo/elegir_modelo_clasico/param_clasico/<int:tipo>", methods=['GET','POST'])
@@ -93,14 +107,23 @@ def param_clasico(tipo):
 		return redirect(url_for('elegir_dataset', anterior='/home/elegir_modelo/elegir_modelo_clasico/param_clasico/'+str(tipo)))
 
 
-@app.route("/home/elegir_modelo/elegir_modelo_dl/param_dl", methods=['GET','POST'])
-def param_dl():
+@app.route("/<path:anterior>/param_dl", methods=['GET','POST'])
+def param_dl(anterior):
+	global sistema
 	form = ParamDLForm(request.form)
-	# hacer cosas
 	if request.method == 'GET':
 		return render_template('param_dl.html', titulo='Parámetros Modelo Deep Learning', form=form)
 	else:
-		return redirect(url_for('elegir_dataset', anterior='/home/elegir_modelo/elegir_modelo_dl/param_dl'))
+		lista_param = list()
+		lista_param.append(request.form['loss'])
+		lista_param.append(int(request.form['embedding_dim']))
+		lista_param.append(int(request.form['n_iter']))
+		lista_param.append(int(request.form['batch_size']))
+		lista_param.append(float(request.form['l2']))
+		lista_param.append(float(request.form['learning_rate']))
+		lista_param.append(request.form['representation'])
+		sistema.obtener_modelo_gui(lista_param)
+		return redirect(url_for('elegir_dataset', anterior=anterior+'/param_dl'))
 
 
 @app.route("/<path:anterior>/elegir_dataset", methods=['GET','POST'])
@@ -117,7 +140,7 @@ def elegir_dataset(anterior):
 
 @app.route("/<path:ruta>/nuevo_dataset", methods=['GET','POST'])
 def nuevo_dataset(ruta):
-	global sistema
+	global sistema, modelo_clasico_dl
 	form = NuevoDatasetForm(request.form)
 	if request.method == 'GET':
 		return render_template('nuevo_dataset.html', titulo='Nuevo Dataset', form=form)
@@ -141,8 +164,12 @@ def nuevo_dataset(ruta):
 		nombre_archivo_items = secure_filename(archivo_items.filename)
 		archivo_items.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_items))
 		dataframe_items = Entrada.leer_csv('./uploads/'+nombre_archivo_items, separador_items, encoding_items)
-		sistema.obtener_matrices_gui(dataframe_ratings, dataframe_users, dataframe_items)
-		sistema.entrenar_modelo_gui()
+		if modelo_clasico_dl == 1:
+			sistema.obtener_matrices_gui(dataframe_ratings, dataframe_users, dataframe_items)
+			sistema.entrenar_modelo_gui()
+		else:
+			sistema.obtener_interacciones_gui(dataframe_ratings)
+			sistema.entrenar_modelo_gui()
 		return redirect(url_for('home'))
 
 

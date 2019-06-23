@@ -168,7 +168,7 @@ class SistemaLightFM:
             epsilon=epsilon, item_alpha=item_alpha, user_alpha=user_alpha, max_sampled=max_sampled)
 
     def entrenar_modelo_gui(self):
-        global modelo
+        global train, modelo, item_features, user_features
 
         # Entreno y guardo el modelo
         if self.opcion_modelo == 1:
