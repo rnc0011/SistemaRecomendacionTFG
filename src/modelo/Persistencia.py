@@ -36,6 +36,10 @@ def guardar_datos_pickle(datos, tipo):
     pickle.dump(datos, archivo_pickle, protocol=pickle.HIGHEST_PROTOCOL)
     archivo_pickle.close()
 
+def cargar_datos_pickle(ruta_archivo):
+    pickle_in = open(ruta_archivo, 'rb')
+    return pickle.load(pickle_in)
+
 def guardar_modelos_dl(modelo, tipo):
     """
     Método guardar_modelos_dl. Guarda los modelos producidos por Spotlight.
@@ -59,4 +63,5 @@ def guardar_modelos_dl(modelo, tipo):
     root.destroy()
     torch.save(modelo, ruta)
     
+
     

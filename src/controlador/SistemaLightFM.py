@@ -9,7 +9,7 @@ Created on Tue Apr 23 16:45:27 2019
 import multiprocessing
 from modelo import Entrada
 from modelo.Salida import imprimir_resultados_clasico
-from modelo.Persistencia import guardar_datos_pickle
+from modelo.Persistencia import guardar_datos_pickle, cargar_datos_pickle
 from lightfm import LightFM
 from lightfm.evaluation import precision_at_k, auc_score, recall_at_k, reciprocal_rank
 from lightfm.data import Dataset
@@ -128,6 +128,26 @@ class SistemaLightFM:
         guardar_datos_pickle(train, 'la matriz de entrenamiento')
         print("Guarda la matriz de test")
         guardar_datos_pickle(test, 'la matriz de test')
+
+    def cargar_matrices_gui(self, ruta_train, ruta_test, ruta_items, ruta_users):
+        global train, test, item_features, user_features
+
+        train = cargar_datos_pickle(ruta_train)
+        test = cargar_datos_pickle(ruta_test)
+        item_features = cargar_datos_pickle(ruta_items)
+        user_features = cargar_datos_pickle(ruta_users)
+
+    def cargar_otras_matrices_gui(self):
+        global train, test, item_features, user_features
+
+        ruta_train = Entrada.elegir_archivo('entrenamiento')
+        train = cargar_datos_pickle(ruta_train)
+        ruta_test = Entrada.elegir_archivo('test')
+        test = cargar_datos_pickle(ruta_test)
+        ruta_items = Entrada.elegir_archivo('item features')
+        item_features = cargar_datos_pickle(ruta_items)
+        ruta_users = Entrada.elegir_archivo('user features')
+        user_features = cargar_datos_pickle(ruta_users)
 
     def obtener_modelos(self):
         """

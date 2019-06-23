@@ -86,7 +86,7 @@ def elegir_archivo(tipo_archivo):
     """
     
     root = Tk()
-    tipos = [('Archivo CSV', '*.csv')]
+    tipos = [('Archivo CSV', '*.csv'), ('Archivo Pickle', '*.pickle')]
     titulo = 'Selecciona el archivo de ' + tipo_archivo
     directorio = 'C:\\Downloads\\DatasetsTFG'
     root.filename = filedialog.askopenfilename(initialdir=directorio, title=titulo, filetypes=tipos)

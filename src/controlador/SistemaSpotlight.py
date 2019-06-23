@@ -10,7 +10,7 @@ import torch
 import numpy as np
 from modelo import Entrada
 from modelo.Salida import imprimir_resultados_dl
-from modelo.Persistencia import guardar_datos_pickle, guardar_modelos_dl
+from modelo.Persistencia import guardar_datos_pickle, guardar_modelos_dl, cargar_datos_pickle
 from spotlight.factorization.explicit import ExplicitFactorizationModel
 from spotlight.factorization.implicit import ImplicitFactorizationModel
 from spotlight.sequence.implicit import ImplicitSequenceModel
@@ -124,6 +124,20 @@ class SistemaSpotlight:
         guardar_datos_pickle(train, 'las interacciones de entrenamiento')
         print("Guarda las interacciones de test")
         guardar_datos_pickle(test, 'las interacciones de test')
+
+    def cargar_interacciones_gui(self, ruta_train, ruta_test):
+        global train, test
+
+        train = cargar_datos_pickle(ruta_train)
+        test = cargar_datos_pickle(ruta_test)
+
+    def cargar_otras_interacciones_gui(self):
+        global train, test
+
+        ruta_train = Entrada.elegir_archivo('entrenamiento')
+        train = cargar_datos_pickle(ruta_train)
+        ruta_test = Entrada.elegir_archivo('test')
+        test = cargar_datos_pickle(ruta_train)
 
     def obtener_modelos(self):
         """

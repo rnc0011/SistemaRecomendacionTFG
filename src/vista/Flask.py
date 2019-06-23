@@ -19,7 +19,7 @@ app = Flask('vista')
 app.secret_key = 'development key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-global sistema, modelo_clasico_dl
+global sistema, modelo_clasico_dl, timestamps
 
 @app.route("/home", methods=['GET','POST'])
 def home():
@@ -66,18 +66,18 @@ def elegir_modelo_dl():
 	if request.method == 'GET':
 		return render_template('elegir_modelo_dl.html', titulo='Modelos Deep Learning', form=form)
 	else:
-		tipo_modelo = request.form['menu']
+		tipo_modelo = int(request.form['menu'])
 		return redirect(url_for('timestamps', tipo=tipo_modelo))
 
 
 @app.route("/home/elegir_modelo/elegir_modelo_dl/timestamps/<int:tipo>", methods=['GET','POST'])
 def timestamps(tipo):
-	global sistema
+	global sistema, timestamps
 	form = TimestampsForm(request.form)
 	if request.method == 'GET':
 		return render_template('timestamps.html', titulo='Usar timestamps', form=form)
 	else:
-		timestamps = request.form['menu']
+		timestamps = int(request.form['menu'])
 		sistema = SistemaSpotlight.SistemaSpotlight(tipo, timestamps)
 		return redirect(url_for('param_dl', anterior='/home/elegir_modelo/elegir_modelo_dl/timestamps/'+str(tipo)))
 
@@ -173,13 +173,111 @@ def nuevo_dataset(ruta):
 		return redirect(url_for('home'))
 
 
-@app.route("/<string:ruta>/datasets_prueba", methods=['GET','POST'])
+@app.route("/<path:ruta>/datasets_prueba", methods=['GET','POST'])
 def datasets_prueba(ruta):
+	global sistema, modelo_clasico_dl, timestamps
 	form = DatasetsPruebaForm(request.form)
 	if request.method == 'GET':
 		return render_template('datasets_prueba.html', titulo='Datasets Prueba', form=form)
 	else:
-		# Lo que sea
+		if modelo_clasico_dl == 1:
+			if form.menu.data == '1':
+				ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_clasico_movielens.pickle')
+				ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_clasico_movielens.pickle')
+				ruta_items = os.path.join(app.config['UPLOAD_FOLDER'], 'item_features_movielens.pickle')
+				ruta_users = os.path.join(app.config['UPLOAD_FOLDER'], 'user_features_movielens.pickle')
+				sistema.cargar_matrices_gui(ruta_train, ruta_test, ruta_items, ruta_users)
+				sistema.entrenar_modelo_gui()
+			elif form.menu.data == '2':
+				ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_clasico_anime.pickle')
+				ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_clasico_anime.pickle')
+				ruta_items = os.path.join(app.config['UPLOAD_FOLDER'], 'item_features_anime.pickle')
+				ruta_users = os.path.join(app.config['UPLOAD_FOLDER'], 'user_features_anime.pickle')
+				sistema.cargar_matrices_gui(ruta_train, ruta_test, ruta_items, ruta_users)
+				sistema.entrenar_modelo_gui()
+			elif form.menu.data == '3':
+				ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_clasico_books.pickle')
+				ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_clasico_books.pickle')
+				ruta_items = os.path.join(app.config['UPLOAD_FOLDER'], 'item_features_books.pickle')
+				ruta_users = os.path.join(app.config['UPLOAD_FOLDER'], 'user_features_books.pickle')
+				sistema.cargar_matrices_gui(ruta_train, ruta_test, ruta_items, ruta_users)
+				sistema.entrenar_modelo_gui()
+			elif form.menu.data == '4':
+				ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_clasico_last.pickle')
+				ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_clasico_last.pickle')
+				ruta_items = os.path.join(app.config['UPLOAD_FOLDER'], 'item_features_last.pickle')
+				ruta_users = os.path.join(app.config['UPLOAD_FOLDER'], 'user_features_last.pickle')
+				sistema.cargar_matrices_gui(ruta_train, ruta_test, ruta_items, ruta_users)
+				sistema.entrenar_modelo_gui()
+			elif form.menu.data == '5':
+				ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_clasico_dating.pickle')
+				ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_clasico_dating.pickle')
+				ruta_items = os.path.join(app.config['UPLOAD_FOLDER'], 'item_features_dating.pickle')
+				ruta_users = os.path.join(app.config['UPLOAD_FOLDER'], 'user_features_dating.pickle')
+				sistema.cargar_matrices_gui(ruta_train, ruta_test, ruta_items, ruta_users)
+				sistema.entrenar_modelo_gui()
+			else:
+				sistema.cargar_otras_matrices_gui()	
+				sistema.entrenar_modelo_gui()	
+		else:
+			if timestamps == 1:
+				if form.menu.data == '1':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_time_movielens.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_time_movielens.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				elif form.menu.data == '2':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_time_anime.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_time_anime.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				elif form.menu.data == '3':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_time_books.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_time_books.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				elif form.menu.data == '4':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_time_last.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_time_last.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				elif form.menu.data == '5':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_time_dating.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_time_dating.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				else:
+					sistema.cargar_otras_interacciones_gui()	
+					sistema.entrenar_modelo_gui()	
+			else:
+				if form.menu.data == '1':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_movielens.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_movielens.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				elif form.menu.data == '2':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_anime.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_anime.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				elif form.menu.data == '3':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_books.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_books.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				elif form.menu.data == '4':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_last.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_last.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				elif form.menu.data == '5':
+					ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], 'train_dl_dating.pickle')
+					ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], 'test_dl_dating.pickle')
+					sistema.cargar_interacciones_gui(ruta_train, ruta_test)
+					sistema.entrenar_modelo_gui()
+				else:
+					sistema.cargar_otras_interacciones_gui()	
+					sistema.entrenar_modelo_gui()
 		return redirect(url_for('home'))
 
 
