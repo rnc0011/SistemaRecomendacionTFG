@@ -7,6 +7,7 @@ Created on Tue Apr 23 16:45:27 2019
 
 # Importo todo lo necesario
 import multiprocessing
+import numpy as np
 from modelo import Entrada
 from modelo.Salida import imprimir_resultados_clasico
 from modelo.Persistencia import guardar_datos_pickle, cargar_datos_pickle
@@ -51,7 +52,8 @@ class SistemaLightFM:
             self.opcion_modelo = opcion_modelo
         if epochs is not None:
             self.epochs = epochs
-    
+  
+
     def obtener_matrices(self):
         """
         Método obtener_matrices. Obtiene las matrices necesarias para la creación de los modelos con LightFM.
@@ -95,7 +97,8 @@ class SistemaLightFM:
         guardar_datos_pickle(train, 'la matriz de entrenamiento')
         print("Guarda la matriz de test")
         guardar_datos_pickle(test, 'la matriz de test')
-            
+          
+
     def obtener_matrices_gui(self, ratings_df, users_df, items_df):
         global train, test, item_features, user_features
 
@@ -103,10 +106,6 @@ class SistemaLightFM:
         dataset = Dataset()
         if self.opcion_modelo == 1:
             dataset.fit(ratings_df[ratings_df.columns.values[0]], ratings_df[ratings_df.columns.values[1]])
-            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
-                                                                 row[ratings_df.columns.values[1]],
-                                                                 row[ratings_df.columns.values[2]]) 
-                                                                for index,row in ratings_df.iterrows())
         else:
             dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
                        user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
@@ -114,21 +113,22 @@ class SistemaLightFM:
                                                                  row[ratings_df.columns.values[1]],
                                                                  row[ratings_df.columns.values[2]]) 
                                                                 for index,row in ratings_df.iterrows())
-            item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
-            user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
-            # Guardo los datos
-            print("Guarda la matriz de item features")
-            guardar_datos_pickle(item_features, 'la matriz de item features')
-            print("Guarda la matriz de user features")
-            guardar_datos_pickle(user_features, 'la matriz de user feautures')
-            
-        train, test = random_train_test_split(interacciones, test_percentage=0.2)
+
+        item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
+        user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
+        # Guardo los datos
+        print("Guarda la matriz de item features")
+        guardar_datos_pickle(item_features, 'la matriz de item features')
+        print("Guarda la matriz de user features")
+        guardar_datos_pickle(user_features, 'la matriz de user feautures')
         
+        train, test = random_train_test_split(interacciones, test_percentage=0.2)
         # Guardo los datos
         print("Guarda la matriz de entrenamiento")
         guardar_datos_pickle(train, 'la matriz de entrenamiento')
         print("Guarda la matriz de test")
         guardar_datos_pickle(test, 'la matriz de test')
+
 
     def cargar_matrices_gui(self, ruta_train, ruta_test, ruta_items, ruta_users):
         global train, test, item_features, user_features
@@ -137,6 +137,7 @@ class SistemaLightFM:
         test = cargar_datos_pickle(ruta_test)
         item_features = cargar_datos_pickle(ruta_items)
         user_features = cargar_datos_pickle(ruta_users)
+
 
     def cargar_otras_matrices_gui(self):
         global train, test, item_features, user_features
@@ -149,6 +150,7 @@ class SistemaLightFM:
         item_features = cargar_datos_pickle(ruta_items)
         ruta_users = Entrada.elegir_archivo('user features')
         user_features = cargar_datos_pickle(ruta_users)
+
 
     def obtener_modelos(self):
         """
@@ -171,6 +173,7 @@ class SistemaLightFM:
             modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
             guardar_datos_pickle(modelo, 'el modelo por contenido')
 
+
     def obtener_modelo_gui(self, lista_param):
         global modelo
 
@@ -188,10 +191,12 @@ class SistemaLightFM:
         modelo = LightFM(no_components=no_components, k=k, n=n, learning_schedule=learning_schedule, loss=loss, learning_rate=learning_rate, rho=rho, 
             epsilon=epsilon, item_alpha=item_alpha, user_alpha=user_alpha, max_sampled=max_sampled)
 
+
     def cargar_modelo_gui(self, ruta_modelo):
         global modelo
 
         modelo = cargar_datos_pickle(ruta_modelo)
+
 
     def entrenar_modelo_gui(self):
         global train, modelo, item_features, user_features
@@ -207,6 +212,7 @@ class SistemaLightFM:
             modelo.fit(train, user_features=user_features, item_features=item_features, epochs=self.epochs, num_threads=self.CPU_THREADS)
             guardar_datos_pickle(modelo, 'el modelo por contenido')
     
+
     def resultados_colaborativo(self):
         """
         Método resultados_colaboraivo. Obtiene los resultados del modelo colaborativo.
@@ -222,6 +228,7 @@ class SistemaLightFM:
         
         imprimir_resultados_clasico(precision, auc, recall, reciprocal)
         
+
     def resultados_hibrido(self):
         """
         Método resultados_hibrido. Obtiene los resultados del modelo híbrido.
@@ -237,6 +244,7 @@ class SistemaLightFM:
         
         imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
+
     def resultados_por_contenido(self):
         """
         Método resultados_por_contenido. Obtiene los resultados del modelo por contenido.
@@ -252,6 +260,7 @@ class SistemaLightFM:
         
         imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
+
     def obtener_resultados(self):
         """
         Método obtener_resultados. Obtiene los resultados en función del modelo escogido.
@@ -264,7 +273,20 @@ class SistemaLightFM:
         else:
             self.resultados_por_contenido()
     
+
+    def obtener_id_maximo(self):
+        global train
+
+        return train.shape[0]
     
     
-    
-    
+    def obtener_predicciones(self, usuario):
+        global modelo, item_features, user_features
+
+        if self.opcion_modelo == 1:
+            scores = modelo.predict(usuario, np.arange(train.shape[1]), num_threads=self.CPU_THREADS)
+        else:
+            scores = modelo.predict(usuario, np.arange(train.shape[1]), item_features=item_features, user_features=user_features, num_threads=self.CPU_THREADS)
+        predicciones = np.argsort(-scores)
+        return predicciones[:20]
+

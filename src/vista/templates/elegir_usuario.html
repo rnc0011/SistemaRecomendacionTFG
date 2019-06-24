@@ -1,13 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 	<div class='content-section'>
+		{{ mensaje }}
 		<form action="" method="POST">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">Elige el usuario</legend>
 				<div class="form-group">
-					{{ form.usuario(class="form-control form-control-lg") }}
 					{{ form.usuario.label(class="form-control-label") }}
+					{{ form.usuario(class="form-control form-control-lg") }}
 				</div>
 			</fieldset>
 			<div class="form-group">

@@ -301,7 +301,7 @@ def cargar_modelo_clasico(path):
 	else:
 		modelo = request.files['modelo']
 		nombre_modelo = secure_filename(modelo.filename)
-		ruta_modelo = os.path.join(app.config['UPLOAD_FOLDER'], modelo)
+		ruta_modelo = os.path.join(app.config['UPLOAD_FOLDER'], nombre_modelo)
 		train = request.files['archivo_train']
 		nombre_train = secure_filename(train.filename)
 		ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], nombre_train)
@@ -314,13 +314,17 @@ def cargar_modelo_clasico(path):
 		users = request.files['archivo_users']
 		nombre_users = secure_filename(users.filename)
 		ruta_users = os.path.join(app.config['UPLOAD_FOLDER'], nombre_users)
-		sistema = SistemaLightFM.SistemaLightFM()
+		if '_colab_' in nombre_modelo:
+			sistema = SistemaLightFM.SistemaLightFM(opcion_modelo=1)
+		else:
+			sistema = SistemaLightFM.SistemaLightFM()
 		sistema.cargar_modelo_gui(ruta_modelo)
 		sistema.cargar_matrices_gui(ruta_train, ruta_test, ruta_items, ruta_users)
 		if form.menu.data == '1':
 			return redirect(url_for('ver_metricas', path=path+'/cargar_modelo_clasico'))
 		else:
-			return redirect(url_for('elegir_usuario', path=path+'/cargar_modelo_clasico'))
+			max_id = sistema.obtener_id_maximo()
+			return redirect(url_for('elegir_usuario', path=path+'/cargar_modelo_clasico', max_id=max_id))
 
 
 @app.route("/<path:path>/cargar_modelo_dl", methods=['GET','POST'])
@@ -333,7 +337,7 @@ def cargar_modelo_dl(path):
 	else:
 		modelo = request.files['modelo']
 		nombre_modelo = secure_filename(modelo.filename)
-		ruta_modelo = os.path.join(app.config['UPLOAD_FOLDER'], modelo)
+		ruta_modelo = os.path.join(app.config['UPLOAD_FOLDER'], nombre_modelo)
 		train = request.files['archivo_train']
 		nombre_train = secure_filename(train.filename)
 		ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], nombre_train)
@@ -342,11 +346,12 @@ def cargar_modelo_dl(path):
 		ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], nombre_test)
 		sistema = SistemaSpotlight.SistemaSpotlight()
 		sistema.cargar_modelo_gui(ruta_modelo)
-		sistema.cargar_matrices_gui(ruta_train, ruta_test)
+		sistema.cargar_interacciones_gui(ruta_train, ruta_test)
 		if form.menu.data == '1':
 			return redirect(url_for('ver_metricas', path=path+'/cargar_modelo_dl'))
 		else:
-			return redirect(url_for('elegir_usuario', path=path+'/cargar_modelo_dl'))
+			max_id = sistema.obtener_id_maximo()
+			return redirect(url_for('elegir_usuario', path=path+'/cargar_modelo_dl', max_id=max_id))
 
 
 @app.route("/<path:path>/ver_metricas", methods=['GET','POST'])
@@ -359,20 +364,26 @@ def ver_metricas(path):
 		return redirect(url_for('home'))
 
 
-@app.route("/<path:path>/elegir_usuario", methods=['GET','POST'])
-def elegir_usuario(path):
+@app.route("/<path:path>/<int:max_id>/elegir_usuario", methods=['GET','POST'])
+def elegir_usuario(path, max_id):
+	global sistema
+
 	form = ElegirUsuarioForm(request.form)
-	# hacer cosas
+	mensaje = 'Hay ' + str(max_id) + ' usuarios'
 	if request.method == 'GET':
-		return render_template('elegir_usuario.html', titulo='Elegir Usuario', form=form)
+		return render_template('elegir_usuario.html', titulo='Elegir Usuario', form=form, mensaje=mensaje)
 	else:
+		usuario = int(request.form['usuario'])
+		predicciones = sistema.obtener_predicciones(usuario)
 		return redirect(url_for('ver_predicciones', path=path+'/elegir_usuario'))
 
 
 @app.route("/<path:path>/ver_predicciones", methods=['GET','POST'])
 def ver_predicciones(path):
+	global sistema
+
 	form = PrediccionesForm(request.form)
-	# hacer cosas
+
 	if request.method == 'GET':
 		return render_template('ver_predicciones.html', titulo='Predicciones', form=form)
 	else:

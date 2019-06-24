@@ -50,6 +50,7 @@ class SistemaSpotlight:
         if opcion_time is not None:
             self.opcion_time = opcion_time
            
+
     def obtener_interacciones(self):
         """
         Método obtener_interacciones. Obtiene las interacciones necesarias por los modelos.
@@ -92,6 +93,7 @@ class SistemaSpotlight:
         print("Guarda las interacciones de test")
         guardar_datos_pickle(test, 'las interacciones de test')
 
+
     def obtener_interacciones_gui(self, ratings_df):
         global train, test
         
@@ -127,11 +129,13 @@ class SistemaSpotlight:
         print("Guarda las interacciones de test")
         guardar_datos_pickle(test, 'las interacciones de test')
 
+
     def cargar_interacciones_gui(self, ruta_train, ruta_test):
         global train, test
 
         train = cargar_datos_pickle(ruta_train)
         test = cargar_datos_pickle(ruta_test)
+
 
     def cargar_otras_interacciones_gui(self):
         global train, test
@@ -140,6 +144,7 @@ class SistemaSpotlight:
         train = cargar_datos_pickle(ruta_train)
         ruta_test = Entrada.elegir_archivo('test')
         test = cargar_datos_pickle(ruta_train)
+
 
     def obtener_modelos(self):
         """
@@ -162,6 +167,7 @@ class SistemaSpotlight:
             modelo.fit(train, verbose=True)
             guardar_modelos_dl(modelo, 'el modelo de secuencia explícito')
 
+
     def obtener_modelo_gui(self, lista_param):
         global modelo
 
@@ -183,10 +189,12 @@ class SistemaSpotlight:
             modelo = ImplicitSequenceModel(loss=loss, representation=representation, embedding_dim=embedding_dim, n_iter=n_iter, batch_size=batch_size, 
                 l2=l2, learning_rate=learning_rate, use_cuda=torch.cuda.is_available())
 
+
     def cargar_modelo_gui(self, ruta_modelo):
         global modelo
 
         modelo = cargar_modelo_dl(ruta_modelo)
+
 
     def entrenar_modelo_gui(self):
         global modelo, train
@@ -201,6 +209,7 @@ class SistemaSpotlight:
             modelo.fit(train, verbose=True)
             guardar_modelos_dl(modelo, 'el modelo de secuencia explícito')
         
+
     def resultados_factorizacion_explicito(self):
         """
         Método resultados_factorizacion_explicito. Calcula las métricas del modelo de factorización explícito.
@@ -215,6 +224,7 @@ class SistemaSpotlight:
         
         imprimir_resultados_dl(mrr, precision.mean(), recall.mean(), rmse)
         
+
     def resultados_factorizacion_implicito(self):
         """
         Método resultados_factorizacion_implicito. Calcula las métricas del modelo de factorización implícito.
@@ -228,6 +238,7 @@ class SistemaSpotlight:
         
         imprimir_resultados_dl(mrr, precision.mean(), recall.mean())
         
+
     def resultados_secuencia(self):
         """
         Método resultados_secuencia. Calcula las métricas del modelo de secuencia implícito.
@@ -240,6 +251,7 @@ class SistemaSpotlight:
         
         imprimir_resultados_dl(mrr)
         
+
     def obtener_resultados(self):
         """
         Método obtener_resultados. Calcula las métricas en función del modelo escogido.
@@ -252,5 +264,10 @@ class SistemaSpotlight:
         else:
             self.resultados_secuencia()
     
+
+    def obtener_id_maximo(self):
+        global train
+
+        return train.tocoo().shape[0] - 1
     
     
