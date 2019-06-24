@@ -28,50 +28,59 @@ def home():
 		return render_template('home.html', titulo='Página Principal', form=form)
 	else:
 		if form.menu.data == '1':
-			return redirect(url_for('elegir_modelo'))
+			return redirect(url_for('elegir_modelo', path='/home', opcion_anterior=1))
 		elif form.menu.data == '2':
-			return redirect(url_for('cargar_modelo'))
+			return redirect(url_for('elegir_modelo', path='/home', opcion_anterior=2))
 		else:
 			return redirect(url_for('anadir_valoraciones'))
 
 
-@app.route("/home/elegir_modelo", methods=['GET','POST'])
-def elegir_modelo():
+@app.route("/<path:path>/<int:opcion_anterior>/elegir_modelo", methods=['GET','POST'])
+def elegir_modelo(path, opcion_anterior):
 	global modelo_clasico_dl
+	
 	form = ElegirModeloForm(request.form)
 	if request.method == 'GET':
 		return render_template('elegir_modelo.html', titulo='Elegir Modelo', form=form)
 	else:
-		if form.menu.data == '1':
-			modelo_clasico_dl = 1
-			return redirect(url_for('elegir_modelo_clasico'))
+		if opcion_anterior == 1:
+			if form.menu.data == '1':
+				modelo_clasico_dl = 1
+				return redirect(url_for('elegir_modelo_clasico', path=path+str(opcion_anterior)+'/elegir_modelo'))
+			else:
+				modelo_clasico_dl = 2
+				return redirect(url_for('elegir_modelo_dl', path=path+str(opcion_anterior)+'/elegir_modelo'))
 		else:
-			modelo_clasico_dl = 2
-			return redirect(url_for('elegir_modelo_dl'))
+			if form.menu.data == '1':
+				modelo_clasico_dl = 1
+				return redirect(url_for('cargar_modelo_clasico', path=path+str(opcion_anterior)+'/elegir_modelo'))
+			else:
+				modelo_clasico_dl = 2
+				return redirect(url_for('cargar_modelo_dl', path=path+str(opcion_anterior)+'/elegir_modelo'))
 
 
-@app.route("/home/elegir_modelo/elegir_modelo_clasico", methods=['GET','POST'])
-def elegir_modelo_clasico():
+@app.route("/<path:path>/elegir_modelo_clasico", methods=['GET','POST'])
+def elegir_modelo_clasico(path):
 	form = ElegirModeloClasicoForm(request.form)
 	if request.method == 'GET':
 		return render_template('elegir_modelo_clasico.html', titulo='Modelos Clásicos', form=form)
 	else:
 		tipo_modelo = request.form['menu']
-		return redirect(url_for('param_clasico', tipo=tipo_modelo))
+		return redirect(url_for('param_clasico', path=path+'/elegir_modelo_clasico', tipo=tipo_modelo))
 
 
-@app.route("/home/elegir_modelo/elegir_modelo_dl", methods=['GET','POST'])
+@app.route("/<path:path>/elegir_modelo_dl", methods=['GET','POST'])
 def elegir_modelo_dl():
 	form = ElegirModeloDLForm(request.form)
 	if request.method == 'GET':
 		return render_template('elegir_modelo_dl.html', titulo='Modelos Deep Learning', form=form)
 	else:
 		tipo_modelo = int(request.form['menu'])
-		return redirect(url_for('timestamps', tipo=tipo_modelo))
+		return redirect(url_for('timestamps', path=path, tipo=tipo_modelo))
 
 
-@app.route("/home/elegir_modelo/elegir_modelo_dl/timestamps/<int:tipo>", methods=['GET','POST'])
-def timestamps(tipo):
+@app.route("/<path:path>/<int:tipo>/timestamps", methods=['GET','POST'])
+def timestamps(path, tipo):
 	global sistema, timestamps
 	form = TimestampsForm(request.form)
 	if request.method == 'GET':
@@ -79,11 +88,11 @@ def timestamps(tipo):
 	else:
 		timestamps = int(request.form['menu'])
 		sistema = SistemaSpotlight.SistemaSpotlight(tipo, timestamps)
-		return redirect(url_for('param_dl', anterior='/home/elegir_modelo/elegir_modelo_dl/timestamps/'+str(tipo)))
+		return redirect(url_for('param_dl', path=path+str(tipo)+'timestamps'))
 
 
-@app.route("/home/elegir_modelo/elegir_modelo_clasico/param_clasico/<int:tipo>", methods=['GET','POST'])
-def param_clasico(tipo):
+@app.route("/<path:path>/<int:tipo>/param_clasico", methods=['GET','POST'])
+def param_clasico(path, tipo):
 	global sistema
 	form = ParamClasicoForm(request.form)
 	if request.method == 'GET':
@@ -104,11 +113,11 @@ def param_clasico(tipo):
 		lista_param.append(int(request.form['max_sampled']))
 		sistema = SistemaLightFM.SistemaLightFM(tipo, epochs)
 		sistema.obtener_modelo_gui(lista_param)
-		return redirect(url_for('elegir_dataset', anterior='/home/elegir_modelo/elegir_modelo_clasico/param_clasico/'+str(tipo)))
+		return redirect(url_for('elegir_dataset', path=path+str(tipo)+'/param_clasico'))
 
 
-@app.route("/<path:anterior>/param_dl", methods=['GET','POST'])
-def param_dl(anterior):
+@app.route("/<path:path>/param_dl", methods=['GET','POST'])
+def param_dl(path):
 	global sistema
 	form = ParamDLForm(request.form)
 	if request.method == 'GET':
@@ -123,23 +132,23 @@ def param_dl(anterior):
 		lista_param.append(float(request.form['learning_rate']))
 		lista_param.append(request.form['representation'])
 		sistema.obtener_modelo_gui(lista_param)
-		return redirect(url_for('elegir_dataset', anterior=anterior+'/param_dl'))
+		return redirect(url_for('elegir_dataset', path=path+'/param_dl'))
 
 
-@app.route("/<path:anterior>/elegir_dataset", methods=['GET','POST'])
-def elegir_dataset(anterior):
+@app.route("/<path:path>/elegir_dataset", methods=['GET','POST'])
+def elegir_dataset(path):
 	form = DatasetForm(request.form)
 	if request.method == 'GET':
 		return render_template('elegir_dataset.html', titulo='Elegir Dataset', form=form)
 	else:
 		if form.menu.data == '1':
-			return redirect(url_for('nuevo_dataset', ruta=anterior+'/elegir_dataset'))
+			return redirect(url_for('nuevo_dataset', path=path+'/elegir_dataset'))
 		else:
-			return redirect(url_for('datasets_prueba', ruta=anterior+'/elegir_dataset'))
+			return redirect(url_for('datasets_prueba', path=path+'/elegir_dataset'))
 
 
-@app.route("/<path:ruta>/nuevo_dataset", methods=['GET','POST'])
-def nuevo_dataset(ruta):
+@app.route("/<path:path>/nuevo_dataset", methods=['GET','POST'])
+def nuevo_dataset(path):
 	global sistema, modelo_clasico_dl
 	form = NuevoDatasetForm(request.form)
 	if request.method == 'GET':
@@ -173,9 +182,10 @@ def nuevo_dataset(ruta):
 		return redirect(url_for('home'))
 
 
-@app.route("/<path:ruta>/datasets_prueba", methods=['GET','POST'])
-def datasets_prueba(ruta):
+@app.route("/<path:path>/datasets_prueba", methods=['GET','POST'])
+def datasets_prueba(path):
 	global sistema, modelo_clasico_dl, timestamps
+	
 	form = DatasetsPruebaForm(request.form)
 	if request.method == 'GET':
 		return render_template('datasets_prueba.html', titulo='Datasets Prueba', form=form)
@@ -281,20 +291,66 @@ def datasets_prueba(ruta):
 		return redirect(url_for('home'))
 
 
-@app.route("/home/cargar_modelo", methods=['GET','POST'])
-def cargar_modelo():
-	form = CargarModeloForm(request.form)
+@app.route("/<path:path>/cargar_modelo_clasico", methods=['GET','POST'])
+def cargar_modelo_clasico(path):
+	global sistema
+	
+	form = CargarModeloClasicoForm(request.form)
 	if request.method == 'GET':
-		return render_template('cargar_modelo.html', titulo='Cargar Modelo', form=form)
+		return render_template('cargar_modelo_clasico.html', titulo='Cargar Modelo Clásico', form=form)
 	else:
+		modelo = request.files['modelo']
+		nombre_modelo = secure_filename(modelo.filename)
+		ruta_modelo = os.path.join(app.config['UPLOAD_FOLDER'], modelo)
+		train = request.files['archivo_train']
+		nombre_train = secure_filename(train.filename)
+		ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], nombre_train)
+		test = request.files['archivo_test']
+		nombre_test = secure_filename(test.filename)
+		ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], nombre_test)
+		items = request.files['archivo_items']
+		nombre_items = secure_filename(items.filename)
+		ruta_items = os.path.join(app.config['UPLOAD_FOLDER'], nombre_items)
+		users = request.files['archivo_users']
+		nombre_users = secure_filename(users.filename)
+		ruta_users = os.path.join(app.config['UPLOAD_FOLDER'], nombre_users)
+		sistema = SistemaLightFM.SistemaLightFM()
+		sistema.cargar_modelo_gui(ruta_modelo)
+		sistema.cargar_matrices_gui(ruta_train, ruta_test, ruta_items, ruta_users)
 		if form.menu.data == '1':
-			return redirect(url_for('ver_metricas'))
+			return redirect(url_for('ver_metricas', path=path+'/cargar_modelo_clasico'))
 		else:
-			return redirect(url_for('elegir_usuario'))
+			return redirect(url_for('elegir_usuario', path=path+'/cargar_modelo_clasico'))
 
 
-@app.route("/home/cargar_modelo/ver_metricas", methods=['GET','POST'])
-def ver_metricas():
+@app.route("/<path:path>/cargar_modelo_dl", methods=['GET','POST'])
+def cargar_modelo_dl(path):
+	global sistema
+	
+	form = CargarModeloDLForm(request.form)
+	if request.method == 'GET':
+		return render_template('cargar_modelo_dl.html', titulo='Cargar Modelo DL', form=form)
+	else:
+		modelo = request.files['modelo']
+		nombre_modelo = secure_filename(modelo.filename)
+		ruta_modelo = os.path.join(app.config['UPLOAD_FOLDER'], modelo)
+		train = request.files['archivo_train']
+		nombre_train = secure_filename(train.filename)
+		ruta_train = os.path.join(app.config['UPLOAD_FOLDER'], nombre_train)
+		test = request.files['archivo_test']
+		nombre_test = secure_filename(test.filename)
+		ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], nombre_test)
+		sistema = SistemaSpotlight.SistemaSpotlight()
+		sistema.cargar_modelo_gui(ruta_modelo)
+		sistema.cargar_matrices_gui(ruta_train, ruta_test)
+		if form.menu.data == '1':
+			return redirect(url_for('ver_metricas', path=path+'/cargar_modelo_dl'))
+		else:
+			return redirect(url_for('elegir_usuario', path=path+'/cargar_modelo_dl'))
+
+
+@app.route("/<path:path>/ver_metricas", methods=['GET','POST'])
+def ver_metricas(path):
 	form = MetricasForm(request.form)
 	# hacer cosas
 	if request.method == 'GET':
@@ -303,18 +359,18 @@ def ver_metricas():
 		return redirect(url_for('home'))
 
 
-@app.route("/home/cargar_modelo/elegir_usuario", methods=['GET','POST'])
-def elegir_usuario():
+@app.route("/<path:path>/elegir_usuario", methods=['GET','POST'])
+def elegir_usuario(path):
 	form = ElegirUsuarioForm(request.form)
 	# hacer cosas
 	if request.method == 'GET':
 		return render_template('elegir_usuario.html', titulo='Elegir Usuario', form=form)
 	else:
-		return redirect(url_for('ver_predicciones'))
+		return redirect(url_for('ver_predicciones', path=path+'/elegir_usuario'))
 
 
-@app.route("/home/cargar_modelo/elegir_usuario/ver_predicciones", methods=['GET','POST'])
-def ver_predicciones():
+@app.route("/<path:path>/ver_predicciones", methods=['GET','POST'])
+def ver_predicciones(path):
 	form = PrediccionesForm(request.form)
 	# hacer cosas
 	if request.method == 'GET':

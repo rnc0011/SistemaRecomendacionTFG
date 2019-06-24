@@ -46,8 +46,9 @@ class SistemaLightFM:
     # Variables globales
     global train, test, modelo, item_features, user_features
     
-    def __init__(self, opcion_modelo, epochs=None):
-        self.opcion_modelo = opcion_modelo
+    def __init__(self, opcion_modelo=None, epochs=None):
+        if opcion_modelo is not None:
+            self.opcion_modelo = opcion_modelo
         if epochs is not None:
             self.epochs = epochs
     
@@ -186,6 +187,11 @@ class SistemaLightFM:
         max_sampled = lista_param[10]
         modelo = LightFM(no_components=no_components, k=k, n=n, learning_schedule=learning_schedule, loss=loss, learning_rate=learning_rate, rho=rho, 
             epsilon=epsilon, item_alpha=item_alpha, user_alpha=user_alpha, max_sampled=max_sampled)
+
+    def cargar_modelo_gui(self, ruta_modelo):
+        global modelo
+
+        modelo = cargar_datos_pickle(ruta_modelo)
 
     def entrenar_modelo_gui(self):
         global train, modelo, item_features, user_features

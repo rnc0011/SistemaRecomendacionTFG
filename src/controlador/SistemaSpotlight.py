@@ -10,7 +10,7 @@ import torch
 import numpy as np
 from modelo import Entrada
 from modelo.Salida import imprimir_resultados_dl
-from modelo.Persistencia import guardar_datos_pickle, guardar_modelos_dl, cargar_datos_pickle
+from modelo.Persistencia import guardar_datos_pickle, guardar_modelos_dl, cargar_datos_pickle, cargar_modelo_dl
 from spotlight.factorization.explicit import ExplicitFactorizationModel
 from spotlight.factorization.implicit import ImplicitFactorizationModel
 from spotlight.sequence.implicit import ImplicitSequenceModel
@@ -44,9 +44,11 @@ class SistemaSpotlight:
     # Variables globales
     global train, test, modelo
     
-    def __init__(self, opcion_modelo, opcion_time):        
-        self.opcion_modelo = opcion_modelo
-        self.opcion_time = opcion_time
+    def __init__(self, opcion_modelo=None, opcion_time=None):        
+        if opcion_modelo is not None:
+            self.opcion_modelo = opcion_modelo
+        if opcion_time is not None:
+            self.opcion_time = opcion_time
            
     def obtener_interacciones(self):
         """
@@ -180,6 +182,11 @@ class SistemaSpotlight:
         else:
             modelo = ImplicitSequenceModel(loss=loss, representation=representation, embedding_dim=embedding_dim, n_iter=n_iter, batch_size=batch_size, 
                 l2=l2, learning_rate=learning_rate, use_cuda=torch.cuda.is_available())
+
+    def cargar_modelo_gui(self, ruta_modelo):
+        global modelo
+
+        modelo = cargar_modelo_dl(ruta_modelo)
 
     def entrenar_modelo_gui(self):
         global modelo, train

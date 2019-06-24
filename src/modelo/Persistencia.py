@@ -37,8 +37,8 @@ def guardar_datos_pickle(datos, tipo):
     archivo_pickle.close()
 
 def cargar_datos_pickle(ruta_archivo):
-    pickle_in = open(ruta_archivo, 'rb')
-    return pickle.load(pickle_in)
+    archivo = open(ruta_archivo, 'rb')
+    return pickle.load(archivo)
 
 def guardar_modelos_dl(modelo, tipo):
     """
@@ -62,6 +62,7 @@ def guardar_modelos_dl(modelo, tipo):
     ruta = root.filename
     root.destroy()
     torch.save(modelo, ruta)
-    
 
+def cargar_modelo_dl(ruta_modelo):
+    return torch.load(ruta_modelo)    
     

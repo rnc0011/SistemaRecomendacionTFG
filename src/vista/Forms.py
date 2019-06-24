@@ -89,9 +89,20 @@ class AnadirValoracionesForm(FlaskForm):
 	submit = SubmitField('Añadir')
 
 
-class CargarModeloForm(FlaskForm):
-	modelo = FileField()
-	archivos = MultipleFileField('Matrices')
+class CargarModeloClasicoForm(FlaskForm):
+	modelo = FileField('Archivo .pickle con el modelo')
+	archivo_train = FileField('Archivo .pickle de entrenamiento')
+	archivo_test = FileField('Archivo .pickle de test')
+	archivo_users = FileField('Archivo .pickle de usuarios')
+	archivo_items = FileField('Archivo .pickle de items')
+	menu = RadioField(choices=[(1, 'Métricas'), (2, 'Predicciones')])
+	submit = SubmitField('Siguiente')
+
+
+class CargarModeloDLForm(FlaskForm):
+	modelo = FileField('Archivo .pickle con el modelo')
+	archivo_train = FileField('Archivo .pickle de entrenamiento')
+	archivo_test = FileField('Archivo .pickle de test')
 	menu = RadioField(choices=[(1, 'Métricas'), (2, 'Predicciones')])
 	submit = SubmitField('Siguiente')
 
