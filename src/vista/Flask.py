@@ -70,7 +70,7 @@ def elegir_modelo_clasico(path):
 
 
 @app.route("/<path:path>/elegir_modelo_dl", methods=['GET','POST'])
-def elegir_modelo_dl():
+def elegir_modelo_dl(path):
 	form = ElegirModeloDLForm(request.form)
 	if request.method == 'GET':
 		return render_template('elegir_modelo_dl.html', titulo='Modelos Deep Learning', form=form)
@@ -316,8 +316,10 @@ def cargar_modelo_clasico(path):
 		ruta_users = os.path.join(app.config['UPLOAD_FOLDER'], nombre_users)
 		if '_colab_' in nombre_modelo:
 			sistema = SistemaLightFM.SistemaLightFM(opcion_modelo=1)
+		elif '_hibrido_' in nombre_modelo:
+			sistema = SistemaLightFM.SistemaLightFM(opcion_modelo=2)
 		else:
-			sistema = SistemaLightFM.SistemaLightFM()
+			sistema = SistemaLightFM.SistemaLightFM(opcion_modelo=3)
 		sistema.cargar_modelo_gui(ruta_modelo)
 		sistema.cargar_matrices_gui(ruta_train, ruta_test, ruta_items, ruta_users)
 		if form.menu.data == '1':
@@ -344,7 +346,12 @@ def cargar_modelo_dl(path):
 		test = request.files['archivo_test']
 		nombre_test = secure_filename(test.filename)
 		ruta_test = os.path.join(app.config['UPLOAD_FOLDER'], nombre_test)
-		sistema = SistemaSpotlight.SistemaSpotlight()
+		if '_expl_' in nombre_modelo:
+			sistema = SistemaSpotlight.SistemaSpotlight(opcion_modelo=1)
+		elif '_fact_impl_' in nombre_modelo:
+			sistema = SistemaSpotlight.SistemaSpotlight(opcion_modelo=2)
+		else:
+			sistema = SistemaSpotlight.SistemaSpotlight(opcion_modelo=3)
 		sistema.cargar_modelo_gui(ruta_modelo)
 		sistema.cargar_interacciones_gui(ruta_train, ruta_test)
 		if form.menu.data == '1':
@@ -356,36 +363,44 @@ def cargar_modelo_dl(path):
 
 @app.route("/<path:path>/ver_metricas", methods=['GET','POST'])
 def ver_metricas(path):
+	global sistema, modelo_clasico_dl
+
 	form = MetricasForm(request.form)
-	# hacer cosas
+	metricas = sistema.obtener_metricas_gui()
+	"""if modelo_clasico_dl == 1:
+		datos = sistema.obtener_datos_conjunto_gui()
+	elif modelo_clasico_dl == 2:
+		tipo_modelo_dl = sistema.opcion_modelo
+		if tipo_modelo_dl == 1 or tipo_modelo_dl == 2:
+			datos = sistema.obtener_datos_conjunto_gui()
+		else:
+			datos = None"""
+	datos = sistema.obtener_datos_conjunto_gui()
 	if request.method == 'GET':
-		return render_template('ver_metricas.html', titulo='Métricas', form=form)
+		return render_template('ver_metricas.html', titulo='Métricas', form=form, metricas=metricas, datos=datos)
 	else:
 		return redirect(url_for('home'))
 
 
 @app.route("/<path:path>/<int:max_id>/elegir_usuario", methods=['GET','POST'])
 def elegir_usuario(path, max_id):
-	global sistema
-
 	form = ElegirUsuarioForm(request.form)
 	mensaje = 'Hay ' + str(max_id) + ' usuarios'
 	if request.method == 'GET':
 		return render_template('elegir_usuario.html', titulo='Elegir Usuario', form=form, mensaje=mensaje)
 	else:
 		usuario = int(request.form['usuario'])
-		predicciones = sistema.obtener_predicciones(usuario)
-		return redirect(url_for('ver_predicciones', path=path+'/elegir_usuario'))
+		return redirect(url_for('ver_predicciones', path=path+'/elegir_usuario', usuario=usuario))
 
 
-@app.route("/<path:path>/ver_predicciones", methods=['GET','POST'])
-def ver_predicciones(path):
+@app.route("/<path:path>/<int:usuario>/ver_predicciones", methods=['GET','POST'])
+def ver_predicciones(path, usuario):
 	global sistema
 
 	form = PrediccionesForm(request.form)
-
+	predicciones = sistema.obtener_predicciones(usuario)
 	if request.method == 'GET':
-		return render_template('ver_predicciones.html', titulo='Predicciones', form=form)
+		return render_template('ver_predicciones.html', titulo='Predicciones', form=form, predicciones=predicciones)
 	else:
 		return redirect(url_for('home'))
 

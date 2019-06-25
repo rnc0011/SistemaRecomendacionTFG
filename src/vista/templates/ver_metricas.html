@@ -1,6 +1,50 @@
 {% extends "layout.html" %}
 {% block content %}
 	<div class='content-section'>
+		<h2>Métricas</h2>
+		<table class="table table-hover table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Métrica</th>
+					<th scope="col">Valor</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set contador = namespace(a=1) %}
+				{% for k, v in metricas.items() %}
+					<tr>
+						<th scope="row">{{ contador.a }}</td>
+						<td>{{ k }}</td>
+						<td>{{ v }}</td>
+					</tr>
+					{% set contador.a = contador.a + 1 %}
+				{% endfor %}
+			</tbody>
+		</table>
+		{% if datos is not none %}
+			<h2>Datos</h2>
+			<table class="table table-hover table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Dato</th>
+						<th scope="col">Valor</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% set contador = namespace(a=1) %}
+					{% for k, v in datos.items() %}
+						<tr>
+							<th scope="row">{{ contador.a }}</td>
+							<td>{{ k }}</td>
+							<td>{{ v }}</td>
+						</tr>
+						{% set contador.a = contador.a + 1 %}
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
 		<form action="" method="POST">
 			{{ form.hidden_tag() }}
 			<div class="form-group">

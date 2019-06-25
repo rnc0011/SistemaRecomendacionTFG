@@ -274,6 +274,37 @@ class SistemaLightFM:
             self.resultados_por_contenido()
     
 
+    def obtener_metricas_gui(self):
+        global train, test, modelo, item_features, user_features
+
+        metricas = dict()
+        if self.opcion_modelo == 1:
+            precision = precision_at_k(modelo, test, train_interactions=train, k=10, num_threads=self.CPU_THREADS).mean()
+            auc = auc_score(modelo, test, train_interactions=train, num_threads=self.CPU_THREADS).mean()
+            recall = recall_at_k(modelo, test, train_interactions=train, k=10, num_threads=self.CPU_THREADS).mean()
+            reciprocal = reciprocal_rank(modelo, test, train_interactions=train, num_threads=self.CPU_THREADS).mean()   
+        elif self.opcion_modelo == 2:         
+            precision = precision_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
+            auc = auc_score(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
+            recall = recall_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
+            reciprocal = reciprocal_rank(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
+        else:
+            precision = precision_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
+            auc = auc_score(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
+            recall = recall_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
+            reciprocal = reciprocal_rank(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
+        metricas = {"Precisión k": format(precision, '.4f'), "AUC Score": format(auc, '.4f'), "Recall k": format(recall, '.4f'), "Ranking recíproco": format(reciprocal, '.4f')}
+        return metricas
+
+
+    def obtener_datos_conjunto_gui(self):
+        global train, test
+
+        datos = dict()
+        datos = {"Usuarios": train.shape[0], "Items": train.shape[1], "Valoraciones": train.getnnz()+test.getnnz()}
+        return datos
+
+
     def obtener_id_maximo(self):
         global train
 
@@ -285,6 +316,8 @@ class SistemaLightFM:
 
         if self.opcion_modelo == 1:
             scores = modelo.predict(usuario, np.arange(train.shape[1]), num_threads=self.CPU_THREADS)
+        elif self.opcion_modelo == 2:
+            scores = modelo.predict(usuario, np.arange(train.shape[1]), item_features=item_features, num_threads=self.CPU_THREADS)
         else:
             scores = modelo.predict(usuario, np.arange(train.shape[1]), item_features=item_features, user_features=user_features, num_threads=self.CPU_THREADS)
         predicciones = np.argsort(-scores)

@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 	<div class='content-section'>
+		<h2>Predicciones</h2>
+		{% for prediccion in predicciones %}
+			<p>{{ prediccion }}</p>
+		{% endfor %}
 		<form action="" method="POST">
 			{{ form.hidden_tag() }}
 			<div class="form-group">

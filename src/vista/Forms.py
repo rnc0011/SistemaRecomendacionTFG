@@ -116,10 +116,6 @@ class PrediccionesForm(FlaskForm):
 	submit = SubmitField('Finalizar')
 
 
-class PrediccionesForm(FlaskForm):
-	submit = SubmitField('Finalizar')
-
-
 class MetricasForm(FlaskForm):
 	submit = SubmitField('Finalizar')
 

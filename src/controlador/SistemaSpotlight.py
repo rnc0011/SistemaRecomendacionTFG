@@ -265,9 +265,51 @@ class SistemaSpotlight:
             self.resultados_secuencia()
     
 
+    def obtener_metricas_gui(self):
+        global train, test, modelo
+
+        metricas = dict()
+        if self.opcion_modelo == 1:
+            rmse = rmse_score(modelo, test)
+            mrr = mrr_score(modelo, test, train=train).mean()
+            precision, recall = precision_recall_score(modelo, test, train=train, k=10)
+            metricas = {"RMSE": format(rmse, '.4f'), "MRR": format(mrr, '.4f'), "Precisión k": format(precision.mean(), '.4f'), "Recall k": format(recall.mean(), '.4f')}
+        elif self.opcion_modelo == 2:
+            mrr = mrr_score(modelo, test, train=train).mean()
+            precision, recall = precision_recall_score(modelo, test, train=train, k=10)
+            metricas = {"MRR": format(mrr, '.4f'), "Precisión k": format(precision.mean(), '.4f'), "Recall k": format(recall.mean(), '.4f')}
+        else:
+            mrr = sequence_mrr_score(modelo, test).mean()
+            metricas = {"MRR": format(mrr, '.4f')}
+        return metricas
+
+
+    def obtener_datos_conjunto_gui(self):
+        global train, test
+
+        datos = dict()
+        if self.opcion_modelo == 1 or self.opcion_modelo == 2:
+            datos = {"Usuarios": train.tocoo().shape[0]-1, "Items": train.tocoo().shape[1]-1, "Valoraciones": train.tocoo().nnz+test.tocoo().nnz}
+        else:
+            datos = None
+        return datos
+
+
     def obtener_id_maximo(self):
         global train
 
         return train.tocoo().shape[0] - 1
     
     
+    def obtener_predicciones(self, usuario):
+        global modelo 
+
+        if self.opcion_modelo == 1 or self.opcion_modelo == 2:
+            scores = modelo.predict(usuario)
+        else:
+            # no es usuario, debería ser secuencia
+            scores = modelo.predict(usuario)
+        predicciones = np.argsort(-scores)
+        return predicciones[:20]
+
+
