@@ -354,7 +354,8 @@ def cargar_modelo_dl(path):
 			sistema = SistemaSpotlight.SistemaSpotlight(opcion_modelo=3)
 		sistema.cargar_modelo_gui(ruta_modelo)
 		sistema.cargar_interacciones_gui(ruta_train, ruta_test)
-		if form.menu.data == '1':
+		#if form.menu.data == '1':
+		if form.menu.data == '1' or '_secuencia_' in nombre_modelo:
 			return redirect(url_for('ver_metricas', path=path+'/cargar_modelo_dl'))
 		else:
 			max_id = sistema.obtener_id_maximo()
@@ -367,14 +368,6 @@ def ver_metricas(path):
 
 	form = MetricasForm(request.form)
 	metricas = sistema.obtener_metricas_gui()
-	"""if modelo_clasico_dl == 1:
-		datos = sistema.obtener_datos_conjunto_gui()
-	elif modelo_clasico_dl == 2:
-		tipo_modelo_dl = sistema.opcion_modelo
-		if tipo_modelo_dl == 1 or tipo_modelo_dl == 2:
-			datos = sistema.obtener_datos_conjunto_gui()
-		else:
-			datos = None"""
 	datos = sistema.obtener_datos_conjunto_gui()
 	if request.method == 'GET':
 		return render_template('ver_metricas.html', titulo='Métricas', form=form, metricas=metricas, datos=datos)

@@ -16,7 +16,8 @@ from spotlight.factorization.implicit import ImplicitFactorizationModel
 from spotlight.sequence.implicit import ImplicitSequenceModel
 from spotlight.interactions import Interactions
 from spotlight.cross_validation import random_train_test_split
-from spotlight.evaluation import rmse_score, mrr_score, precision_recall_score, sequence_mrr_score#, sequence_precision_recall_score
+from spotlight.evaluation import rmse_score, mrr_score, precision_recall_score, sequence_mrr_score
+#from spotlight.evaluation import rmse_score, mrr_score, precision_recall_score, sequence_mrr_score, sequence_precision_recall_score
 
 class SistemaSpotlight:
     """
@@ -302,13 +303,14 @@ class SistemaSpotlight:
     
     
     def obtener_predicciones(self, usuario):
-        global modelo 
+        global modelo
 
-        if self.opcion_modelo == 1 or self.opcion_modelo == 2:
+        scores = modelo.predict(usuario)
+        """if self.opcion_modelo == 1 or self.opcion_modelo == 2:
             scores = modelo.predict(usuario)
         else:
             # no es usuario, debería ser secuencia
-            scores = modelo.predict(usuario)
+            scores = modelo.predict([usuario])"""
         predicciones = np.argsort(-scores)
         return predicciones[:20]
 
