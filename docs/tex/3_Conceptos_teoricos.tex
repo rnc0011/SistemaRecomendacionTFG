@@ -8,31 +8,38 @@ Los sistemas de recomendación son herramientas que generan recomendaciones sobr
 En un sistema de recomendación hay dos clases de entidades: usuarios e ítems. Los datos están representados en una matriz de utilidad de tal manera que los usuarios son filas y los ítems columnas. Para cada par hay un valor que representa el grado de preferencia de un usuario para un ítem. Se asume que la mayoría de los valores se desconocen. Es por ello, que el objetivo de un sistema de recomendación es rellenar esos espacios en blanco.
 
 \subsection{Tipos de sistemas de recomendación}\label{tipos-sistemas-recomendacion}
-Existen dos tipos de sistemas de recomendación:
+Existen tres tipos de sistemas (o modelos) de recomendación:
 \begin{itemize}
 \tightlist
-\item Content-based systems
-\item Collaborative filtering systems
+\item Modelos basados en contenido
+\item Modelos colaborativos
+\item Modelos híbridos
 \end{itemize}
 
-\subsection{Content-based systems}\label{content-based-systems}
-Examinan propiedades de los ítems recomendados. Solo tienen en cuenta los gustos de los usuarios.
+\subsection{Modelos basados en contenido}\label{content-based-systems}
+Este tipo de sistemas tienen en cuenta los gustos del usuario y las características de los ítems.
 
-En estos sistemas, para cada ítem hay que construir un perfil compuesto por las propiedades del mismo. Por ejemplo, si los ítem son películas, algunas de las propiedades serían género, director, fecha de estreno, actores...
+Para cada ítem hay que construir un perfil compuesto por las propiedades del mismo. Por ejemplo, si los ítem son películas, algunas de las propiedades serían género, director, fecha de estreno, reparto, etc. Una vez hecho esto, se recomiendan ítems cuyas propiedades sean parecidas a los ítems que el usuario ha valorado positivamente.
 
-\subsection{Collaborative filtering systems}\label{collaborative-filtering}
-Recomiendan ítems basándose en los gustos de usuarios similares.
+\subsection{Modelos colaborativos}\label{collaborative-filtering}
+Recomiendan ítems basándose únicamente en los gustos de usuarios similares.
 
 En este caso, en lugar de usar el vector ítem-perfil de un ítem, usamos las filas de la matriz de utilidad. Los usuarios son parecidos si sus filas se acercan de acuerdo a alguna distancia.
 
+\subsection{Modelos híbridos}\label{modelos-hibridos}
+Este tipo de sistemas utilizan las dos técnicas anteriores para ofrecer mejores recomendaciones.
+
+Así pues, se recomendarán ítems que sean parecidos a los ítems valorados positivamente por usuarios parecidos.
+
 \section{Medidas de calidad}\label{medidas-de-calidad}
-Podemos hacer uso de diferentes métricas para conocer cómo de bueno nuestro sistema de recomendación es. Las métricas elegidas son:
+Podemos hacer uso de diferentes métricas para conocer cómo de bueno es nuestro sistema de recomendación. Dado que las dos librerías que se han utilizado en el proyecto las ha creado la misma persona, se utilizarán las métricas ofrecidas en ellas por su gran similitud. Las métricas son:
 \begin{itemize}
 \tightlist
 \item Precisión \textit{k}
 \item Recall \textit{k}
-\item \textit{AUC} Score
+\item Score \textit{AUC}
 \item Ranking recíproco
+\item \textit{Root Mean Square Error}
 \end{itemize}
 
 \subsection{Precisión \textit{k}}\label{precision-k}
@@ -59,6 +66,15 @@ Reciprocal\;rank = \frac{1}{SER}
 \end{equation}
 siendo \textit{SER} el score del elemento más relevante devuelto en el ranking de resultados.
 
+En el modelo de \textit{Spotlight} aparece como \textit{MMR}, o \textit{Mean Reciprocal Rank}.
+
+\subsection{Root Mean Square Error}\label{rmse}
+El \textit{RMSE} se define como el error que hay entre dos conjuntos de datos. Aplicado a nuestro caso, el \textit{RMSE} compara un valor conocido con un valor observado. Su fórmula sería la siguiente:
+\begin{equation}
+RMSE = \sqrt{\frac{\sum_{i=1}^n(C_{i} - O_{i})^{2}}{n}}
+\end{equation}
+siendo \textit{C} una recomendación conocida y \textit{O} una recomendación aportada por el sistema.
+
 \section{Tratamiento de los datos}\label{tratamiento-datos}
 Lo más común en los sistemas de recomendación es tener una gran cantidad de usuarios y de ítems. En cambio, la cantidad de valoraciones de ítems por cada usuario que se tiene es muy pequeña. Esto hace que la matriz con la que representamos las valoraciones sea muy grande pero con muchos valores a 0 (o celdas vacías, dependiendo de la representación escogida).  
 
@@ -67,8 +83,8 @@ Esto es lo que llamamos \textit{matrices dispersas} \cite{wiki:Sparse_matrix}. T
 En el caso de \textit{LightFM}, las estructuras utilizadas son:
 \begin{itemize}
 \tightlist
-\item \textit{Matrices COO}
-\item \textit{Matrices CSR}  
+\item Matrices \textit{COO}
+\item Matrices \textit{CSR}  
 \end{itemize}
 
 \subsection{Matrices COO}\label{matrices-coo}
@@ -99,7 +115,7 @@ obtendríamos los siguientes vectores:
 Este tipo de estructura es utilizada por \textit{LightFM} para representar la matriz de interacciones entre usuarios e ítems.
 
 \subsection{Matrices CSR}\label{matrices-csr}
-Otras estructuras ampliamente utilizadas, por ser más compactas que las \textit{matrices COO}, son las \textit{matrices CSR} \cite{csr-matrix}. Las \textit{matrices CSR} (\textit{Compressed Sparse Row}) no almacenan los índices de las filas, si no que almacenan punteros a los inicios de fila.
+Otras estructuras ampliamente utilizadas, por ser más compactas que las matrices \textit{COO}, son las matrices \textit{CSR} \cite{csr-matrix}. Las matrices \textit{CSR} (\textit{Compressed Sparse Row}) no almacenan los índices de las filas, si no que almacenan punteros a los inicios de fila.
 
 Utilizando como ejemplo la matriz dispersa del caso anterior, ahora obtendríamos:
 \begin{itemize}
@@ -111,6 +127,9 @@ Utilizando como ejemplo la matriz dispersa del caso anterior, ahora obtendríamo
 \end{itemize}
 
 Este tipo de estructura es utilizada por \textit{LightFM} para representar las matrices de features de usuarios e ítems.
+
+\subsection{Spotlight}\label{spotlight}
+\textit{Spotlight} utiliza directamente los arrays de \textit{numpy}, aunque también ofrece métodos para transformar estos arrays a matrices \textit{COO} y \textit{CSR}.
 
 \section{Imágenes}
 
