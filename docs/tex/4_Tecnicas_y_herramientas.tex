@@ -14,15 +14,30 @@ Al ser un proyecto educativo, las reuniones no han sido diarias, se han realizad
 
 \section{Control de versiones}\label{control-de-versiones}
 \subsection{Git}\label{git}
-Descripción
+\href{https://git-scm.com/}{Git} es un software de control de versiones distribuido diseñado por el creador del kernel Linux Linus Torvalds. Su objetivo es mantener un registro de los cambios que se producen en los archivos de proyectos que normalmente están compartidos.
 
 \section{Repositorio}\label{repositorio}
-\subsection{GitHub}\label{github}
-Descripción
+\begin{itemize}
+\tightlist
+\item Herramientas consideradas: 
+	\href{https://github.com/}{GitHub}, 
+	\href{https://about.gitlab.com/}{GitLab} y
+	\href{https://bitbucket.org/}{Bitbucket}
+\item Herramienta escogida:
+	\href{https://github.com/}{GitHub}
+\end{itemize}
+Se escoge \textit{GitHub} por estar familiarizado con la plataforma al haber sido usada durante toda la carrera. Junto con \textit{GitHub} se ha trabajado con \textit{GitHub Desktop} para la realización de los commits.
 
 \section{Gestión del proyecto}\label{gestion-del-proyecto}
-\subsection{ZenHub}\label{zenhub}
-Descripción
+\begin{itemize}
+\tightlist
+\item Herramientas consideradas: 
+	\href{https://www.zenhub.com/}{ZenHub} y 
+	\href{https://trello.com/}{Trello} y
+\item Herramienta escogida:
+	\href{https://www.zenhub.com/}{ZenHub}
+\end{itemize}
+La integración de \textit{ZenHub} con \textit{GitHub} es muy superior a la de \textit{Trello}. No solo es integra directamente en la página del repositorio en \textit{GitHub} sino que además ofrece herramientas muy útiles, como los reportes, especialmente el de \textit{burndown}. Además, gracias a la extensión de \textit{ZenHub} para navegador podemos ver el estado del repositorio de una manera muy sencilla y rápida.
 
 \section{Entorno de Desarrollo Integrado (IDE)}\label{ide}
 \subsection{Python}\label{python}
@@ -30,12 +45,19 @@ Descripción
 \tightlist
 \item Herramientas consideradas: 
 	\href{https://jupyter.org/}{Jupyter}, 
-	\href{https://www.spyder-ide.org/}{Spyder} y
-	\href{https://www.jetbrains.com/pycharm/}{PyCharm}
-\item Herramienta escogida:
-	Jupyter \href{https://jupyter.org/}{Jupyter}
+	\href{https://www.spyder-ide.org/}{Spyder}, 
+	\href{https://www.jetbrains.com/pycharm/}{PyCharm} y
+	\href{https://www.sublimetext.com/}{Sublime Text}
+\item Herramientas escogidas:
+	\href{https://jupyter.org/}{Jupyter},
+	\href{https://www.spyder-ide.org/}{Spyder} y 
+	\href{https://www.sublimetext.com/}{Sublime Text}
 \end{itemize}
-Justificación
+Durante el inicio del proyecto se utilizó \textit{Jupyter} para obtener en sus \textit{notebooks} modelos de recomendación iniciales sin prestar mucho detalle a la organización del proyecto y sus paquetes.
+
+Una vez se tuvo una idea clara de cómo iba a estar estructurado el proyecto se pasó a \textit{Spyder}, con el que podíamos tener el código y la consola en el mismo sitio.
+
+Finalmente, se pasó a \textit{Sublime Text} para realizar los últimos cambios en el código de los modelos y para obtener la aplicación \textit{Flask}.
 
 \subsection{Documentación}\label{documentacion}
 \begin{itemize}
@@ -46,17 +68,46 @@ Justificación
 \item Herramienta escogida:
 	\href{http://www.xm1math.net/texmaker/}{Texmaker}
 \end{itemize}
-Justificación
+Se elige \textit{Texmaker} por encima de \textit{OpenOffice} debido a la novedad que supone utilizar \LaTeX{} para crear documentos. 
+
+Además, es una herramienta muy potente gracias a los comandos y funciones que tiene, que en ocasiones hacen que sea mucho más fácil realizar una tarea con \textit{Texmaker} que con \textit{OpenOffice}.
 
 \section{Librerías}\label{librerias}
 \subsection{NumPy}\label{numpy}
-\href{http://www.numpy.org/}{NumPy} descripción
+\href{http://www.numpy.org/}{NumPy} es una librería muy utilizada en el ámbito de la computación científica gracias a su potente manejo de arrays y a las funciones de álgebra lineal que contiene. Forma parte del ecosistema de \textit{SciPy}.
 
-\subsection{SciPy}\label{scipy}
-\href{https://www.scipy.org/scipylib/index.html}{SciPy} descripción
+En el proyecto se emplea \textit{NumPy} para transformar listas de Python en arrays que puedan ser utilizados por los sistemas.
+
+\subsection{pandas}\label{pandas}
+\href{http://pandas.pydata.org/}{pandas}, al igual que \textit{NumPy}, es una librería muy utilizada en el campo de la computación científica debido a la facilidad que ofrece para manejar datos en tablas y series. También forma parte del ecosistema de \textit{SciPy}.
+
+En el proyecto se emplea \textit{pandas} para el manejo inicial de los conjuntos de datos, pasando los \textit{.csv} a \textit{dataframes}.
 
 \subsection{LightFM}\label{lightfm}
-\href{https://github.com/lyst/lightfm}{LightFM} descripción
+\href{https://github.com/lyst/lightfm}{LightFM} es una implementación para Python de populares algoritmos clásicos de recomendación \cite{kulalightfm}. Está creado por la misma gente que creó \textit{Spotlight}.
+
+Se decidió emplear \textit{LightFM} debido a su aparente sencillez y por ser una librería bastante completa.
+
+\subsection{Spotlight}\label{spotlight}
+\href{https://github.com/maciejkula/spotlight}{Spotlight} es una librería creada por la misma gente que \textit{LightFM} que utiliza \textit{PyTorch} para construir modelos de recomendación \cite{kula2017spotlight} basados en aprendizaje profundo.
+
+Se decidió emplear \textit{Spotlight} por su aparente sencillez y por haber sido creada por la misma gente que la librería clásica.
+
+\subsection{Flask}\label{flask}
+\href{http://flask.pocoo.org/}{Flask} es un framework para Python con el que se obtiene una interfaz web en la que poder interactuar con el proyecto.
+
+\subsection{tkinter}\label{tkinter}
+
+
+\subsection{Chardet}\label{chardet}
+\href{https://pypi.org/project/chardet/}{Chardet} es un detector de encoding universal \cite{chardet}.
+
+Se puede emplear en el proyecto para obtener el encoding de los archivos \textit{.csv}. Con ello, se logra que el usuario no necesite saber qué encoding emplea los archivos de datos que quiere utilizar.
+
+\subsection{pickle}\label{pickle}
+\href{https://docs.python.org/3/library/pickle.html}{pickle} es un módulo utilizado para la serialización de objetos en Python \cite{pickle}.
+
+Se utiliza en el proyecto para guardar las matrices y los modelos obtenidos por los sistemas.
 
 \section{Datasets}\label{datasets}
 \subsection{Anime}\label{anime}
@@ -72,7 +123,7 @@ El conjunto de datos se encuentra disponible en \href{http://www2.informatik.uni
 \subsection{MovieLens}\label{movielens}
 Este conjunto de datos \cite{GroupLens1998} contiene 100.000 valoraciones de 943 usuarios sobre 1.682 películas. Hay unas 106 valoraciones por usuario.
 
-El conjunto de datos se encuentra disponible en los propios archivos descargados por la librería LightFM \cite{DBLP:conf/recsys/Kula15}.
+El conjunto de datos se encuentra disponible en los propios archivos descargados por la librería \textit{LightFM} \cite{DBLP:conf/recsys/Kula15}.
 
 \subsection{Last.FM}\label{last.fm}
 Este conjunto de datos \cite{Cantador:RecSys2011} contiene las veces que 1.892 usuarios han escuchado a 17.632 artistas. Cada usuario ha escuchado alrededor de unos 49 artistas.
