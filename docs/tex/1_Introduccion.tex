@@ -1,3 +1,45 @@
 \capitulo{1}{Introducción}
+Los sistemas de recomendación son herramientas fundamentales de las cuales se aprovechan las principales compañías que ofrecen servicios para proveer a los usuarios de ítems relevantes.
 
-Descripción del contenido del trabajo y del estrucutra de la memoria y del resto de materiales entregados.
+Compañías como \textit{Amazon}, \textit{Netflix}, \textit{Spotify} y \textit{YouTube} utilizan la información de sus usuarios y de sus productos; así como las valoraciones que los propios usuarios hacen sobre los productos que consumen con el fin de crear modelos de recomendación capaces de ofrecer a estos usuarios ítems que les serán de interés la próxima vez que interactúen con el servicio.
+
+Tal es la importancia de los sistemas de recomendación que, por ejemplo, \textit{Netflix}, \textit{Spotify} y \textit{Trivago} organizan competiciones en las que piden mejorar sus propios sistemas \cite{wiki:Netflix_Prize}, \cite{spotify}, \cite{trivago}. El premio que ofreció \textit{Netflix} por mejorar su modelo un 10\% fue de 1.000.000 de dólares.
+
+Como se verá más adelante, existen varios tipos de sistemas de recomendación, siendo los más importantes:
+\begin{itemize}
+\tightlist
+\item Modelos colaborativos
+\item Modelos basados en contenido
+\item Modelos híbridos
+\end{itemize}
+Los \textbf{modelos colaborativos} solo tienen en cuenta las valoraciones que los usuarios hacen sobre los ítems. Así, lo que hace en buscar usuarios parecidos (usuarios que valoran de forma parecida los mismos ítems) para recomendar ítems que uno no ha visto y el otro sí.
+
+Los \textbf{modelos basados en contenido} tienen en cuenta las características de los ítems. De esta manera, buscan ítems con características parecidas a las de los ítems con los que ya ha interactuado el usuario positivamente. También hacen uso de las características de los usuarios.
+
+Los \textbf{modelos híbridos} son una mezcla de los dos anteriores. Tienen en cuenta tanto las valoraciones como las características de usuarios e ítems.
+
+En este proyecto serán objeto de estudio los modelos de recomendación clásico y los modelos de recomendación basados en aprendizaje profundo. Así pues, se evaluará cada modelo siguiendo unas métricas comunes a los dos para poder compararles.
+
+\subsection{Estructura de la memoria}\label{estructura-memoria}
+La memoria se divide en:
+\begin{itemize}
+\tightlist
+\item \textbf{Introducción:} en este apartado se desarrolla de manera breve el tema que se va a tratar en el proyecto, así como la estructura del propio proyecto y los materiales entregados.
+\item \textbf{Objetivos del proyecto:} sección en la que se indican los objetivos que se persiguen con la realización del proyecto, tanto técnicos como personales.
+\item \textbf{Conceptos teóricos:} apartado en el que se explica todo lo necesario para el correcto entendimiento del tema tratado en el proyecto.
+\item \textbf{Técnicas y herramientas:} sección en la que se listan todas las herramientas usadas en el proyecto, así como una breve justificación de su uso en favor de otras herramientas existentes.
+\item \textbf{Aspectos relevantes del desarrollo del proyecto:} apartado en el que se explican temas de especial importancia.
+\item \textbf{Trabajos relacionados:} sección en la que se indican y se desarrollan brevemente tanto artículos como proyectos que están directamente relacionados con este proyecto.
+\item \textbf{Conclusiones y Líneas de trabajo futuras:} apartado en el que se recogen las conclusiones obtenidas una vez finalizado el proyecto, y las posibles mejoras que se pueden hacer en el futuro.
+\end{itemize}
+
+\subsection{Materiales adjuntos}\label{materiales-adjuntos}
+Adicionalmente, junto a la memoria también se proporcionan los siguientes anexos:
+\begin{itemize}
+\tightlist
+\item \textbf{Plan de Proyecto Software:} en este apéndice se desarrolla la planificación temporal que se ha seguido durante la realización del proyecto y la viabilidad del mismo.
+\item \textbf{Especificación de Requisitos:} en este apéndice se indican y se explican los requisitos funcionales obtenidos a partir de los objetivos generales del proyecto.
+\item \textbf{Especificación de diseño:} en este apéndice se explica cómo se ha estructurado el proyecto y cómo se han manipulado los datos de entrada para poder ser usados por los sistemas.
+\item \textbf{Documentación técnica de programación:} esta sección contiene todo lo relacionado con la programación y la ejecución del proyecto.
+\item \textbf{Documentación de usuario:} apéndice en el que se recoge todo lo que el usuario que va a utilizar la aplicación debe saber.
+\end{itemize}
