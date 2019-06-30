@@ -1,3 +1,66 @@
 \capitulo{6}{Trabajos relacionados}
 
-Este apartado sería parecido a un estado del arte de una tesis o tesina. En un trabajo final grado no parece obligada su presencia, aunque se puede dejar a juicio del tutor el incluir un pequeño resumen comentado de los trabajos y proyectos ya realizados en el campo del proyecto en curso. 
+Actualmente los sistemas de recomendación y. en general todo lo relacionado con \textit{big data}, está a la orden del día. Cada vez que usamos \textit{Google}, \textit{Facebook}, etc., podemos observar la gran cantidad de anuncios que nos recomiendan productos o servicios que, casualmente (a veces rozando la legalidad \cite{escuchasFacebook}), están relacionados con nuestros gustos.
+
+Centrándonos en los sistemas de recomendación, puede que este campo tuviera su \textit{boom} con la competición de \textit{Netflix} entre 2006 y 2009 \cite{wiki:Netflix_Prize}. A partir de entonces, se han ido sucediendo competiciones en las que empresas muy importantes y conocidas ponen conjuntos de datos a disposición de equipos, con el fin de encontrar modelos que ofrezcan mejores recomendaciones que las de esas mismas empresas.
+
+Además, es muy difícil encontrar algún tipo de servicio en la actualidad de música, de vídeo o de compras que no nos inste a valorar los productos para poder ofrecernos recomendaciones.
+
+A continuación se detallan proyectos y artículos relacionados con los sistemas de recomendación.
+
+\section{Artículos}\label{articulos}
+\subsection{Netflix Prize}\label{netflix-prize}
+En esta competición \cite{wiki:Netflix_Prize}, \textit{Netflix} ofreció un premio de 1,000,000 de dólares al equipo que pudiera obtener un modelo que recomendara un 10\% mejor que el modelo propio de la compañía.
+
+El conjunto de datos que se utilizó durante la competición estaba compuesto por:
+\begin{itemize}
+\tightlist
+\item Conjunto de entrenamiento:
+\begin{itemize}
+\tightlist
+\item 100.480.507 valoraciones
+\item 480.189 usuarios
+\item 17.770 películas
+\item Cada usuario ha valorado una media de 200 películas
+\item Cada película ha sido valorada por una media de 500 usuarios
+\end{itemize}
+\item Conjunto de clasificación:
+\begin{itemize}
+\tightlist
+\item 2.817.131 interacciones usuario-película
+\end{itemize}
+\end{itemize}
+
+La métrica que se utilizó para evaluar los modelos fue el \textit{RMSE}. El equipo ganador logró un \textit{RMSE} de 0,8567; es decir, el modelo obtenido por ese equipo fue un 10,06\% mejor que el de \textit{Netflix} (tan solo un 0,06\% les hizo ganar).
+
+En 2010 \textit{Netflix} anunció que no iba a haber una segunda competición debido a temas judiciales con respecto a la privacidad de los clientes de la compañía, aunque los conjuntos de datos fueron creados para preservar la privacidad de los mismos.
+
+Información de la competición: \href{https://www.netflixprize.com/}{Netflix Prize}.
+
+\subsection{Spotify}\label{spotify}
+El reto de \textit{ACM RecSys} de 2018 \cite{spotify} estuvo organizado por \textit{Spotify}. El reto se centró en la continuación automática de playlists. Para ello, \textit{Spotify} dejó una conjunto de datos con un gran número de playlists que, a su vez, contenían canciones asociadas. Los equipos tenían que predecir las canciones que faltaban en las playlists del conjunto de evaluación.
+
+El conjunto de datos que ofreció \textit{Spotify} contenía 1.000.000 de playlists creadas por sus usuarios.
+
+En cuanto a las métricas elegidas para la evaluación, se utilizaron las siguientes:
+\begin{itemize}
+\tightlist
+\item Precisión R: número de canciones relevantes obtenidas divido entre el número de canciones relevantes conocidas.
+\item NDCG (\textit{Normalized discounted cumulative gain}): cuantifica la calidad del ranking de canciones recomendadas.
+\item Clicks: característica de \textit{Spotify} por la cual dada una playlist se recomiendan 10 canciones para añadir. Esta lista se puede refrescar para mostrar otras 10 canciones. Mide el número de clicks para refrescar hasta encontrar una canción relevante.
+\end{itemize}
+
+Enlace al reto: \href{http://www.recsyschallenge.com/2018/}{ACM RecSys Challenge 2018}.
+
+\subsection{Trivago}\label{trivago}
+El reto de \textit{ACM RecSys} de 2019 \cite{trivago} estuvo organizado por \textit{Trivago}. El reto se centró en desarrollar un sistema de recomendación que provea al usuario de alojamiento según sus necesidades y teniendo en cuenta los alojamientos que ha visitado en una sesión. El premio para el equipo ganador es de 8.000 euros.
+
+La métrica escogida fue el \textit{MRR}, o \textit{Mean Reciprocal Rank}.
+
+Enlace al reto: \href{http://www.recsyschallenge.com/2019/}{ACM RecSys Challenge 2019}.
+
+\section{Proyectos}\label{proyectos}
+\subsection{Tourist chatbot}\label{chatbot}
+En este proyecto la alumna desarrolló un chatbot para \textit{Telegram} dirigido a los turistas \cite{chatbot}. El chatbot es capaz de recomendar puntos de interés a los turistas basándose en las preferencias del usuario. Para ello, se utilizan los dos tipos principales de modelos de recomendación: el basado en contenido y el colaborativo.
+
+Enlace al repositorio: \href{https://github.com/jaswellnitz/tourist-chatbot}{Tourist chatbot}.
