@@ -1,8 +1,84 @@
 \apendice{Plan de Proyecto Software}
 
 \section{Introducción}
+La planificación es un punto fundamental en cualquier proyecto software. En ella, se tiene que estimar qué cosas hay que hacer y cuánto tiempo y dinero va a llevar terminarlas. De esta manera, se podrá comprobar si se llega a tiempo a los distintos plazos y así evitar retrasos, lo que supondría pérdidas de dinero y tiempo.
+
+La planificación se puede dividir en dos partes clave:
+\begin{itemize}
+\tightlist
+\item \textbf{Planificación temporal:} consiste en dividir el proyecto en etapas (\textit{sprints}) con una duración de x días. En estas etapas hay que dejar claro qué cosas se quieren conseguir y cuánto tiempo o esfuerzo se va a dedicar a cada una de ellas. Los \textit{sprints} no tienen por qué durar siempre lo mismo, se pueden ajustar a las necesidades de cada momento.
+\item \textbf{Estudio de viabilidad:} con este estudio se podrá ver si el proyecto puede seguir adelante (es viable) o si no, con lo que habría que tomar medidas para cambiar la situación. Se divide en:
+\begin{itemize}
+\tightlist
+\item \textbf{Viabilidad económica:} según la cual se deberá calcular por cuánto tiene que venderse el servicio para compensar el dinero, el tiempo y el esfuerzo puestos en el proyecto. Se incluye salario del personal y la compra de software de terceros necesario para la realización del proyecto.
+\item \textbf{Viabilidad legal:} se estudia el licenciamiento del software que se va a utilizar para proceder dentro de la legalidad.
+\end{itemize}
+\end{itemize}
 
 \section{Planificación temporal}
+Para el desarrollo del proyecto se decidió seguir la metodología ágil \textit{Scrum}. Al ser un proyecto académico con una sola persona trabajando en él, no se siguen a raja tabla todos los rasgos característicos de \textit{Scrum}. Las características que se han seguido son:
+\begin{itemize}
+\tightlist
+\item Desarrollo incremental en cada \textit{sprint}.
+\item Cada \textit{sprint} tiene una duración aproximada de dos semanas.
+\item Se realizan reuniones al final de cada \textit{sprint} con el objetivo de repasar lo hecho y pensar en los objetivos del siguiente \textit{sprint}.
+\end{itemize}
+
+A continuación se desarrolla el contenido de cada \textit{sprint}.
+
+\subsection{Sprint 1 (- 13/12/2018)}\label{sprint-1}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/1}{Búsqueda de información inicial}. En él se estudia el capítulo dedicado a los sistemas de recomendación del libro \textit{Mining of Massive Datasets} \cite{miningDatasets}.
+
+También se realiza el curso de \textit{fast.ai} \cite{fastai}. Además, se escoge la librería de \textit{LightFM} y se obtiene un modelo inicial.
+
+\subsection{Sprint 2 (13/12/2018 - 18/01/2019)}\label{sprint-2}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/3}{Explorar modelo con LightFM}. En él se intenta comprender el funcionamiento de \textit{LightFM} y se utiliza el conjunto de datos de \textit{Movielens} con el modelo.
+
+\subsection{Sprint 3 (18/01/2019 - 16/02/2019)}\label{sprint-3}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/4}{Recomendación híbrida y por contenido con LightFM}. En él se obtienen las primeras versiones del modelo híbrido y por contenido de \textit{LightFM}. 
+
+También se obtiene un modelo inicial con \textit{PyTorch} y se empieza a pensar en las métricas que se usarán para evaluar los modelos.
+
+\subsection{Sprint 4 (16/02/2019 - 03/03/2019)}\label{sprint-4}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/5}{Trabajar en la documentación}. En él se empieza a ampliar los apartados de la documentación relativos a los conjuntos de datos utilizados.
+
+\subsection{Sprint 5 (03/03/2019 - 13/03/2019)}\label{sprint-5}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/6}{División de los datos en LightFM}. En él se dividen los conjuntos de datos en \textit{train} y \textit{test} y se obtienen de nuevo los modelos.
+
+\subsection{Sprint 6 (13/03/2019 - 28/03/2019)}\label{sprint-6}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/7}{Medidas de calidad LightFM}. En él se obtienen las métricas finales para los modelos de \textit{LightFM}.
+
+Además, se guardan las matrices y los modelos en archivos \textit{pickle} como medida de persistencia.
+
+\subsection{Sprint 7 (28/03/2019 - 05/04/2019)}\label{sprint-7}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/8}{Últimos pasos con LightFM}. En él se intenta acabar todo lo relacionado con los modelos clásicos (tanto código como documentación).
+
+\subsection{Sprint 8 (05/04/2019 - 24/04/2019)}\label{sprint-8}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/9}{Ampliar documentación}. En él se amplía la documentación relativa a \textit{LightFM} y se empiezan a obtener los primeros diagramas UML con la estructura del proyecto hasta el momento.
+
+\subsection{Sprint 9 (24/04/2019 - 08/05/2019)}\label{sprint-9}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/10}{Cambios en el diseño, Flask y DL}. En él se empieza a obtener la interfaz web con \textit{Flask} y se escoge \textit{Spotlight} como la librería de aprendizaje profundo.
+
+También se modifica la documentación para ir acorde a los cambios del código.
+
+\subsection{Sprint 10 (08/05/2019 - 22/05/2019)}\label{sprint-10}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/11}{Primeros pasos con Spotlight}. En él se obtiene un primer modelo de \textit{Spotlight} y se unifican los archivos de Entrada y Persistencia para que solo haya uno de cada.
+
+Se continúa trabajando en la documentación.
+
+\subsection{Sprint 11 (22/05/2019 - 05/06/2019)}\label{sprint-11}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/12}{Completar modelos de Spotlight}. En él se obtienen el resto de modelos de \textit{Spotlight} y se generalizan los métodos de lectura de datos y obtención de matrices.
+
+Se continúa trabajando en la documentación.
+
+\subsection{Sprint 12 (05/06/2019 - 12/06/2019)}\label{sprint-12}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/13}{Diseño GUI}. En él se piensa qué forma va a tener la interfaz web obtenida a través de \textit{Flask}.
+
+\subsection{Sprint 13 (12/06/2019 - 20/06/2019)}\label{sprint-13}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/14}{Obtención GUI}. En él se termina de crear la interfaz web y se empiezan a emplear los métodos obtenidos anteriormente para que la aplicación sea funcional.
+
+\subsection{Sprint 14 (20/06/2019 - 03/07/2019)}\label{sprint-14}
+Este \textit{sprint} se corresponde con el milestone \href{https://github.com/rnc0011/SistemaRecomendacionTFG/milestone/15}{Último milestone}. En él se termina todo lo que queda por hacer en el proyecto. La interfaz es totalmente funcional y la documentación está terminada.
 
 \section{Estudio de viabilidad}
 
