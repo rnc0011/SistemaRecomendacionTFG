@@ -4,7 +4,7 @@
 En este apéndice se explica cómo están conformados los datos que utilizan las librerías usadas en el proyecto, así como la forma en la que está estructurado el mismo.
 
 \section{Diseño de datos}
-Todos los datos que he utilizado a lo largo del proyecto están en formato .csv. Lo más normal es que para cada conjunto de datos tenga los siguientes archivos:
+Todos los datos que se han utilizado a lo largo del proyecto están en formato .csv. Lo más normal es que para cada conjunto de datos se tengan los siguientes archivos:
 \begin{itemize}
 \tightlist
 \item \textit{ratings.csv} 
@@ -13,12 +13,24 @@ Todos los datos que he utilizado a lo largo del proyecto están en formato .csv.
 \end{itemize}
 La estructura de estos archivos suele ser: \textit{idUser, idItem, rating, timestamp} para \textit{ratings.csv}, \textit{idUser, name, feature1, ..., featureN} para \textit{users.csv} y i\textit{dItem, name, feature1, ..., featureN} para \textit{items.csv}.
 
-Para poder trabajar con los datos primero los paso a \textit{DataFrames} de \textit{pandas} \cite{dataframes}.
+Para poder trabajar con los datos primero se pasan a \textit{DataFrames} de \textit{pandas} \cite{dataframes}.
 
 \subsection{Datos con LightFM}\label{datos-lightfm}
-Una vez obtenidos los \textit{DataFrames} para cada \textit{.csv}, necesito convertirlos a \textit{Dataset} de \textit{LightFM} \cite{dataset-lightfm} para poder trabajar con ellos.
+Una vez obtenidos los \textit{DataFrames} para cada \textit{.csv}, es necesario convertirlos a \textit{Dataset} de \textit{LightFM} \cite{dataset-lightfm} para poder trabajar con ellos.
 
 Esta clase se encarga de convertir los datos almacenados en los \textit{DataFrames} en \textit{matrices COO} y \textit{matrices CSR}.
+
+\subsection{Datos con Spotlight}\label{datos-spotlight}
+A diferencia de \textit{LightFM}, en \textit{Spotlight} no se trabaja con matrices dispersas, si no con arrays de \textit{NumPy} (aunque se ofrece la posibilidad de transformar los arrays en \textit{matrices COO} y \textit{matrices CSR}).
+
+\textit{Spotlight} utiliza su propia clase, \textit{Interactions} \cite{interactions-spotlight}, para convertir los \textit{DataFrames} y así poder utilizar los datos.
+
+Otro aspecto a tener en cuenta en \textit{Spotlight} son las secuencias, utilizadas en el modelo de secuencia implícito \cite{modelo-secuencia}. Las recomendaciones pueden verse como secuencias; dados los ítems con los que ha interactuado un usuario, ¿cuáles serán los próximos ítems con los que interactuará? De esta manera, una vez obtenidas las interacciones "normales", hay que pasarlas a interacciones de secuencia con el método \textbf{to\_sequence()} \cite{to_sequence}.
+
+\subsection{Persistencia}\label{persistencia}
+Para la realización del proyecto se necesita guardar de alguna manera tanto los datos intermedios (matrices de interacción) como los propios modelos y los resultados obtenidos al evaluarlos.
+
+Esto se consigue gracias a \textit{pickle} \cite{pickle}.
 
 \section{Diseño procedimental}
 
