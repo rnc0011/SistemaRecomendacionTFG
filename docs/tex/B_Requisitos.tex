@@ -21,13 +21,13 @@ Los requisitos derivados de los objetivos del proyecto son los siguientes:
 \begin{itemize}
 \tightlist
 \item \textbf{RF-1.1 Guardar matrices:} el programa tiene que ser capaz de guardar las matrices generadas por los modelos para ahorrar tiempo en siguientes ejecuciones.
-\item \textbf{RF-1.2 Cargar matrices:} el programa tiene que ser capaz de cargar el conjunto de datos que el usuario quiera.
+\item \textbf{RF-1.2 Cargar matrices:} el programa tiene que ser capaz de cargar las matrices que el usuario quiera.
 \end{itemize}
 \item \textbf{RF-2 Gestión de los modelos:} el programa tiene que ser capaz de gestionar los modelos:
 \begin{itemize}
 \tightlist
-\item \textbf{RF-2.1 Mostrar modelos:} el programa tiene que ser capaz de mostrar todos los modelos disponibles.
-\item \textbf{RF-2.2 Seleccionar modelos:} el programa tiene que ser capaz de dejar al usuario seleccionar el modelo que quiera.
+\item \textbf{RF-2.1 Mostrar modelos:} el programa tiene que ser capaz de mostrar todos los tipos de modelos disponibles.
+\item \textbf{RF-2.2 Seleccionar modelos:} el programa tiene que ser capaz de dejar al usuario seleccionar el tipo de modelo que quiera.
 \item \textbf{RF-2.3 Guardar modelos:} el programa tiene que ser capaz de guardar los modelos obtenidos para ahorrar tiempo en futuras ejecuciones.
 \item \textbf{RF-2.4 Cargar modelos:} el programa tiene que ser capaz de cargar los modelos previamente guardados.
 \end{itemize}
@@ -35,7 +35,7 @@ Los requisitos derivados de los objetivos del proyecto son los siguientes:
 \begin{itemize}
 \tightlist
 \item \textbf{RF-3.1 Guardar resultados:} el programa tiene que ser capaz de guardar los resultados generados por los modelos.
-\item \textbf{RF-3.2 Comparar resultados:} el programa tiene que ser capaz de comparar los resultados obtenidos por los distintos modelos.
+\item \textbf{RF-3.2 Mostrar resultados:} el programa tiene que ser capaz de mostrar los resultados obtenidos por los distintos modelos.
 \item \textbf{RF-3.3 Mostrar predicciones:} el programa tiene que ser capaz de mostrar las predicciones obtenidas por los distintos modelos.
 \end{itemize}
 \item \textbf{RF-4 Gestión de los usuarios:} el programa tiene que ser capaz de introducir las valoraciones de nuevos usuarios:
@@ -77,3 +77,305 @@ Con la aplicación solo interactuará un actor, el usuario que esté probando la
 
 \subsection{Casos de uso}
 A continuación, se desarrollará cada caso de uso:
+
+\tablaSinColores{CU-01 Gestión de los datos intermedios}
+{p{4cm} p{10cm}}{2}{CU-01}
+{\textbf{CU-01} & \textbf{Gestión de los datos intermedios}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-1 \& RF-1.1 \& RF-1.2 \\
+	\textbf{Descripción} 			& Gestión de los datos intermedios. \\
+	\textbf{Precondiciones} 		& Los datos intermedios tienen que existir. \\
+	\textbf{Acciones}				& El usuario escoge los datos que quiere cargar o guardar. \\
+	\textbf{Postcondiciones}		& Los datos intermedios se cargan o se guardan. \\
+	\textbf{Excepciones}			& Los datos intermedios no existen. \\
+}
+
+\tablaSinColores{CU-02 Guardar matrices}
+{p{4cm} p{10cm}}{2}{CU-02}
+{\textbf{CU-02} & \textbf{Guardar matrices}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-1 \& RF-1.1 \\
+	\textbf{Descripción} 			& Guardar las matrices de datos. \\
+	\textbf{Precondiciones} 		& Tienen que existir las matrices. \\
+	\textbf{Acciones}				& El usuario guarda las matrices generadas por el sistema. \\
+	\textbf{Postcondiciones}		& Las matrices se guardan en archivos \textit{.pickle} \\
+	\textbf{Excepciones}			& Los matrices no existen. \\
+}
+
+\tablaSinColores{CU-3 Cargar matrices}
+{p{4cm} p{10cm}}{2}{CU-03}
+{\textbf{CU-03} & \textbf{Cargar matrices}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-1 \& RF-1.2 \\
+	\textbf{Descripción} 			& Cargar las matrices de datos. \\
+	\textbf{Precondiciones} 		& Tienen que existir los archivos \textit{.piclkle} con las matrices. \\
+	\textbf{Acciones}				& El usuario carga las matrices. \\
+	\textbf{Postcondiciones}		& Las matrices se cargan y se vinculan al sistema. \\
+	\textbf{Excepciones}			& No hay archivos \textit{.pickle} con las matrices. \\
+}
+
+\tablaSinColores{CU-4 Gestión de los modelos}
+{p{4cm} p{10cm}}{2}{CU-04}
+{\textbf{CU-04} & \textbf{Gestión de los modelos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-2 \& RF-2.1 \& RF-2.2 \& RF-2.3 \& RF-2.4 \\
+	\textbf{Descripción} 			& Gestión de los modelos. \\
+	\textbf{Precondiciones} 		& Se tienen que haber generado los modelos. \\
+	\textbf{Acciones}				& El usuario escoge el tipo de modelo que quiere obtener, guardar o cargar. \\
+	\textbf{Postcondiciones}		& El modelo escogido se crea, guarda o carga. \\
+	\textbf{Excepciones}			& No hay modelos generados. \\
+}
+
+\tablaSinColores{CU-5 Mostrar modelos}
+{p{4cm} p{10cm}}{2}{CU-05}
+{\textbf{CU-05} & \textbf{Mostrar modelos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-2 \& RF-2.1 \\
+	\textbf{Descripción} 			& Se listan todos los tipos de modelos que se pueden obtener. \\
+	\textbf{Precondiciones} 		& - \\
+	\textbf{Acciones}				& El usuario piensa que tipo de modelo utilizar. \\
+	\textbf{Postcondiciones}		& - \\
+	\textbf{Excepciones}			& No hay tipos de modelos que mostrar. \\
+}
+
+\tablaSinColores{CU-6 Seleccionar modelos}
+{p{4cm} p{10cm}}{2}{CU-06}
+{\textbf{CU-06} & \textbf{Seleccionar modelos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-2 \& RF-2.2 \\
+	\textbf{Descripción} 			& Se selecciona un modelo. \\
+	\textbf{Precondiciones} 		& Se han mostrado todos los tipos de modelos. \\
+	\textbf{Acciones}				& El usuario escoge el tipo de modelo que quiere crear, guardar o cargar. \\
+	\textbf{Postcondiciones}		& El tipo de modelo que se quiere utilizar se queda seleccionado para trabajar con él. \\
+	\textbf{Excepciones}			& No existe el modelo seleccionado. \\
+}
+
+\tablaSinColores{CU-7 Guardar modelos}
+{p{4cm} p{10cm}}{2}{CU-07}
+{\textbf{CU-07} & \textbf{Guardar modelos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-2 \& RF-2.3 \\
+	\textbf{Descripción} 			& Se guarda un modelo. \\
+	\textbf{Precondiciones} 		& El modelo que se quiere guardar debe existir. \\
+	\textbf{Acciones}				& Se guarda el modelo en un archivo \textit{.pickle}. \\
+	\textbf{Postcondiciones}		& Se obtiene un archivo \textit{.pickle} con el modelo. \\
+	\textbf{Excepciones}			& No hay ningún modelo que guardar. \\
+}
+
+\tablaSinColores{CU-8 Cargar modelos}
+{p{4cm} p{10cm}}{2}{CU-08}
+{\textbf{CU-08} & \textbf{Cargar modelos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-2 \& RF-2.4 \\
+	\textbf{Descripción} 			& Se carga un modelo. \\
+	\textbf{Precondiciones} 		& El archivo \textit{.pickle} con el modelo que se quiere cargar debe existir. \\
+	\textbf{Acciones}				& Se carga el modelo desde un archivo \textit{.pickle}. \\
+	\textbf{Postcondiciones}		& Se obtiene el modelo. \\
+	\textbf{Excepciones}			& No hay ningún archivo \textit{.pickle} con el modelo deseado. \\
+}
+
+\tablaSinColores{CU-9 Gestión de los resultados}
+{p{4cm} p{10cm}}{2}{CU-09}
+{\textbf{CU-09} & \textbf{Gestión de los resultados}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-3 \& RF-3.1 \& RF-3.2 \& RF-3.3 \\
+	\textbf{Descripción} 			& Gestión de los resultados. \\
+	\textbf{Precondiciones} 		& El modelo tiene que estar creado. \\
+									& Los resultados tienen que haber sido calculados. \\
+									& Tienen que existir los resultados. \\
+									& Las predicciones tiene que haber sido calculadas. \\
+	\textbf{Acciones}				& Guardar los resultados. \\
+									& Mostrar los resultados. \\
+									& Mostrar las predicciones. \\
+	\textbf{Postcondiciones}		& Se cargan los resultados. \\
+									& Se muestran los resultados. \\
+									& Se muestran las predicciones. \\
+	\textbf{Excepciones}			& Los resultados no se han calculado. \\
+									& Las predicciones no se han calculado. \\
+									& No hay ningún modelo. \\
+}
+
+\tablaSinColores{CU-10 Guardar resultados}
+{p{4cm} p{10cm}}{2}{CU-10}
+{\textbf{CU-10} & \textbf{Guardar resultados}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-3 \& RF-3.1 \\
+	\textbf{Descripción} 			& Guardar resultados. \\
+	\textbf{Precondiciones} 		& Los resultados tienen que haber sido calculados. \\
+									& El modelo tiene que estar creado. \\
+	\textbf{Acciones}				& Guardar los resultados. \\
+	\textbf{Postcondiciones}		& Se guardan los resultados. \\
+	\textbf{Excepciones}			& Los resultados no se han calculado. \\
+									& No hay ningún modelo. \\
+}
+
+\tablaSinColores{CU-11 Mostrar resultados}
+{p{4cm} p{10cm}}{2}{CU-11}
+{\textbf{CU-11} & \textbf{Mostrar resultados}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-3 \& RF-3.2 \\
+	\textbf{Descripción} 			& Mostrar los resultados. \\
+	\textbf{Precondiciones} 		& Los resultados tienen que haber sido calculados. \\
+									& El modelo tiene que estar creado. \\
+	\textbf{Acciones}				& Mostrar los resultados. \\
+	\textbf{Postcondiciones}		& Se muestran los resultados. \\
+	\textbf{Excepciones}			& Los resultados no se han calculado. \\
+									& No hay ningún modelo. \\
+}
+
+\tablaSinColores{CU-12 Mostrar predicciones}
+{p{4cm} p{10cm}}{2}{CU-12}
+{\textbf{CU-12} & \textbf{Mostrar predicciones}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-3 \& RF-3.3 \\
+	\textbf{Descripción} 			& Mostrar las predicciones. \\
+	\textbf{Precondiciones} 		& El modelo tiene que estar creado. \\
+									& Las predicciones tiene que haber sido calculadas. \\
+	\textbf{Acciones}				& Mostrar las predicciones. \\
+	\textbf{Postcondiciones}		& Se muestran las predicciones. \\
+	\textbf{Excepciones}			& Las predicciones no se han calculado. \\
+									& No hay ningún modelo. \\
+}
+
+\tablaSinColores{CU-13 Gestión de los usuarios}
+{p{4cm} p{10cm}}{2}{CU-13}
+{\textbf{CU-13} & \textbf{Gestión de los usuarios}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-4 \& RF-4.1 \\
+	\textbf{Descripción} 			& Gestión de los usuarios. \\
+	\textbf{Precondiciones} 		& Deben existir las matrices de datos. \\
+									& Debe existir el usuario con el que se quieren añadir valoraciones. \\
+	\textbf{Acciones}				& Añadir valoraciones. \\
+	\textbf{Postcondiciones}		& Se añaden valoraciones y/o usuarios a un conjunto de datos. \\
+	\textbf{Excepciones}			& No existen las matrices de datos. \\
+									& No existe el usuario al que se le quiere añadir valoraciones. \\
+}
+
+\tablaSinColores{CU-14 Añadir valoraciones}
+{p{4cm} p{10cm}}{2}{CU-14}
+{\textbf{CU-14} & \textbf{Añadir valoraciones}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-4 \& RF-4.1 \\
+	\textbf{Descripción} 			& Añadir valoraciones de un usuario existente o nuevo. \\
+	\textbf{Precondiciones} 		& Deben existir las matrices de datos. \\
+									& Debe existir el usuario con el que se quieren añadir valoraciones. \\
+	\textbf{Acciones}				& Añadir valoraciones sobre un usuario nuevo o uno ya existente. \\
+	\textbf{Postcondiciones}		& Se añaden valoraciones y/o usuarios a un conjunto de datos. \\
+	\textbf{Excepciones}			& No existen las matrices de datos. \\
+									& No existe el usuario al que se le quiere añadir valoraciones. \\
+}
+
+\tablaSinColores{CU-15 Gestión de los conjuntos de datos}
+{p{4cm} p{10cm}}{2}{CU-15}
+{\textbf{CU-15} & \textbf{Gestión de los conjuntos de datos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-5 \& RF-5.1 \& RF-5.2 \& RF-5.3 \\
+	\textbf{Descripción} 			& Gestión de los conjuntos de datos. \\
+	\textbf{Precondiciones} 		& Tienen que existir los conjuntos de datos de prueba. \\
+									& Tiene que existir un conjunto de datos para usar. \\
+	\textbf{Acciones}				& Listar los conjuntos de datos de prueba. \\
+									& Seleccionar un conjunto de datos de prueba. \\
+									& Añadir conjunto de datos nuevo. \\
+	\textbf{Postcondiciones}		& Se carga el conjunto de datos de prueba seleccionado. \\
+									& Se añade el conjunto de datos nuevo. \\
+	\textbf{Excepciones}			& No existen conjuntos de datos de prueba. \\
+									& No existe ningún conjunto de datos que añadir. \\
+}
+
+\tablaSinColores{CU-16 Mostrar los conjuntos de datos}
+{p{4cm} p{10cm}}{2}{CU-16}
+{\textbf{CU-16} & \textbf{Mostrar los conjuntos de datos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-5 \& RF-5.1 \\
+	\textbf{Descripción} 			& Listar los conjuntos de datos de prueba. \\
+	\textbf{Precondiciones} 		& Tienen que existir los conjuntos de datos de prueba. \\
+	\textbf{Acciones}				& Listar los conjuntos de datos de prueba. \\
+	\textbf{Postcondiciones}		& Se selecciona un conjunto de datos de prueba. \\
+	\textbf{Excepciones}			& No existen conjuntos de datos de prueba. \\
+}
+
+\tablaSinColores{CU-17 Seleccionar el conjunto de datos}
+{p{4cm} p{10cm}}{2}{CU-17}
+{\textbf{CU-17} & \textbf{Seleccionar el conjunto de datos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-5 \& RF-5.2 \\
+	\textbf{Descripción} 			& Seleccionar un conjunto de datos de prueba. \\
+	\textbf{Precondiciones} 		& Tienen que existir los conjuntos de datos de prueba. \\
+	\textbf{Acciones}				& Seleccionar un conjunto de datos de prueba. \\
+	\textbf{Postcondiciones}		& Se carga el conjunto de datos de prueba seleccionado. \\
+	\textbf{Excepciones}			& No existen conjuntos de datos de prueba. \\
+									& No hay ningún conjunto de datos de prueba seleccionado. \\
+}
+
+\tablaSinColores{CU-18 Añadir conjunto de datos}
+{p{4cm} p{10cm}}{2}{CU-18}
+{\textbf{CU-18} & \textbf{Añadir conjunto de datos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-5 \& RF-5.3 \\
+	\textbf{Descripción} 			& Añadir nuevo conjunto de datos. \\
+	\textbf{Precondiciones} 		& - \\
+	\textbf{Acciones}				& Añadir conjunto de datos nuevo. \\
+	\textbf{Postcondiciones}		& Se añade el nuevo conjunto de datos. \\
+	\textbf{Excepciones}			& No existe ningún conjunto de datos que añadir. \\
+}
+
+\tablaSinColores{CU-19 Ayuda de la aplicación}
+{p{4cm} p{10cm}}{2}{CU-19}
+{\textbf{CU-19} & \textbf{Ayuda de la aplicación}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-6 \& RF-6.1 \& RF-6.2 \\
+	\textbf{Descripción} 			& Ayuda de la aplicación. \\
+	\textbf{Precondiciones} 		& Tiene que haber información sobre los modelos. \\
+									& Tiene que haber información sobre los conjuntos de datos de prueba. \\
+	\textbf{Acciones}				& Mostrar información sobre los modelos. \\
+									& Mostrar información sobre los conjuntos de datos de prueba. \\
+	\textbf{Postcondiciones}		& Se muestra la información sobre los modelos. \\
+									& Se muestra la información sobre los conjuntos de datos de prueba. \\
+	\textbf{Excepciones}			& No existe información sobre los modelos. \\
+									& No existe información sobre los conjuntos de datos de prueba. \\
+}
+
+\tablaSinColores{CU-20 Mostrar información sobre los modelos}
+{p{4cm} p{10cm}}{2}{CU-20}
+{\textbf{CU-20} & \textbf{Mostrar información sobre los modelos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-6 \& RF-6.1 \\
+	\textbf{Descripción} 			& Mostrar información sobre los modelos. \\
+	\textbf{Precondiciones} 		& Tiene que haber información sobre los modelos. \\
+	\textbf{Acciones}				& Mostrar información sobre los modelos. \\
+	\textbf{Postcondiciones}		& Se muestra la información sobre los modelos. \\
+	\textbf{Excepciones}			& No existe información sobre los modelos. \\
+}
+
+\tablaSinColores{CU-21 Mostrar información sobre los conjuntos de datos}
+{p{4cm} p{10cm}}{2}{CU-21}
+{\textbf{CU-21} & \textbf{Mostrar información sobre los conjuntos de datos}\\}{
+	\textbf{Versión} 				& 1.0\\
+	\textbf{Autor} 					& Raúl Negro Carpintero\\
+	\textbf{Requisitos asociados} 	& RF-6 \& RF-6.2 \\
+	\textbf{Descripción} 			& Mostrar información sobre los conjuntos de datos de prueba. \\
+	\textbf{Precondiciones} 		& Tiene que haber información sobre los conjuntos de datos de prueba. \\
+	\textbf{Acciones}				& Mostrar información sobre los conjuntos de datos de prueba. \\
+	\textbf{Postcondiciones}		& Se muestra la información sobre los conjuntos de datos de prueba. \\
+	\textbf{Excepciones}			& No existe información sobre los conjuntos de datos de prueba. \\
+}
