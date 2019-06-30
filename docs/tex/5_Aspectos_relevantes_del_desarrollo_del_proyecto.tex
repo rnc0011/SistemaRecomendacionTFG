@@ -16,22 +16,68 @@ Para la gestión del proyecto se ha adaptado la metodología ágil Scrum. Las pr
 
 \section{Formación}\label{formacion}
 El proyecto ha requerido obtener una serie de conocimientos que no se tenían inicialmente. Se ha estudiado el campo de los sistemas de recomendación y la utilización de aprendizaje profundo en Python.
+
 Para la formación en los sistemas de recomendación se usó el libro:
 \begin{itemize}
 \tightlist
 \item
-	\emph{Mining of Massive Datasets} (Jure Leskovec, Anand Rajaraman y Jeffrey D. Ullman).
+	\emph{Mining of Massive Datasets} (Jure Leskovec, Anand Rajaraman y Jeffrey D. Ullman) \cite{miningDatasets}.
 \end{itemize}
+
 Para la formación en aprendizaje profundo en Python se realizó el siguiente curso:
 \begin{itemize}
 \tightlist
 \item
-	\emph{Practical Deep Learning For Coders, Part 1} (Jeremy Howard).
+	\emph{Practical Deep Learning For Coders, v3} (Jeremy Howard) \cite{fastai}.
+\end{itemize}
+
+Para poder usar la aplicación desde una interfaz web se siguió la documentación de \textit{Flask} y de \textit{WTForms}:
+\begin{itemize}
+\tightlist
+\item
+	\emph{Welcome to Flask} (Pallets Team) \cite{flask}.
+\item
+	\emph{WTForms Documentation} (WTForms Team) \cite{wtforms}.
+\end{itemize}
+
+Para la obtención de los modelos de recomendación se utilizaron las siguientes librerías:
+\begin{itemize}
+\tightlist
+\item
+	\emph{LightFM} (Maciej Kula) \cite{kulalightfm}.
+\item
+	\emph{Spotlight} (Maciej Kula) \cite{kula2017spotlight}.
 \end{itemize}
 
 \section{Desarrollo del código}\label{desarrollo-codigo}
 El proyecto se ha centrado en dos aspectos fundamentales: obtener un modelo clásico y obtener un modelo basado en aprendizaje profundo.
-Para la obtención del modelo clásico se estudió, en primer lugar, hacer uso de la librería Crab. Esta opción se descartó debido a la cantidad de fallos que saltaron durante la instalación (no se pudo llegar a instalar) y a la falta de actividad por parte de sus autores en el repositorio (no se ha tocado desde hace 7 años). Por todo esto, se decidió utilizar la librería LightFM.
+
+Para la obtención del modelo clásico se estudió en primer lugar hacer uso de la librería \textit{Crab}. Esta opción se descartó debido a la cantidad de fallos que saltaron durante la instalación (no se pudo llegar a instalar) y a la falta de actividad por parte de sus autores en el repositorio (no se ha tocado desde hace 7 años). Por todo esto, se decidió utilizar la librería \textit{LightFM}.
+
+Para la obtención del modelo basado en aprendizaje profundo se estudió en primer lugar hacer uso de la librería de \textit{fast.ai}, pero se descartó porque \textit{Spotlight} parecía ser más amigable en cuanto a facilidad de uso, y porque está creado por la misma gente que creó \textit{LightFM}. Así pues, se espera que la evaluación de los modelos siga los mismos criterios en ambas librerías.
+
+Para la obtención de la aplicación web se utilizó \textit{Flask} tal y como sugirió el tutor. Esta herramienta resultó ser muy fácil de utilizar y cumplió todas las funciones que se esperaban de ella. Junto con \textit{Flask} se utilizó \textit{WTForms} para crear todos los formularios que forman parte de la aplicación.
+
+Todo el código del proyecto se pensó para seguir el \textit{Modelo Vista Controlador}.
+\imagen{patronMVC}{Esquema del patrón MVC \cite{mvc}}
+
+\section{CUDA}\label{cuda}
+Para la obtención y el entrenamiento de los modelos de \textit{Spotlight} es posible utilizar la GPU gracias a \textit{CUDA}. Si el equipo en el que corre la aplicación no tuviera GPU, o no estuviera disponible, no pasaría nada (no saltarían errores), simplemente se ejecutarían las operaciones en la CPU.
+
+La instalación de \textit{Spotlight} incluye \textit{CUDA}.
+
+\section{Problemas}\label{problemas}
+Durante el desarrollo del proyecto se han encontrado los siguientes problemas:
+
+\subsection{Predicciones en modelo de secuencia}\label{predicciones-secuencia}
+De momento, no se pueden obtener las predicciones para el modelo de secuencia de \textit{Spotlight}. Esto es debido a que a diferencia del resto de modelos, donde para ver las predicciones basta con indicar el usuario cuya predicciones quieres obtener, en el modelo de secuencia no vale el usuario. Hay que utilizar una secuencia de interacciones del usuario. Esto complica el trabajo a la hora de programar además de complicarle la vida al usuario que va a interactuar con la aplicación.
+
+\subsection{Añadir valoraciones al modelo de secuencia}\label{valoraciones-secuencia}
+También, y de momento, hay problemas a la hora de añadir valoraciones y/o usuarios al modelo de secuencia por lo comentado anteriormente.
+
+Es posible que esto se tenga que dejar como línea de trabajo futuro.
 
 \section{Documentación}\label{documentacion}
-Las opciones que se plantearon para realizar la documentación fueron Apache OpenOffice y Texmaker. Ya que el Trabajo Fin de Grado lo veo como una forma de aprender conceptos nuevos que se desmarcan un poco de lo visto durante la carrera, opté por Texmaker debido a la novedad y al querer aprender y usar \LaTeX (es la primera vez que lo utilizo).
+Las opciones que se plantearon para realizar la documentación fueron \textit{Apache OpenOffice} y \textit{Texmaker}. Ya que el Trabajo Fin de Grado se puede ver como una forma de aprender conceptos nuevos que se desmarcan de lo visto durante la carrera, se optó por \textit{Texmaker} debido a la novedad y al querer aprender y usar \LaTeX{}.
+
+Además, la documentación se apoya en el programa \textit{JabRef} \cite{jabref}, con el que se va guardando un registro con las entradas \textit{bibtex} de los artículos y demás elementos que se han consultado a lo largo del proyecto.
