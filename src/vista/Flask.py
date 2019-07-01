@@ -160,24 +160,26 @@ def nuevo_dataset(path):
 		archivo_ratings = request.files['archivo_ratings']
 		nombre_archivo_ratings = secure_filename(archivo_ratings.filename)
 		archivo_ratings.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_ratings))
-		dataframe_ratings = Entrada.leer_csv('./uploads/'+nombre_archivo_ratings, separador_ratings, encoding_ratings)
+		#dataframe_ratings = Entrada.leer_csv('./uploads/'+nombre_archivo_ratings, separador_ratings, encoding_ratings)
 		separador_users = request.form['separador_users']
 		encoding_users = request.form['encoding_users']
 		archivo_users = request.files['archivo_users']
 		nombre_archivo_users = secure_filename(archivo_users.filename)
 		archivo_users.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_users))
-		dataframe_users = Entrada.leer_csv('./uploads/'+nombre_archivo_users, separador_users, encoding_users)
+		#dataframe_users = Entrada.leer_csv('./uploads/'+nombre_archivo_users, separador_users, encoding_users)
 		separador_items = request.form['separador_items']
 		encoding_items = request.form['encoding_items']
 		archivo_items = request.files['archivo_items']
 		nombre_archivo_items = secure_filename(archivo_items.filename)
 		archivo_items.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_items))
-		dataframe_items = Entrada.leer_csv('./uploads/'+nombre_archivo_items, separador_items, encoding_items)
+		#dataframe_items = Entrada.leer_csv('./uploads/'+nombre_archivo_items, separador_items, encoding_items)
 		if modelo_clasico_dl == 1:
-			sistema.obtener_matrices_gui(dataframe_ratings, dataframe_users, dataframe_items)
+			sistema.obtener_matrices_gui('./uploads/'+nombre_archivo_ratings, separador_ratings, encoding_ratings, 
+				'./uploads/'+nombre_archivo_users, separador_users, encoding_users, 
+				'./uploads/'+nombre_archivo_items, separador_items, encoding_items)
 			sistema.entrenar_modelo_gui()
 		else:
-			sistema.obtener_interacciones_gui(dataframe_ratings)
+			sistema.obtener_interacciones_gui('./uploads/'+nombre_archivo_ratings, separador_ratings, encoding_ratings)
 			sistema.entrenar_modelo_gui()
 		return redirect(url_for('home'))
 

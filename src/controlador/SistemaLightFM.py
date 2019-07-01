@@ -99,13 +99,22 @@ class SistemaLightFM:
         guardar_datos_pickle(test, 'la matriz de test')
           
 
-    def obtener_matrices_gui(self, ratings_df, users_df, items_df):
+    def obtener_matrices_gui(self, ruta_ratings, sep_ratings, encoding_ratings, ruta_users, sep_users, encoding_users, ruta_items, sep_items, encoding_items):
         global train, test, item_features, user_features
+
+        # Obtengo los dataframes
+        ratings_df = Entrada.leer_csv(ruta_ratings, sep_ratings, encoding_ratings)
+        users_df = Entrada.leer_csv(ruta_users, sep_users, encoding_users)
+        items_df = Entrada.leer_csv(ruta_items, sep_items, encoding_items)
 
         # Obtengo las matrices
         dataset = Dataset()
         if self.opcion_modelo == 1:
             dataset.fit(ratings_df[ratings_df.columns.values[0]], ratings_df[ratings_df.columns.values[1]])
+            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                 row[ratings_df.columns.values[1]],
+                                                                 row[ratings_df.columns.values[2]]) 
+                                                                for index,row in ratings_df.iterrows())
         else:
             dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
                        user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
@@ -114,13 +123,13 @@ class SistemaLightFM:
                                                                  row[ratings_df.columns.values[2]]) 
                                                                 for index,row in ratings_df.iterrows())
 
-        item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
-        user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
-        # Guardo los datos
-        print("Guarda la matriz de item features")
-        guardar_datos_pickle(item_features, 'la matriz de item features')
-        print("Guarda la matriz de user features")
-        guardar_datos_pickle(user_features, 'la matriz de user feautures')
+            item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
+            user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
+            # Guardo los datos
+            print("Guarda la matriz de item features")
+            guardar_datos_pickle(item_features, 'la matriz de item features')
+            print("Guarda la matriz de user features")
+            guardar_datos_pickle(user_features, 'la matriz de user feautures')
         
         train, test = random_train_test_split(interacciones, test_percentage=0.2)
         # Guardo los datos

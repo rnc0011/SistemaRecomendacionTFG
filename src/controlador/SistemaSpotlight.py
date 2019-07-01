@@ -95,9 +95,11 @@ class SistemaSpotlight:
         guardar_datos_pickle(test, 'las interacciones de test')
 
 
-    def obtener_interacciones_gui(self, ratings_df):
+    def obtener_interacciones_gui(self, ruta_ratings, sep_ratings, encoding_ratings):
         global train, test
         
+        ratings_df = Entrada.leer_csv(ruta_ratings, sep_ratings, encoding_ratings)
+
         users_ids = np.asarray(ratings_df[ratings_df.columns.values[0]].tolist(), dtype=np.int32)         
         items_ids = np.asarray(ratings_df[ratings_df.columns.values[1]].tolist(), dtype=np.int32)
         
