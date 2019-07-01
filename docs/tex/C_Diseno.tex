@@ -38,9 +38,9 @@ Esto se consigue gracias a \textit{pickle} \cite{pickle}.
 Para la realización de este proyecto se ha seguido el patrón arquitectónico MVC (\textit{Modelo Vista Controlador}). El objetivo de este patrón es dividir el código en función de su propósito. Sus partes son:
 \begin{itemize}
 \tightlist
-\item \textit{Modelo}: el acceso a los datos. Se corresponde con las clases de Entrada y Salida, que leen los datos para dárselo al sistema de recomendación y guardan los resultados.
-\item \textit{Vista}: la visualización de los datos. Se corresponde con las clases de Interfaz, que muestran la información solicitada.
-\item \textit{Controlador}: la manipulación de los datos. Se corresponde con los clases de Sistema, que crean los sistemas de recomendación gracias a los datos proporcionados por las clases de Entrada.
+\item \textit{Modelo}: el acceso a los datos. Se corresponde con las clases de Entrada, Salida y Persistencia; que leen los datos para dárselo al sistema de recomendación y guardan los resultados.
+\item \textit{Vista}: la visualización de los datos. Se corresponde con las clases de Interfaz, Flask y Forms, que muestran la información solicitada.
+\item \textit{Controlador}: la manipulación de los datos. Se corresponde con los clases de Sistema, que crean los sistemas de recomendación.
 \end{itemize}
 
 \imagen{patronMVC}{Esquema del patrón MVC \cite{mvc}}
@@ -48,11 +48,13 @@ Para la realización de este proyecto se ha seguido el patrón arquitectónico M
 La estructura del proyecto siguiendo este patrón quedaría de la siguiente forma:
 \imagen{diagrama_src}{Diagrama UML del proyecto}
 Por separado, los paquetes contienen:
+NO ESTÁN ACTUALIZADOS!!
 \imagen{diagrama_vista}{Diagrama UML del paquete \textit{vista}}
 \imagen{diagrama_controlador}{Diagrama UML del paquete \textit{controlador}}
 \imagen{diagrama_modelo}{Diagrama UML del paquete \textit{modelo}}
 
 \subsection{Diseño con LightFM}\label{diseño-lightfm}
+NO ESTÁ ACTUALIZADO!!
 Para la parte del modelo clásico, se tienen los siguientes archivos:
 En la clase \texttt{EntradaLightFM} se tiene:
 \begin{itemize}
@@ -90,6 +92,7 @@ En la clase \texttt{SistemaLightFM} tenemos:
 \end{itemize}
 
 \subsection{Diseño con Spotlight}\label{diseño-spotlight}
+NO ESTÁ ACTUALIZADO!!
 Para la parte del modelo basado en aprendizaje profundo, se tienen los siguientes archivos:
 En la clase \texttt{EntradaSpotlight} se tiene:
 \begin{itemize}
@@ -124,3 +127,9 @@ En la clase \texttt{SistemaSpotlight} tenemos:
 \item \texttt{resultados\_x}: estos métodos obtienen los resultados para cada modelo de recomendación. 
 \end{itemize}
 
+\section{Diseño de la interfaz}\label{diseño-gui}
+A continuación se muestra el diseño que tendrá la interfaz web (es posible que la versión final cambie).
+
+\begin{landscape}
+\imagen{wireframe}{Interaz web}
+\end{landscape} 
