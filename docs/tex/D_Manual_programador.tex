@@ -1,8 +1,24 @@
 \apendice{Documentación técnica de programación}
 
 \section{Introducción}
+En este apéndice se explica cómo está estructurado el proyecto en cuanto a los directorios, así como los pasos para compilar, instalar y ejecutar el programa.
 
 \section{Estructura de directorios}
+El proyecto está dividido en los siguientes directorios:
+\begin{itemize}
+\tightlist
+\item \textbf{/:} carpeta raíz. Contiene la carpeta \textit{docs}, la carpeta \textit{src} y los ficheros \textit{.gitignore} y \textit{README.md}.
+\item \textbf{/docs:} contiene todos los archivos relacionados con la documentación tanto en \LaTeX{} como en \textit{pdf}. También contiene los archivos de bibliografía y las imágenes que se utilizan a lo largo de la documentación.
+\item \textbf{/docs/img:} carpeta que contiene las imágenes necesarias para apoyar la documentación.
+\item \textbf{/docs/tex:} carpeta que contiene los distintos apartados de la memoria y los anexos en \LaTeX{}.
+\item \textbf{/src:} carpeta que contiene todo el código de la aplicación.
+\item \textbf{/src/controlador:} contiene los ficheros \textit{.py} con los sistemas de \textit{LightFM} y \textit{Spotlight}.
+\item \textbf{/src/modelo:} contiene los ficheros \textit{.py} correspondientes a la \textit{Entrada}, \textit{Salida} y \textit{Persistencia} de los datos.
+\item \textbf{/src/vista:} contiene los ficheros \textit{.py} correspondientes a la \textit{Interfaz} (de texto), \textit{Flask} (web) y \textit{Forms} (formularios de los que se compone la interfaz web). Además, contiene los \textit{.html} de la interfaz.
+\item \textbf{/src/vista/templates:} contiene las páginas \textit{.html} que componen la interfaz web de la aplicación.
+\item \textbf{/src/uploads:} carpeta donde se guardan los modelos y las matrices obtenidas.
+\item \textbf{/src/notebooks:} esta carpeta contiene archivos que en su día se utilizaron de prueba. Se podrían borrar, pero se prefiere dejarlos para que haya constancia de que se trabajó en ellos.
+\end{itemize}
 
 \section{Manual del programador}
 
