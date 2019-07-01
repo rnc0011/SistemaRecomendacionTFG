@@ -10,7 +10,6 @@ ipywidgets==6.0.0
 Jinja2==2.10.1
 lightfm==1.15
 numpy==1.16.2
-nvidia-ml-py==375.53.1
 pandas==0.24.2
 path.py==10.3.1
 pathlib2==2.2.1
