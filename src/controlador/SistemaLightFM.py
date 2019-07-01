@@ -64,37 +64,30 @@ class SistemaLightFM:
         # Obtengo los datos
         Entrada.obtener_datos()
         ratings_df = Entrada.ratings_df
+        users_df = Entrada.users_df
+        items_df = Entrada.items_df
 
         # Obtengo las matrices
         dataset = Dataset()
-        if self.opcion_modelo == 1:
-            dataset.fit(ratings_df[ratings_df.columns.values[0]], ratings_df[ratings_df.columns.values[1]])
+        dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
+                       user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
+        if self.opcion_modelo == 1 or self.opcion_modelo == 2:
             (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
                                                                  row[ratings_df.columns.values[1]],
                                                                  row[ratings_df.columns.values[2]]) 
                                                                 for index,row in ratings_df.iterrows())
         else:
-            users_df = Entrada.users_df
-            items_df = Entrada.items_df
-            dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
-                       user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
-            if self.opcion_modelo == 2:
-                (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
-                                                                     row[ratings_df.columns.values[1]],
-                                                                     row[ratings_df.columns.values[2]]) 
-                                                                    for index,row in ratings_df.iterrows())
-            else:
-                (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
                                                                  row[ratings_df.columns.values[1]]) 
                                                                 for index,row in ratings_df.iterrows())
 
-            item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
-            user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
-            # Guardo los datos
-            print("Guarda la matriz de item features")
-            guardar_datos_pickle(item_features, 'la matriz de item features')
-            print("Guarda la matriz de user features")
-            guardar_datos_pickle(user_features, 'la matriz de user feautures')
+        item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
+        user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
+        # Guardo los datos
+        print("Guarda la matriz de item features")
+        guardar_datos_pickle(item_features, 'la matriz de item features')
+        print("Guarda la matriz de user features")
+        guardar_datos_pickle(user_features, 'la matriz de user feautures')
 
         train, test = random_train_test_split(interacciones, test_percentage=0.2)
         
@@ -115,33 +108,25 @@ class SistemaLightFM:
 
         # Obtengo las matrices
         dataset = Dataset()
-        if self.opcion_modelo == 1:
-            dataset.fit(ratings_df[ratings_df.columns.values[0]], ratings_df[ratings_df.columns.values[1]])
+        dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
+                       user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
+        if self.opcion_modelo == 1 or self.opcion_modelo == 2:
             (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
                                                                  row[ratings_df.columns.values[1]],
                                                                  row[ratings_df.columns.values[2]]) 
                                                                 for index,row in ratings_df.iterrows())
         else:
-            dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
-                       user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
-
-            if self.opcion_modelo == 2:
-                (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
-                                                                     row[ratings_df.columns.values[1]],
-                                                                     row[ratings_df.columns.values[2]]) 
-                                                                    for index,row in ratings_df.iterrows())
-            else:
-                (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
                                                                  row[ratings_df.columns.values[1]]) 
                                                                 for index,row in ratings_df.iterrows())
 
-            item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
-            user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
-            # Guardo los datos
-            print("Guarda la matriz de item features")
-            guardar_datos_pickle(item_features, 'la matriz de item features')
-            print("Guarda la matriz de user features")
-            guardar_datos_pickle(user_features, 'la matriz de user feautures')
+        item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
+        user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
+        # Guardo los datos
+        print("Guarda la matriz de item features")
+        guardar_datos_pickle(item_features, 'la matriz de item features')
+        print("Guarda la matriz de user features")
+        guardar_datos_pickle(user_features, 'la matriz de user feautures')
 
         train, test = random_train_test_split(interacciones, test_percentage=0.2)
         # Guardo los datos
@@ -188,7 +173,7 @@ class SistemaLightFM:
             modelo.fit(train, epochs=30, num_threads=self.CPU_THREADS)
             guardar_datos_pickle(modelo, 'el modelo colaborativo')
         elif self.opcion_modelo == 2:
-            modelo.fit(train, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
+            modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
             guardar_datos_pickle(modelo, 'el modelo hibrido')
         else:
             modelo.fit(train, user_features=user_features, item_features=item_features, epochs=30, num_threads=self.CPU_THREADS)
@@ -227,7 +212,7 @@ class SistemaLightFM:
             modelo.fit(train, epochs=self.epochs, num_threads=self.CPU_THREADS)
             guardar_datos_pickle(modelo, 'el modelo colaborativo')
         elif self.opcion_modelo == 2:
-            modelo.fit(train, item_features=item_features, epochs=self.epochs, num_threads=self.CPU_THREADS)
+            modelo.fit(train, user_features=user_features, item_features=item_features, epochs=self.epochs, num_threads=self.CPU_THREADS)
             guardar_datos_pickle(modelo, 'el modelo hibrido')
         else:
             modelo.fit(train, user_features=user_features, item_features=item_features, epochs=self.epochs, num_threads=self.CPU_THREADS)
@@ -255,13 +240,13 @@ class SistemaLightFM:
         Método resultados_hibrido. Obtiene los resultados del modelo híbrido.
         """
         
-        global train, test, modelo, item_features
+        global train, test, modelo, user_features, item_features
         
         # Obtención de los resultados
-        precision = precision_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
-        auc = auc_score(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
-        recall = recall_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
-        reciprocal = reciprocal_rank(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
+        precision = precision_at_k(modelo, test, train_interactions=train, k=10, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
+        auc = auc_score(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
+        recall = recall_at_k(modelo, test, train_interactions=train, k=10, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
+        reciprocal = reciprocal_rank(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
         imprimir_resultados_clasico(precision, auc, recall, reciprocal)
     
@@ -274,9 +259,9 @@ class SistemaLightFM:
         global train, test, modelo, item_features, user_features
         
         # Obtención de los resultados
-        precision = precision_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
+        precision = precision_at_k(modelo, test, train_interactions=train, k=10, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         auc = auc_score(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
-        recall = recall_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
+        recall = recall_at_k(modelo, test, train_interactions=train, k=10, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         reciprocal = reciprocal_rank(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
         imprimir_resultados_clasico(precision, auc, recall, reciprocal)
@@ -304,15 +289,10 @@ class SistemaLightFM:
             auc = auc_score(modelo, test, train_interactions=train, num_threads=self.CPU_THREADS).mean()
             recall = recall_at_k(modelo, test, train_interactions=train, k=10, num_threads=self.CPU_THREADS).mean()
             reciprocal = reciprocal_rank(modelo, test, train_interactions=train, num_threads=self.CPU_THREADS).mean()   
-        elif self.opcion_modelo == 2:         
-            precision = precision_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
-            auc = auc_score(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
-            recall = recall_at_k(modelo, test, train_interactions=train, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
-            reciprocal = reciprocal_rank(modelo, test, train_interactions=train, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         else:
-            precision = precision_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
+            precision = precision_at_k(modelo, test, train_interactions=train, k=10, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
             auc = auc_score(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
-            recall = recall_at_k(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, k=10, num_threads=self.CPU_THREADS).mean()
+            recall = recall_at_k(modelo, test, train_interactions=train, k=10, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
             reciprocal = reciprocal_rank(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         metricas = {"Precisión k": format(precision, '.4f'), "AUC Score": format(auc, '.4f'), "Recall k": format(recall, '.4f'), "Ranking recíproco": format(reciprocal, '.4f')}
         return metricas
@@ -337,8 +317,6 @@ class SistemaLightFM:
 
         if self.opcion_modelo == 1:
             scores = modelo.predict(usuario, np.arange(train.shape[1]), num_threads=self.CPU_THREADS)
-        elif self.opcion_modelo == 2:
-            scores = modelo.predict(usuario, np.arange(train.shape[1]), item_features=item_features, num_threads=self.CPU_THREADS)
         else:
             scores = modelo.predict(usuario, np.arange(train.shape[1]), item_features=item_features, user_features=user_features, num_threads=self.CPU_THREADS)
         predicciones = np.argsort(-scores)
