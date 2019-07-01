@@ -78,10 +78,16 @@ class SistemaLightFM:
             items_df = Entrada.items_df
             dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
                        user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
-            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
-                                                                 row[ratings_df.columns.values[1]],
-                                                                 row[ratings_df.columns.values[2]]) 
+            if self.opcion_modelo == 2:
+                (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                     row[ratings_df.columns.values[1]],
+                                                                     row[ratings_df.columns.values[2]]) 
+                                                                    for index,row in ratings_df.iterrows())
+            else:
+                (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                 row[ratings_df.columns.values[1]]) 
                                                                 for index,row in ratings_df.iterrows())
+
             item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
             user_features = dataset.build_user_features((row[users_df.columns.values[0]], [row[users_df.columns.values[1]]]) for index, row in users_df.iterrows())
             # Guardo los datos
@@ -89,7 +95,7 @@ class SistemaLightFM:
             guardar_datos_pickle(item_features, 'la matriz de item features')
             print("Guarda la matriz de user features")
             guardar_datos_pickle(user_features, 'la matriz de user feautures')
-            
+
         train, test = random_train_test_split(interacciones, test_percentage=0.2)
         
         # Guardo los datos
@@ -118,9 +124,15 @@ class SistemaLightFM:
         else:
             dataset.fit(users_df[users_df.columns.values[0]], items_df[items_df.columns.values[0]],
                        user_features=users_df[users_df.columns.values[1]], item_features=items_df[items_df.columns.values[1]])
-            (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
-                                                                 row[ratings_df.columns.values[1]],
-                                                                 row[ratings_df.columns.values[2]]) 
+
+            if self.opcion_modelo == 2:
+                (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                     row[ratings_df.columns.values[1]],
+                                                                     row[ratings_df.columns.values[2]]) 
+                                                                    for index,row in ratings_df.iterrows())
+            else:
+                (interacciones, pesos) = dataset.build_interactions((row[ratings_df.columns.values[0]],
+                                                                 row[ratings_df.columns.values[1]]) 
                                                                 for index,row in ratings_df.iterrows())
 
             item_features = dataset.build_item_features((row[items_df.columns.values[0]], [row[items_df.columns.values[1]]]) for index, row in items_df.iterrows())
@@ -130,7 +142,7 @@ class SistemaLightFM:
             guardar_datos_pickle(item_features, 'la matriz de item features')
             print("Guarda la matriz de user features")
             guardar_datos_pickle(user_features, 'la matriz de user feautures')
-        
+
         train, test = random_train_test_split(interacciones, test_percentage=0.2)
         # Guardo los datos
         print("Guarda la matriz de entrenamiento")
