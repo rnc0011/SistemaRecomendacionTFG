@@ -5,12 +5,16 @@ Created on Tue Apr 23 17:02:09 2019
 @author: Raúl Negro Carpintero
 """
 
-# Importo todo lo necesario
+
+# Se importa todo lo necesario
 from controlador import SistemaLightFM, SistemaSpotlight
-            
+      
+
 def elegir_modelo_clasico():
     """
     Método elegir_modelo_clasico. Muestra un menú para elegir el modelo clásico de recomendación a utilizar.
+
+    Este método solo se utiliza en la interfaz de texto.
     """
     
     print("¿Qué modelo quieres utilizar?")
@@ -26,9 +30,12 @@ def elegir_modelo_clasico():
         else:
             print("No has introducido una opción válida")
             
+
 def elegir_modelo_dl(opcion_time):
     """
     Método elegir_modelo_dl. Muestra un menú para elegir el modelo deep learning de recomendación a utilizar.
+
+    Este método solo se utiliza en la interfaz de texto.
     
     Parameters
     ----------
@@ -60,9 +67,12 @@ def elegir_modelo_dl(opcion_time):
             else:
                 print("No has introducido una opción válida")
             
+
 def main_clasico():
     """
     Método main_clasico. Programa principal si la opción escogida es el modelo clásico.
+
+    Este método solo se utiliza en la interfaz de texto.
     """
     
     opcion_modelo_clasico = elegir_modelo_clasico()
@@ -71,9 +81,12 @@ def main_clasico():
     sistema.obtener_modelos()
     sistema.obtener_resultados()
     
+
 def main_dl():
     """
     Método main_dl. Programa principal si la opción escogida es el modelo basado en aprendizaje profundo.
+
+    Este método solo se utiliza en la interfaz de texto.
     """
     
     print("¿El conjunto de datos tiene timestamps?")
@@ -85,15 +98,19 @@ def main_dl():
             break
         else:
             print("No has introducido una opción válida")
+
     opcion_modelo_dl = elegir_modelo_dl(opcion_time)
     sistema = SistemaSpotlight.SistemaSpotlight(opcion_modelo_dl, opcion_time)
     sistema.obtener_interacciones()
     sistema.obtener_modelos()
     sistema.obtener_resultados()
     
+
 def main():
     """
     Método main. Método principal del programa.
+
+    Este método solo se utiliza en la interfaz de texto.
     """
     
     print("¿Qué modelo quieres utilizar?")
@@ -112,9 +129,3 @@ def main():
             print("No has introducido una opción válida")
 
     
-# Ejecución del programa.
-#main()
-
-
-
-

@@ -5,16 +5,19 @@ Created on Tue Apr 23 12:50:01 2019
 @author: Raúl Negro Carpintero
 """
 
-# Importo todo lo necesario
+
+# Se importa todo lo necesario
 import chardet
 import pandas as pd     
 from tkinter import *
 from tkinter import filedialog      
 
+
 # Variables globales            
 global ratings_df
 global users_df
 global items_df
+
 
 def obtener_encoding(ruta):
     """
@@ -36,11 +39,15 @@ def obtener_encoding(ruta):
     file = open(ruta, 'rb').read()
     resultado = chardet.detect(file)
     encoding = resultado['encoding']
+
     return encoding
+
 
 def preguntar_encoding():
     """
     Método preguntar_encoding. Pregunta al usuario el encoding del arhcivo csv que quiere utilizar.
+
+    Este método solo se utiliza en la interfaz de texto.
         
     Returns
     -------
@@ -51,11 +58,15 @@ def preguntar_encoding():
     
     print("¿Qué encoding utiliza el archivo?")
     encoding = str(input())
+
     return encoding
+
 
 def preguntar_sep():
     """
     Método preguntar_sep. Pregunta al usuario el separador del arhcivo csv que quiere utilizar.
+
+    Este método solo se utiliza en la interfaz de texto.
     
     Returns
     -------
@@ -66,11 +77,15 @@ def preguntar_sep():
     
     print("¿Qué separador se utiliza?")
     sep = str(input())
+
     return sep
+
 
 def elegir_archivo(tipo_archivo):
     """
     Método elegir_archivo. Muestra una interfaz con la que elegir los archivos csv.
+
+    Este método solo se utiliza en la interfaz de texto.
     
     Parameters
     ----------
@@ -92,6 +107,7 @@ def elegir_archivo(tipo_archivo):
     root.filename = filedialog.askopenfilename(initialdir=directorio, title=titulo, filetypes=tipos)
     ruta = root.filename
     root.destroy()
+
     return ruta
 
 def leer_csv(ruta, sep, encoding):
@@ -103,6 +119,10 @@ def leer_csv(ruta, sep, encoding):
     
     ruta: str
         ruta del archivo csv que se quiere utilizar.
+    sep: str
+        separador del archivo csv que se quiere utilizar.
+    encoding: str
+        encoding del archivo csv que se quiere utilizar.
         
     Returns
     -------
@@ -115,11 +135,15 @@ def leer_csv(ruta, sep, encoding):
         dataframe = pd.read_csv(ruta, delim_whitespace=True, encoding=encoding)
     else:
         dataframe = pd.read_csv(ruta, sep=sep, encoding=encoding)
+    
     return dataframe
+
 
 def obtener_datos():
     """
     Método obtener_datos. Obtiene los dataframes requeridos por los modelos.
+
+    Este método solo se utiliza en la interfaz de texto.
     """
     
     global ratings_df
