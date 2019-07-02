@@ -13,6 +13,39 @@ Todos los datos que se han utilizado a lo largo del proyecto están en formato .
 \end{itemize}
 La estructura de estos archivos suele ser: \textit{idUser, idItem, rating, timestamp} para \textit{ratings.csv}, \textit{idUser, name, feature1, ..., featureN} para \textit{users.csv} y i\textit{dItem, name, feature1, ..., featureN} para \textit{items.csv}.
 
+\tablaSinColores{Formato ratings.csv}{l l l l}{4}{ratings}
+{\textbf{Id Usuario} & \textbf{Id Ítem} & \textbf{Valoración} & \textbf{Timestamp}\\}{
+	1 & 1 & 5 & 1562057352 \\
+	1 & 2 & 1 & 1562057354 \\
+	2 & 120 & 4 & 1562057370 \\
+	. & . & . & . \\
+	. & . & . & . \\
+	. & . & . & . \\
+	Usuario N & Ítem N & Valoración & timestamp \\
+}
+
+\tablaSinColores{Formato users.csv}{l l l l l}{5}{usuarios}
+{\textbf{Id Usuario} & \textbf{Nombre} & \textbf{Feature 1} & \textbf{...} & \textbf{Feature N}\\}{
+	1 & Pepe & Feature 1 & ... & Feature N \\
+	2 & Ana & Feature 1 & ... & Feature N \\
+	3 & Luis & Feature 1 & ... & Feature N \\
+	. & . & . & . & . \\
+	. & . & . & . & . \\
+	. & . & . & . & . \\
+	Usuario N & Nombre Usuario N & Feature 1 & ... & Feature N \\
+}
+
+\tablaSinColores{Formato items.csv}{l l l l l}{5}{items}
+{\textbf{Id Ítem} & \textbf{Nombre} & \textbf{Feature 1} & \textbf{...} & \textbf{Feature N}\\}{
+	1 & Star Wars Episodio IV & Feature 1 & ... & Feature N \\
+	2 & Spotlight & Feature 1 & ... & Feature N \\
+	3 & Seven & Feature 1 & ... & Feature N \\
+	. & . & . & . & . \\
+	. & . & . & . & . \\
+	. & . & . & . & . \\
+	Ítem N & Nombre Ítem N & Feature 1 & ... & Feature N \\
+}
+
 Para poder trabajar con los datos primero se pasan a \textit{DataFrames} de \textit{pandas} \cite{dataframes}.
 
 \subsection{Datos con LightFM}\label{datos-lightfm}
@@ -50,7 +83,7 @@ Para la realización de este proyecto se ha seguido el patrón arquitectónico M
 \item \textit{Controlador}: la manipulación de los datos. Se corresponde con los clases de Sistema, que crean los sistemas de recomendación.
 \end{itemize}
 
-\imagen{patronMVC}{Esquema del patrón MVC \cite{mvc}}
+\imagen{mvc}{Esquema del patrón MVC \cite{mvc}}
 
 La estructura del proyecto siguiendo este patrón quedaría de la siguiente forma:
 \imagen{diagrama_src}{Diagrama UML del proyecto}
