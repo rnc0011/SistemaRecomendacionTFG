@@ -49,7 +49,7 @@ La estructura de estos archivos suele ser: \textit{idUser, idItem, rating, times
 Para poder trabajar con los datos primero se pasan a \textit{DataFrames} de \textit{pandas} \cite{dataframes}.
 
 \subsection{Datos con LightFM}\label{datos-lightfm}
-Una vez obtenidos los \textit{DataFrames} para cada \textit{.csv}, es necesario convertirlos a \textit{Dataset} de \textit{LightFM} \cite{dataset-lightfm} para poder trabajar con ellos.
+Una vez obtenidos los \textit{DataFrames} para cada \textit{.csv}, es necesario convertirlos a la clase \textit{Dataset} de \textit{LightFM} \cite{dataset-lightfm} para poder trabajar con ellos. 
 
 Esta clase se encarga de convertir los datos almacenados en los \textit{DataFrames} en \textit{matrices COO} y \textit{matrices CSR}.
 
@@ -82,8 +82,6 @@ Para la realización de este proyecto se ha seguido el patrón arquitectónico M
 \item \textit{Vista}: la visualización de los datos. Se corresponde con las clases de Interfaz, Flask y Forms, que muestran la información solicitada.
 \item \textit{Controlador}: la manipulación de los datos. Se corresponde con los clases de Sistema, que crean los sistemas de recomendación.
 \end{itemize}
-
-\imagen{mvc}{Esquema del patrón MVC \cite{mvc}}
 
 La estructura del proyecto siguiendo este patrón quedaría de la siguiente forma:
 \imagen{diagrama_src}{Diagrama UML del proyecto}
