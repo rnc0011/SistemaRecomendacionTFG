@@ -86,88 +86,13 @@ Para la realización de este proyecto se ha seguido el patrón arquitectónico M
 La estructura del proyecto siguiendo este patrón quedaría de la siguiente forma:
 \imagen{diagrama_src}{Diagrama UML del proyecto}
 Por separado, los paquetes contienen:
-NO ESTÁN ACTUALIZADOS!!
 \imagen{diagrama_vista}{Diagrama UML del paquete \textit{vista}}
-\imagen{diagrama_controlador}{Diagrama UML del paquete \textit{controlador}}
-\imagen{diagrama_modelo}{Diagrama UML del paquete \textit{modelo}}
-
-\subsection{Diseño con LightFM}\label{diseño-lightfm}
-NO ESTÁ ACTUALIZADO!!
-Para la parte del modelo clásico, se tienen los siguientes archivos:
-En la clase \texttt{EntradaLightFM} se tiene:
-\begin{itemize}
-\tightlist
-\item \texttt{leer\_x}: estos métodos recogen los datos de los \textit{.csv} para cada conjunto de datos. Estos métodos son utilizados por los métodos de obtención de matrices de la clase \texttt{SistemaLightFM}.
-\end{itemize}
-
-En el archivo \texttt{Salida} se tiene:
-\begin{itemize}
-\tightlist
-\item \texttt{imprimir\_resultados\_clasico}: este método imprime las métricas del modelo clásico escogido.
-\end{itemize}
-
-En el archivo \texttt{Persistencia} se tiene:
-\begin{itemize}
-\tightlist
-\item \texttt{guardar\_matrices}: este método guarda en un archivo \textit{pickle} las matrices que \textit{LightFM} necesita para obtener los modelos.
-\item \texttt{guardar\_modelo}: este método guarda el modelo obtenido por \textit{LightFM} en un archivo \textit{pickle}.
-\end{itemize}
-
-En el archivo \texttt{Interfaz} se tiene:
-\begin{itemize}
-\tightlist
-\item \texttt{elegir\_dataset}: este método muestra un menú mediante el cual elegimos un conjunto de datos que utilizar.
-\item \texttt{elegir\_modelo}: este método muestra un menú mediante el cual elegimos un modelo concreto a crear. 
-\item \texttt{main\_clasico}: programa principal si el modelo escogido es \textit{LightFM}. 
-\end{itemize}
-
-En la clase \texttt{SistemaLightFM} tenemos:
-\begin{itemize}
-\tightlist
-\item \texttt{matrices\_x}: estos métodos crean las matrices necesarias para cada conjunto de datos. 
-\item \texttt{modelo\_x}: estos métodos crean los distintos modelos de recomendación. 
-\item \texttt{resultados\_x}: estos métodos obtienen los resultados para cada modelo de recomendación. 
-\end{itemize}
-
-\subsection{Diseño con Spotlight}\label{diseño-spotlight}
-NO ESTÁ ACTUALIZADO!!
-Para la parte del modelo basado en aprendizaje profundo, se tienen los siguientes archivos:
-En la clase \texttt{EntradaSpotlight} se tiene:
-\begin{itemize}
-\tightlist
-\item \texttt{leer\_x}: estos métodos recogen los datos de los \textit{.csv} para cada conjunto de datos. Estos métodos son utilizados por los métodos de obtención de interacciones de la clase \texttt{SistemaSpotlight}.
-\end{itemize}
-
-En el archivo \texttt{Salida} se tiene:
-\begin{itemize}
-\tightlist
-\item \texttt{imprimir\_resultados\_dl}: este método imprime las métricas del modelo basado en aprendizaje profundo escogido.
-\end{itemize}
-
-En el archivo \texttt{Persistencia} se tiene:
-\begin{itemize}
-\tightlist
-\item \texttt{guardar\_interacciones}: este método guarda en un archivo \textit{pickle} las interacciones que \textit{Spotlight} necesita para obtener los modelos.
-\item \texttt{guardar\_modelo\_dl}: este método guarda el modelo obtenido por \textit{Spotlight}.
-\end{itemize}
-
-En el archivo \texttt{Interfaz} se tiene:
-\begin{itemize}
-\tightlist 
-\item \texttt{main\_dl}: programa principal si el modelo escogido es \textit{Spotlight}. 
-\end{itemize}
-
-En la clase \texttt{SistemaSpotlight} tenemos:
-\begin{itemize}
-\tightlist
-\item \texttt{interacciones\_x}: estos métodos crean las interacciones necesarias para cada conjunto de datos. 
-\item \texttt{modelo\_x}: estos métodos crean los distintos modelos de recomendación. 
-\item \texttt{resultados\_x}: estos métodos obtienen los resultados para cada modelo de recomendación. 
-\end{itemize}
+\imagenGrande{diagrama_controlador}{Diagrama UML del paquete \textit{controlador}}{1.0}
+\imagenGrande{diagrama_modelo}{Diagrama UML del paquete \textit{modelo}}{1.25}
 
 \section{Diseño de la interfaz}\label{diseño-gui}
 A continuación se muestra el diseño que tendrá la interfaz web (es posible que la versión final cambie).
 
 \begin{landscape}
-\imagen{wireframe}{Interaz web}
+\imagenGrande{wireframe}{Interaz web}{1.75}
 \end{landscape} 
