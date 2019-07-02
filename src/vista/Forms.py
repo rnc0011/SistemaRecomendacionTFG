@@ -97,13 +97,13 @@ class NuevoDatasetForm(FlaskForm):
     	botón de submit
 	"""
 	
-	encoding_ratings = SelectField(choices=[('utf-8', 'utf-8'), ('ISO-8859-1', 'ISO-8859-1')])
+	encoding_ratings = SelectField(choices=[('utf-8', 'utf-8'), ('ISO-8859-1', 'ISO-8859-1'), ('Windows-1251', 'Windows-1251')])
 	separador_ratings = SelectField(choices=[('|', '|'), (' ', ' '), (',', ','), (';', ';')])
 	archivo_ratings = FileField('Archivo .csv de valoraciones')
-	encoding_users = SelectField(choices=[('utf-8', 'utf-8'), ('ISO-8859-1', 'ISO-8859-1')])
+	encoding_users = SelectField(choices=[('utf-8', 'utf-8'), ('ISO-8859-1', 'ISO-8859-1'), ('Windows-1251', 'Windows-1251')])
 	separador_users = SelectField(choices=[('|', '|'), (' ', ' '), (',', ','), (';', ';')])
 	archivo_users = FileField('Archivo .csv de usuarios')
-	encoding_items = SelectField(choices=[('utf-8', 'utf-8'), ('ISO-8859-1', 'ISO-8859-1')])
+	encoding_items = SelectField(choices=[('utf-8', 'utf-8'), ('ISO-8859-1', 'ISO-8859-1'), ('Windows-1251', 'Windows-1251')])
 	separador_items = SelectField(choices=[('|', '|'), (' ', ' '), (',', ','), (';', ';')])
 	archivo_items = FileField('Archivo .csv de items')
 	submit = SubmitField('Siguiente')
