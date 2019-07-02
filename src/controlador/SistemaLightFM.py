@@ -9,10 +9,9 @@ Created on Tue Apr 23 16:45:27 2019
 # Se importa todo lo necesario
 import multiprocessing
 import numpy as np
-import pandas as pd
 from modelo import Entrada
 from modelo.Salida import imprimir_resultados_clasico
-from modelo.Persistencia import guardar_datos_pickle, cargar_datos_pickle
+from modelo.Persistencia import guardar_datos_pickle, cargar_datos_pickle, guardar_resultados
 from lightfm import LightFM
 from lightfm.evaluation import precision_at_k, auc_score, recall_at_k, reciprocal_rank
 from lightfm.data import Dataset
@@ -421,9 +420,13 @@ class SistemaLightFM:
             reciprocal = reciprocal_rank(modelo, test, train_interactions=train, user_features=user_features, item_features=item_features, num_threads=self.CPU_THREADS).mean()
         
         # Se guardan las métricas en el diccionario y se formatea su salida
-        metricas = {"Precisión k": format(precision, '.4f'), "AUC Score": format(auc, '.4f'), "Recall k": format(recall, '.4f'), "Ranking recíproco": format(reciprocal, '.4f')}
-        
-        return metricas
+        metricas_devueltas = {"Precisión k": format(precision, '.4f'), "AUC Score": format(auc, '.4f'), "Recall k": format(recall, '.4f'), "Ranking recíproco": format(reciprocal, '.4f')}
+        metricas_a_guardar = {"Precisión k": [format(precision, '.4f')], "AUC Score": [format(auc, '.4f')], "Recall k": [format(recall, '.4f')], "Ranking recíproco": [format(reciprocal, '.4f')]}
+
+        # Se guardan las métricas en un archivo .csv
+        guardar_resultados(metricas_a_guardar)
+
+        return metricas_devueltas
 
 
     def obtener_datos_conjunto_gui(self):

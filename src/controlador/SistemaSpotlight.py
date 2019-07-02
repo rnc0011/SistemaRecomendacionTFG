@@ -9,10 +9,9 @@ Created on Mon May 20 18:40:22 2019
 # Se importa todo lo necesario
 import torch
 import numpy as np
-import pandas as pd
 from modelo import Entrada
 from modelo.Salida import imprimir_resultados_dl
-from modelo.Persistencia import guardar_datos_pickle, guardar_modelos_dl, cargar_datos_pickle, cargar_modelo_dl
+from modelo.Persistencia import guardar_datos_pickle, guardar_modelos_dl, cargar_datos_pickle, cargar_modelo_dl, guardar_resultados
 from spotlight.factorization.explicit import ExplicitFactorizationModel
 from spotlight.factorization.implicit import ImplicitFactorizationModel
 from spotlight.sequence.implicit import ImplicitSequenceModel
@@ -377,16 +376,22 @@ class SistemaSpotlight:
             rmse = rmse_score(modelo, test)
             mrr = mrr_score(modelo, test, train=train).mean()
             precision, recall = precision_recall_score(modelo, test, train=train, k=10)
-            metricas = {"RMSE": format(rmse, '.4f'), "MRR": format(mrr, '.4f'), "Precisión k": format(precision.mean(), '.4f'), "Recall k": format(recall.mean(), '.4f')}
+            metricas_devueltas = {"RMSE": format(rmse, '.4f'), "MRR": format(mrr, '.4f'), "Precisión k": format(precision.mean(), '.4f'), "Recall k": format(recall.mean(), '.4f')}
+            metricas_a_guardar = {"RMSE": [format(rmse, '.4f')], "MRR": [format(mrr, '.4f')], "Precisión k": [format(precision.mean(), '.4f')], "Recall k": [format(recall.mean(), '.4f')]}
         elif self.opcion_modelo == 2:
             mrr = mrr_score(modelo, test, train=train).mean()
             precision, recall = precision_recall_score(modelo, test, train=train, k=10)
-            metricas = {"MRR": format(mrr, '.4f'), "Precisión k": format(precision.mean(), '.4f'), "Recall k": format(recall.mean(), '.4f')}
+            metricas_devueltas = {"MRR": format(mrr, '.4f'), "Precisión k": format(precision.mean(), '.4f'), "Recall k": format(recall.mean(), '.4f')}
+            metricas_a_guardar = {"MRR": [format(mrr, '.4f')], "Precisión k": [format(precision.mean(), '.4f')], "Recall k": [format(recall.mean(), '.4f')]}
         else:
             mrr = sequence_mrr_score(modelo, test).mean()
-            metricas = {"MRR": format(mrr, '.4f')}
+            metricas_devueltas = {"MRR": format(mrr, '.4f')}
+            metricas_a_guardar = {"MRR": [format(mrr, '.4f')]}
         
-        return metricas
+        # Se guardan las métricas en un archivo .csv
+        guardar_resultados(metricas_a_guardar)
+
+        return metricas_devueltas
 
 
     def obtener_datos_conjunto_gui(self):

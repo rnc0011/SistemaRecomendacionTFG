@@ -9,6 +9,7 @@ Created on Fri May  3 19:40:44 2019
 # Se importa todo lo necesario
 import torch
 import pickle
+import pandas as pd
 from tkinter import *
 from tkinter import filedialog  
 
@@ -93,4 +94,29 @@ def cargar_modelo_dl(ruta_modelo):
     return torch.load(ruta_modelo)    
     
 
+def guardar_resultados(metricas):
+    """
+    Método guardar_resultados. Guarda las métricas producidas por los sistemas.
     
+    Parameters
+    ----------
+    
+    metricas: dict
+        ruta del modelo que se quiere cargar
+    """
+
+    # Se obtiene el dataframe con las métricas
+    dataframe = pd.DataFrame.from_dict(metricas)
+
+    # Se obtiene la ruta donde se va a guardar el .csv
+    root = Tk()
+    tipos = [('Archivo CSV', '*.csv')]
+    titulo = 'Selecciona la carpeta donde guardar el .csv con las métricas'
+    directorio = 'C:\\Downloads\\DatasetsTFG'
+    extension = '.csv'
+    root.filename = filedialog.asksaveasfilename(initialdir=directorio, title=titulo, defaultextension=extension, filetypes=tipos)
+    ruta = root.filename
+    root.destroy()
+
+    dataframe.to_csv(ruta, sep=';', header=True)
+
