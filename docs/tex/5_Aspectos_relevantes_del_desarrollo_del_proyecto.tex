@@ -52,14 +52,13 @@ Para la obtención de los modelos de recomendación se utilizaron las siguientes
 \section{Desarrollo del código}\label{desarrollo-codigo}
 El proyecto se ha centrado en dos aspectos fundamentales: obtener un modelo clásico y obtener un modelo basado en aprendizaje profundo.
 
-Para la obtención del modelo clásico se estudió en primer lugar hacer uso de la librería \textit{Crab}. Esta opción se descartó debido a la cantidad de fallos que saltaron durante la instalación (no se pudo llegar a instalar) y a la falta de actividad por parte de sus autores en el repositorio (no se ha tocado desde hace 7 años). Por todo esto, se decidió utilizar la librería \textit{LightFM}.
+Para la obtención del modelo clásico se estudió en primer lugar hacer uso de la librería \textit{Crab}. Esta opción se descartó debido a la cantidad de fallos que se dieron durante la instalación (no se pudo llegar a instalar) y a la falta de actividad por parte de sus autores en el repositorio (no se ha tocado desde hace 7 años). Por todo esto, se decidió utilizar la librería \textit{LightFM}.
 
-Para la obtención del modelo basado en aprendizaje profundo se estudió en primer lugar hacer uso de la librería de \textit{fast.ai}, pero se descartó porque \textit{Spotlight} parecía ser más amigable en cuanto a facilidad de uso, y porque está creado por la misma gente que creó \textit{LightFM}. Así pues, se espera que la evaluación de los modelos siga los mismos criterios en ambas librerías.
+Para la obtención del modelo basado en aprendizaje profundo se estudió en primer lugar hacer uso de la librería de \textit{fast.ai} \cite{fastai}, pero se descartó porque \textit{Spotlight} parecía ser más amigable en cuanto a facilidad de uso; y porque está creado por la misma gente que creó \textit{LightFM}, lo cual hace que la manera de trabajar con estas dos herramientas sea muy parecida. Así pues, se espera que la evaluación de los modelos siga los mismos criterios en ambas librerías.
 
-Para la obtención de la aplicación web se utilizó \textit{Flask} tal y como sugirió el tutor. Esta herramienta resultó ser muy fácil de utilizar y cumplió todas las funciones que se esperaban de ella. Junto con \textit{Flask} se utilizó \textit{WTForms} para crear todos los formularios que forman parte de la aplicación.
+Para la obtención de la aplicación web se utilizó \textit{Flask}. Es una librería que aparece en una gran cantidad de artículos elogiando su facilidad de uso y su potencial. Cumplió todas las funciones que se esperaba de ella. Junto con \textit{Flask} se utilizó \textit{WTForms} para crear todos los formularios que forman parte de la aplicación.
 
 Todo el código del proyecto se pensó para seguir el \textit{Modelo Vista Controlador}.
-\imagen{patronMVC}{Esquema del patrón MVC \cite{mvc}}
 
 \section{CUDA}\label{cuda}
 Para la obtención y el entrenamiento de los modelos de \textit{Spotlight} es posible utilizar la GPU gracias a \textit{CUDA}. Si el equipo en el que corre la aplicación no tuviera GPU, o no estuviera disponible, no pasaría nada (no saltarían errores), simplemente se ejecutarían las operaciones en la CPU.

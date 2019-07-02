@@ -7,7 +7,6 @@ Los sistemas de recomendación son herramientas que generan recomendaciones sobr
 
 En un sistema de recomendación hay dos clases de entidades: usuarios e ítems. Los datos están representados en una matriz de utilidad de tal manera que los usuarios son filas y los ítems columnas. Para cada par hay un valor que representa el grado de preferencia de un usuario para un ítem. Se asume que la mayoría de los valores se desconocen. Es por ello, que el objetivo de un sistema de recomendación es rellenar esos espacios en blanco.
 
-\subsection{Tipos de sistemas de recomendación}\label{tipos-sistemas-recomendacion}
 Existen tres tipos de sistemas (o modelos) de recomendación:
 \begin{itemize}
 \tightlist
@@ -16,15 +15,21 @@ Existen tres tipos de sistemas (o modelos) de recomendación:
 \item Modelos híbridos
 \end{itemize}
 
+Los tres tipos de modelos se han podido obtener con \textit{LightFM}, no así con \textit{Spotlight}, con el cual no se puede obtener un modelo híbrido.
+
 \subsection{Modelos basados en contenido}\label{content-based-systems}
 Este tipo de sistemas tienen en cuenta los gustos del usuario y las características de los ítems.
 
 Para cada ítem hay que construir un perfil compuesto por las propiedades del mismo. Por ejemplo, si los ítem son películas, algunas de las propiedades serían género, director, fecha de estreno, reparto, etc. Una vez hecho esto, se recomiendan ítems cuyas propiedades sean parecidas a los ítems que el usuario ha valorado positivamente.
 
+En \textit{Spotlight}, este tipo de sistema se correspondería con el modelo de factorización implícito y con el modelo de secuencia implícito. En estos modelos se utiliza la matriz de interacción entre usuarios e ítems pero sin las valoraciones.
+
 \subsection{Modelos colaborativos}\label{collaborative-filtering}
 Recomiendan ítems basándose únicamente en los gustos de usuarios similares.
 
 En este caso, en lugar de usar el vector ítem-perfil de un ítem, usamos las filas de la matriz de utilidad. Los usuarios son parecidos si sus filas se acercan de acuerdo a alguna distancia.
+
+En \textit{Spotlight}, este tipo de sistema se correspondería con el modelo de factorización explícito.
 
 \subsection{Modelos híbridos}\label{modelos-hibridos}
 Este tipo de sistemas utilizan las dos técnicas anteriores para ofrecer mejores recomendaciones.
@@ -69,7 +74,7 @@ siendo \textit{SER} el score del elemento más relevante devuelto en el ranking 
 En el modelo de \textit{Spotlight} aparece como \textit{MMR}, o \textit{Mean Reciprocal Rank}.
 
 \subsection{Root Mean Square Error}\label{rmse}
-El \textit{RMSE} se define como el error que hay entre dos conjuntos de datos. Aplicado a nuestro caso, el \textit{RMSE} compara un valor conocido con un valor observado. Su fórmula sería la siguiente:
+El \textit{RMSE} se define como el error que hay entre dos conjuntos de datos. Aplicado a este caso, el \textit{RMSE} \cite{rmse} compara un valor conocido con un valor observado. Su fórmula sería la siguiente:
 \begin{equation}
 RMSE = \sqrt{\frac{\sum_{i=1}^n(C_{i} - O_{i})^{2}}{n}}
 \end{equation}
@@ -87,8 +92,10 @@ En el caso de \textit{LightFM}, las estructuras utilizadas son:
 \item Matrices \textit{CSR}  
 \end{itemize}
 
+\textit{Spotlight}, en cambio, utiliza directamente los arrays de \textit{numpy}; aunque también ofrece métodos para transformar estos arrays a matrices \textit{COO} y \textit{CSR}.
+
 \subsection{Matrices COO}\label{matrices-coo}
-Las \textit{matrices COO} \cite{coo-matrix}, o matrices coordenadas, dividen la matriz dispersa en tres vectores:
+Las \textit{matrices COO} \cite{coo-matrix}, o matrices coordenadas \textit{(COOrdinate)}, dividen la matriz dispersa en tres vectores:
 \begin{itemize}
 \tightlist
 \item Vector con los valores no nulos
@@ -115,7 +122,7 @@ obtendríamos los siguientes vectores:
 Este tipo de estructura es utilizada por \textit{LightFM} para representar la matriz de interacciones entre usuarios e ítems.
 
 \subsection{Matrices CSR}\label{matrices-csr}
-Otras estructuras ampliamente utilizadas, por ser más compactas que las matrices \textit{COO}, son las matrices \textit{CSR} \cite{csr-matrix}. Las matrices \textit{CSR} (\textit{Compressed Sparse Row}) no almacenan los índices de las filas, si no que almacenan punteros a los inicios de fila.
+Otras estructuras ampliamente utilizadas, por ser más compactas que las matrices \textit{COO}, son las matrices \textit{CSR}, o \textit{Compressed Sparse Row} \cite{csr-matrix}. Estas matrices no almacenan los índices de las filas, si no que almacenan punteros a los inicios de fila.
 
 Utilizando como ejemplo la matriz dispersa del caso anterior, ahora obtendríamos:
 \begin{itemize}
@@ -128,6 +135,13 @@ Utilizando como ejemplo la matriz dispersa del caso anterior, ahora obtendríamo
 
 Este tipo de estructura es utilizada por \textit{LightFM} para representar las matrices de features de usuarios e ítems.
 
-\subsection{Spotlight}\label{spotlight}
-\textit{Spotlight} utiliza directamente los arrays de \textit{numpy}, aunque también ofrece métodos para transformar estos arrays a matrices \textit{COO} y \textit{CSR}.
+\section{Paralelismo}\label{paralelismo}
+Debido a la gran cantidad de datos que se pueden llegar a manejar en los sistemas de recomendación y, en general, en cualquier aplicación de \textit{Big Data}, \textit{Deep Learning}, etc., es muy interesante el uso de computación paralela.
 
+Esto se consigue gracias a \textit{CUDA}, \textit{Compute Unified Device Architecture} \cite{cuda}. Es una plataforma de computación en paralelo desarrollada por \textit{nVidia} para ser usada en sus tarjetas gráficas.
+
+Ya que las \textit{GPUs} tienen muchísimos más núcleos que las \textit{CPUs}, las primeras se pueden utilizar para ejecutar operaciones en paralelo. Esto hace que se ahorre mucho tiempo en campos como los sistemas de recomendación.
+
+\imagen{cuda}{Diferencia de núcleos entre CPU y GPU}
+
+En el proyecto se puede utilizar \textit{CUDA} con el sistema de \textit{Spotlight}.

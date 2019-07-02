@@ -10,7 +10,20 @@ Scrum es una técnica de desarrollo ágil que se caracteriza por: \cite{wiki:Scr
 \item Solapamiento de las diferentes fases del desarrollo, en lugar de realizar una tras otra en un ciclo secuencia o en cascada.
 \item Realizar a diario una reunión con el objetivo de obtener realimentación sobre las tareas del equipo y los obstáculos que se presentan.
 \end{itemize}
-Al ser un proyecto educativo, las reuniones no han sido diarias, se han realizado cada dos semanas aproximadamente.
+Al ser un proyecto educativo en el que solo ha habido un programador no ha hecho falta llevar a cabo las reuniones diarias. Tan solo se han realizado las reuniones de fin de sprint, que han tenido lugar cada dos semanas aproximadamente.
+
+\section{Patrones de diseño}\label{patrones-diseno}
+\subsection{MCV}\label{mvc}
+Para el desarrollo del código se optó por seguir el patrón \textit{Modelo Vista Controlador}.
+
+Según este patrón, el código se divide en tres partes principales:
+\begin{itemize}
+\tightlist
+\item \textbf{Modelo:} contiene los archivos dedicados a manipular los datos.
+\item \textbf{Vista:} contiene los archivos con los que el usuario interactúa para usar la aplicación.
+\item \textbf{Controlador:} recibe las peticiones hechas desde la vista y pide los datos al modelo.
+\end{itemize}
+\imagen{mvc}{Esquema del patrón MVC \cite{mvc}}
 
 \section{Control de versiones}\label{control-de-versiones}
 \subsection{Git}\label{git}
@@ -68,7 +81,7 @@ Finalmente, se pasó a \textit{Sublime Text} para realizar los últimos cambios 
 \item Herramienta escogida:
 	\href{http://www.xm1math.net/texmaker/}{Texmaker}
 \end{itemize}
-Se elige \textit{Texmaker} por encima de \textit{OpenOffice} debido a la novedad que supone utilizar \LaTeX{} para crear documentos. 
+Se elige \textit{Texmaker} por encima de \textit{OpenOffice} debido a la novedad que supone utilizar \LaTeX{} \cite{wiki:latex} para crear documentos. 
 
 Además, es una herramienta muy potente gracias a los comandos y funciones que tiene, que en ocasiones hacen que sea mucho más fácil realizar una tarea con \textit{Texmaker} que con \textit{OpenOffice}.
 
@@ -81,17 +94,19 @@ En el proyecto se emplea \textit{NumPy} para transformar listas de Python en arr
 \subsection{pandas}\label{pandas}
 \href{http://pandas.pydata.org/}{pandas}, al igual que \textit{NumPy}, es una librería muy utilizada en el campo de la computación científica debido a la facilidad que ofrece para manejar datos en tablas y series. También forma parte del ecosistema de \textit{SciPy}.
 
-En el proyecto se emplea \textit{pandas} para el manejo inicial de los conjuntos de datos, pasando los \textit{.csv} a \textit{dataframes}.
+En el proyecto se emplea \textit{pandas} para el manejo inicial de los conjuntos de datos, pasando los \textit{.csv} a \textit{dataframes} \cite{dataframes}.
 
 \subsection{LightFM}\label{lightfm}
-\href{https://github.com/lyst/lightfm}{LightFM} es una implementación para Python de populares algoritmos clásicos de recomendación \cite{kulalightfm}. Está creado por la misma gente que creó \textit{Spotlight}.
+\href{https://github.com/lyst/lightfm}{LightFM} es una implementación para Python de populares algoritmos clásicos de recomendación \cite{kulalightfm}.
 
-Se decidió emplear \textit{LightFM} debido a su aparente sencillez y por ser una librería bastante completa.
+Se decidió emplear \textit{LightFM} debido a su aparente sencillez y por ser una librería bastante completa. También se escogió debido a que no es un proyecto que haya pasado desapercibido, hay una buena cantidad de artículos en los que se menciona.
+
+También se estudió la posibilidad de utilizar la librería \textit{Crab}, pero no se pudo llegar a instalar. Además, el repositorio llevaba mucho años sin actualizarse.
 
 \subsection{Spotlight}\label{spotlight}
 \href{https://github.com/maciejkula/spotlight}{Spotlight} es una librería creada por la misma gente que \textit{LightFM} que utiliza \textit{PyTorch} para construir modelos de recomendación \cite{kula2017spotlight} basados en aprendizaje profundo.
 
-Se decidió emplear \textit{Spotlight} por su aparente sencillez y por haber sido creada por la misma gente que la librería clásica.
+Al principio se estudió utilizar la librería de \textit{fast.ai} para obtener los modelos de aprendizaje profundo. La idea se descartó al descubrir que la misma gente que había creado \textit{LightFM} tenía una librería similiar para deep learning. Así pues, se decidió utilizar \textit{Spotlight} al suponer que el cálculo de las métricas iba a resultar muy parecido entre ambas herramientas.
 
 \subsection{Flask}\label{flask}
 \href{http://flask.pocoo.org/}{Flask} es un framework para Python con el que se obtiene una interfaz web en la que poder interactuar con el proyecto.
@@ -136,3 +151,9 @@ El conjunto de datos se encuentra disponible en \href{http://files.grouplens.org
 Este conjunto de datos \cite{brozovsky07recommender} contiene 17.359.346 valoraciones de 135.359 usuarios sobre 168.791 perfiles de otros usuarios. Hay unas 128 valoraciones por usuario.
 
 El conjunto de datos se encuentra disponible en \href{http://www.occamslab.com/petricek/data/libimseti-complete.zip}{Dating Agency}.
+
+\imagen{usuarios_datasets}{Número de usuarios por cada dataset de prueba}
+
+\imagen{items_datasets}{Número de ítems por cada dataset de prueba}
+
+\imagen{valoraciones_usuario_datasets}{Número de valoraciones por usuario de cada dataset de prueba}
