@@ -11,7 +11,6 @@ path.py==10.3.1
 pathlib2==2.2.1
 pickleshare==0.7.4
 spotlight==0.1.5
-torch==0.4.0
 unicodecsv==0.14.1
 Werkzeug==0.15.4
 WTForms==2.2.1
