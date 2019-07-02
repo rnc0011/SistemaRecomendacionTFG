@@ -9,6 +9,7 @@ Created on Tue Apr 23 16:45:27 2019
 # Se importa todo lo necesario
 import multiprocessing
 import numpy as np
+import pandas as pd
 from modelo import Entrada
 from modelo.Salida import imprimir_resultados_clasico
 from modelo.Persistencia import guardar_datos_pickle, cargar_datos_pickle
@@ -140,8 +141,11 @@ class SistemaLightFM:
 
         # Se obtienen los dataframes
         ratings_df = Entrada.leer_csv(ruta_ratings, sep_ratings, encoding_ratings)
+        ratings_df.sort_values([ratings_df.columns.values[0], ratings_df.columns.values[1]], inplace=True)
         users_df = Entrada.leer_csv(ruta_users, sep_users, encoding_users)
+        users_df.sort_values([users_df.columns.values[0]], inplace=True)
         items_df = Entrada.leer_csv(ruta_items, sep_items, encoding_items)
+        items_df.sort_values([items_df.columns.values[0]], inplace=True)
 
         # Se transforman los dataframes en matrices que puedan ser utilzadas por los modelos
         dataset = Dataset()
@@ -428,7 +432,7 @@ class SistemaLightFM:
 
         Este método solo se utiliza en la interfaz web.
         """
-        
+
         global train, test
 
         # Se guardan los datos en un diccionario para su futura muestra en la interfaz web
@@ -475,7 +479,7 @@ class SistemaLightFM:
         
         # Se obtienen los ids de los ítems ordenando las predicciones de mayor a menor en función del score obtenido
         predicciones = np.argsort(-scores)
-        
+
         # Se devuelven las 20 mejores predicciones
         return predicciones[:20]
 

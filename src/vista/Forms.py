@@ -332,7 +332,7 @@ class ParamDLForm(FlaskForm):
 	batch_size = IntegerField(default=256)
 	l2 = FloatField(default=0.0)
 	learning_rate = FloatField(default=0.01)
-	representation = SelectField(choices=[('pooling', 'Pooling'), ('cnn', 'cnn'), ('lstm', 'lstm'), ('mixture', 'mixture')])
+	representation = SelectField(choices=[('pooling', 'PoolNet (Secuencia)'), ('cnn', 'CNNNet (Secuencia)'), ('lstm', 'LSTMNet (Secuencia)'), ('mixture', 'MixtureLSTMNet (Secuencia)')])
 	submit = SubmitField('Construir')
 
 

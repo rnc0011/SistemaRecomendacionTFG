@@ -9,6 +9,7 @@ Created on Mon May 20 18:40:22 2019
 # Se importa todo lo necesario
 import torch
 import numpy as np
+import pandas as pd
 from modelo import Entrada
 from modelo.Salida import imprimir_resultados_dl
 from modelo.Persistencia import guardar_datos_pickle, guardar_modelos_dl, cargar_datos_pickle, cargar_modelo_dl
@@ -76,10 +77,10 @@ class SistemaSpotlight:
             timestamps = np.asarray(ratings_df[ratings_df.columns.values[3]].tolist(), dtype=np.int32)
             if self.opcion_modelo == 1:
                 ratings = np.asarray(ratings_df[ratings_df.columns.values[2]].tolist(), dtype=np.float32)
-                interacciones = Interactions(users_ids, items_ids, ratings=ratings, timestamps=timestamps, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                interacciones = Interactions(users_ids, items_ids, ratings=ratings, timestamps=timestamps)
                 train, test = random_train_test_split(interacciones)
             else:
-                interacciones = Interactions(users_ids, items_ids, timestamps=timestamps, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                interacciones = Interactions(users_ids, items_ids, timestamps=timestamps)
                 train, test = random_train_test_split(interacciones)
                 if self.opcion_modelo == 3:
                     train = train.to_sequence()
@@ -87,9 +88,9 @@ class SistemaSpotlight:
         else:
             if self.opcion_modelo == 1:
                 ratings = np.asarray(ratings_df[ratings_df.columns.values[2]].tolist(), dtype=np.float32)
-                interacciones = Interactions(users_ids, items_ids, ratings=ratings, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                interacciones = Interactions(users_ids, items_ids, ratings=ratings)
             else:
-                interacciones = Interactions(users_ids, items_ids, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                interacciones = Interactions(users_ids, items_ids)
             train, test = random_train_test_split(interacciones)
             
         # Se guardan las interacciones de entrenamiento y test
@@ -120,6 +121,7 @@ class SistemaSpotlight:
         
         # Se obtiene el dataframe de valoraciones
         ratings_df = Entrada.leer_csv(ruta_ratings, sep_ratings, encoding_ratings)
+        ratings_df.sort_values([ratings_df.columns.values[0], ratings_df.columns.values[1]], inplace=True)
 
         # Se obtienen arrays con los ids de los usuarios y de los ítems
         users_ids = np.asarray(ratings_df[ratings_df.columns.values[0]].tolist(), dtype=np.int32)         
@@ -130,10 +132,10 @@ class SistemaSpotlight:
             timestamps = np.asarray(ratings_df[ratings_df.columns.values[3]].tolist(), dtype=np.int32)
             if self.opcion_modelo == 1:
                 ratings = np.asarray(ratings_df[ratings_df.columns.values[2]].tolist(), dtype=np.float32)
-                interacciones = Interactions(users_ids, items_ids, ratings=ratings, timestamps=timestamps, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                interacciones = Interactions(users_ids, items_ids, ratings=ratings, timestamps=timestamps)
                 train, test = random_train_test_split(interacciones)
             else:
-                interacciones = Interactions(users_ids, items_ids, timestamps=timestamps, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                interacciones = Interactions(users_ids, items_ids, timestamps=timestamps)
                 train, test = random_train_test_split(interacciones)
                 if self.opcion_modelo == 3:
                     train = train.to_sequence()
@@ -141,9 +143,9 @@ class SistemaSpotlight:
         else:
             if self.opcion_modelo == 1:
                 ratings = np.asarray(ratings_df[ratings_df.columns.values[2]].tolist(), dtype=np.float32)
-                interacciones = Interactions(users_ids, items_ids, ratings=ratings, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                interacciones = Interactions(users_ids, items_ids, ratings=ratings)
             else:
-                interacciones = Interactions(users_ids, items_ids, num_users=len(np.unique(users_ids))+1, num_items=len(np.unique(items_ids))+1)
+                interacciones = Interactions(users_ids, items_ids)
             train, test = random_train_test_split(interacciones)
             
         # Se guardan las interacciones de entrenamiento y test
@@ -418,7 +420,7 @@ class SistemaSpotlight:
 
         global train
 
-        return train.tocoo().shape[0] - 1
+        return train.tocoo().shape[0]
     
     
     def obtener_predicciones(self, usuario):
