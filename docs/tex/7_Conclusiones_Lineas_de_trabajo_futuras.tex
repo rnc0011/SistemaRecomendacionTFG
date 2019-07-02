@@ -1,9 +1,19 @@
 \capitulo{7}{Conclusiones y Líneas de trabajo futuras}
 
 \section{Conclusiones}\label{conclusiones}
-Todavía hay que sacarlas.
+Como se ha podido observar a lo largo de todos los artículos que se han leído, y por la experiencia personal con determinados servicios, está claro que los sistemas de recomendación son unas herramientas muy potentes y que tienen una importancia mayúscula en nuestras vidas. Hemos normalizado completamente que compañías como \textit{Neflix}, \textit{Amazon}, \textit{Spotify}, etc. nos ofrezcan productos o servicios que piensan que nos pueden gustar y que, de hecho, en muchos casos nos acaban gustando.
+
+A continuación se muestran parte de los resultados obtenidos por los distintos modelos con el conjunto de datos de \textit{Movielens}, ya que al haber realizado cambios de última hora en los sistemas, es inviable entrenar a tiempo todos los modelos varias veces con todos los datasets de prueba.
+
+TABLA
 
 \section{Líneas de trabajo futuras}\label{lineas-futuras}
-Dado que no se han podido obtener las predicciones para el modelo de secuencia, se puede dejar como futura mejora el obtenerlas.
+Dado que no se han podido obtener las predicciones para el modelo de secuencia, se podría plantear como futura línea de trabajo obtenerlas.
 
-Además, también sería una futura mejora el añadir valoraciones y/o usuarios a los conjuntos de datos.
+También se deja como futura mejora el añadir valoraciones de usuarios existentes o de usuarios nuevos.
+
+Desgraciadamente, ni \textit{LightFM} ni \textit{Spotlight} implementan métodos de búsqueda de hiperparámetros. Tampoco lo hace \textit{PyTorch}, por lo que podría ser interesante el crear un método capaz de obtener los mejores parámetros para los modelos, ya sea una búsqueda aleatoria o en malla.
+
+Otra posible tarea es la de desplegar la aplicación en un servidor con hardware "competitivo" y comprar los resultados para determinar hasta qué punto el hardware del equipo ralentiza la obtención y el entrenamiento de los modelos. La mejora va a ser muy notable sí o sí. Tan solo hay que ver que los modelos clásicos tardan hasta 12 horas en completar todo el proceso ejecutándose en la CPU (Intel Core i5-6000) mientras que los basados en aprendizaje profundo tardan unas x horas ejecutándose en una GPU de gama media-alta pero con ya unos años a sus espaldas(nVidia GTX 970). Es por eso que sería interesante ver el desempeño de los modelos basados en deep learning en hardware más moderno y potente (tal ver una nVidia GTX Titan o Titan V).
+
+Dado que se han realizado cambios de última hora en la obtención de los sistemas, estaría bien en un futuro el poder tener una comparativa más exhaustiva y extensa de las métricas de cada modelo.

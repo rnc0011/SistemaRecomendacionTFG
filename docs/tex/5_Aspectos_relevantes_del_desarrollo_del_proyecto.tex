@@ -69,12 +69,15 @@ La instalación de \textit{Spotlight} incluye \textit{CUDA}.
 Durante el desarrollo del proyecto se han encontrado los siguientes problemas:
 
 \subsection{Predicciones en modelo de secuencia}\label{predicciones-secuencia}
-De momento, no se pueden obtener las predicciones para el modelo de secuencia de \textit{Spotlight}. Esto es debido a que a diferencia del resto de modelos, donde para ver las predicciones basta con indicar el usuario cuya predicciones quieres obtener, en el modelo de secuencia no vale el usuario. Hay que utilizar una secuencia de interacciones del usuario. Esto complica el trabajo a la hora de programar además de complicarle la vida al usuario que va a interactuar con la aplicación.
+De momento, no se ha conseguido obtener las predicciones para el modelo de secuencia de \textit{Spotlight}. Esto es debido a que a diferencia del resto de modelos, con los cuales para ver las predicciones basta con indicar el usuario cuya predicciones se quiere obtener, en el modelo de secuencia no vale el usuario. Hay que utilizar una secuencia de interacciones del usuario. Esto dificulta el trabajo a la hora de programarlo, además de complicarle la vida al usuario que va a interactuar con la aplicación.
 
-\subsection{Añadir valoraciones al modelo de secuencia}\label{valoraciones-secuencia}
-También, y de momento, hay problemas a la hora de añadir valoraciones y/o usuarios al modelo de secuencia por lo comentado anteriormente.
+En lugar de que la persona que vaya a probar la aplicación tenga que elegir el id del usuario cuyas predicciones quiere ver, tendría que saber de ante mano la secuencia de interacciones que ese usuario ha tenido con los ítems para que el modelo pueda calcular los siguientes con los que podría interactuar.
 
-Es posible que esto se tenga que dejar como línea de trabajo futuro.
+\subsection{Añadir valoraciones}\label{mas-valoraciones}
+Tampoco ha sido posible llevar a cabo la adición de más valoraciones por parte de usuarios ya existentes o nuevos. No queda muy claro cómo proceder con los métodos de \textit{fit\_partial} de los modelos. Además, según han comentado algunos usuarios de las librerías, parece que hay que tener en cuenta con antelación si se va a querer añadir nuevos usuarios, porque deberían existir en el conjunto de datos original (aunque no interactúen con nada) \cite{problema-mas-valoraciones}.
+
+\subsection{Heroku}\label{heroku}
+
 
 \section{Documentación}\label{documentacion}
 Las opciones que se plantearon para realizar la documentación fueron \textit{Apache OpenOffice} y \textit{Texmaker}. Ya que el Trabajo Fin de Grado se puede ver como una forma de aprender conceptos nuevos que se desmarcan de lo visto durante la carrera, se optó por \textit{Texmaker} debido a la novedad y al querer aprender y usar \LaTeX{}.
