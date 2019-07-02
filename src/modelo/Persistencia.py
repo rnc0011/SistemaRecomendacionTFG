@@ -49,6 +49,12 @@ def cargar_datos_pickle(ruta_archivo):
     
     ruta_archivo: str
         ruta del modelo o matriz que se quiere cargar
+
+    Returns
+    -------
+
+    datos: LightFM instance or np.float32 csr_matrix or Interactions instance
+        modelo o matriz que se quiere guardar
     """
 
     archivo = open(ruta_archivo, 'rb')
@@ -89,6 +95,12 @@ def cargar_modelo_dl(ruta_modelo):
     
     ruta_modelo: str
         ruta del modelo que se quiere cargar
+
+    Returns
+    -------
+
+    modelo: ImplicitFactorizationModel, ExplicitFactorizationModelo or ImplicitSequenceModel instance
+        modelo guardado. 
     """
 
     return torch.load(ruta_modelo)    
@@ -118,5 +130,6 @@ def guardar_resultados(metricas):
     ruta = root.filename
     root.destroy()
 
+    # Se guarda el dataframe en un archivo .csv
     dataframe.to_csv(ruta, sep=';', header=True)
 

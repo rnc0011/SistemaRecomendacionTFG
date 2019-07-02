@@ -364,6 +364,12 @@ class SistemaSpotlight:
         Método obtener_metricas_gui. Obtiene las métricas del modelo escogido.
 
         Este método solo se utiliza en la interfaz web.
+
+        Returns
+        -------
+
+        metricas_devueltas: dict
+            diccionario con las métricas del modelo
         """
 
         global train, test, modelo
@@ -399,6 +405,12 @@ class SistemaSpotlight:
         Método obtener_datos_conjunto_gui. Obtiene los datos del dataset escogido.
 
         Este método solo se utiliza en la interfaz web.
+
+        Returns
+        -------
+
+        datos: dict
+            diccionario con los datos del dataset utilizado en el modelo
         """
         
         global train, test
@@ -421,6 +433,12 @@ class SistemaSpotlight:
         Se utiliza para indicarle al usuario de la aplicación que no debe pasarse de ese número.
 
         Este método solo se utiliza en la interfaz web.
+
+        Returns
+        -------
+
+        train.tocoo().shape[0]: int
+            id del último usuario del dataset
         """
 
         global train
@@ -439,6 +457,12 @@ class SistemaSpotlight:
 
         usuario: int
             id del usuario cuyas predicciones se quieren obtener
+
+        Returns
+        -------
+
+        predicciones: np.array
+            array de numpy con los ids de los ítems recomendados
         """
 
         global modelo

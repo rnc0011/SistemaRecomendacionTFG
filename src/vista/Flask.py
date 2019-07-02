@@ -32,6 +32,12 @@ def home():
     Método home. Muestra la página principal de la interfaz web.
 
     Este método solo se utiliza en la interfaz web.
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
      
     # Se genera el formulario
@@ -62,6 +68,12 @@ def elegir_modelo(path, opcion_anterior):
     	ruta de la página anterior
     opcion_anterior: int
     	opcion del tipo de modelo seleccionado
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
    
 	global modelo_clasico_dl
@@ -100,6 +112,12 @@ def elegir_modelo_clasico(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
   	# Se genera el formulario
@@ -124,6 +142,12 @@ def elegir_modelo_dl(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
   	# Se genera el formulario
@@ -150,6 +174,12 @@ def timestamps(path, tipo):
     	ruta de la página anterior
     tipo: int
 		tipo de modelo de Spotlight
+
+	Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema, timestamps
@@ -180,6 +210,12 @@ def param_clasico(path, tipo):
     	ruta de la página anterior
     tipo: int
 		tipo de modelo de LightFM
+
+	Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema
@@ -223,6 +259,12 @@ def param_dl(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema
@@ -259,6 +301,12 @@ def elegir_dataset(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	# Se genera el formulario
@@ -285,6 +333,12 @@ def nuevo_dataset(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema, modelo_clasico_dl
@@ -341,6 +395,12 @@ def datasets_prueba(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema, modelo_clasico_dl, timestamps
@@ -517,6 +577,12 @@ def cargar_modelo_clasico(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema
@@ -576,6 +642,12 @@ def cargar_modelo_dl(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema
@@ -629,6 +701,12 @@ def ver_metricas(path):
 
     path: path
     	ruta de la página anterior
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema, modelo_clasico_dl
@@ -662,6 +740,12 @@ def elegir_usuario(path, max_id):
     	ruta de la página anterior
     max_id: int
     	id del último usuario del dataset
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	# Se genera el formulario
@@ -691,6 +775,12 @@ def ver_predicciones(path, usuario):
     	ruta de la página anterior
     usuario: int
     	id usuario cuyas predicciones se quiren ver
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	global sistema
@@ -715,6 +805,12 @@ def anadir_valoraciones():
     Este método solo se utiliza en la interfaz web.
 
     No es funcional.
+
+    Returns
+    -------
+
+    pagina html: html
+    	pagina que se quiere mostrar a continuación
     """
   	
 	# Se genera el formulario
