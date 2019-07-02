@@ -3,9 +3,43 @@
 \section{Conclusiones}\label{conclusiones}
 Como se ha podido observar a lo largo de todos los artículos que se han leído, y por la experiencia personal con determinados servicios, está claro que los sistemas de recomendación son unas herramientas muy potentes y que tienen una importancia mayúscula en nuestras vidas. Hemos normalizado completamente que compañías como \textit{Neflix}, \textit{Amazon}, \textit{Spotify}, etc. nos ofrezcan productos o servicios que piensan que nos pueden gustar y que, de hecho, en muchos casos nos acaban gustando.
 
-A continuación se muestran parte de los resultados obtenidos por los distintos modelos con el conjunto de datos de \textit{Movielens}, ya que al haber realizado cambios de última hora en los sistemas, es inviable entrenar a tiempo todos los modelos varias veces con todos los datasets de prueba.
+A continuación se muestran parte de los resultados obtenidos por los distintos modelos con el conjunto de datos de \textit{Movielens}, ya que al haber realizado cambios de última hora en los sistemas, es inviable entrenar a tiempo todos los modelos varias veces con todos los datasets de prueba:
 
-TABLA
+\tablaSinColores{Métricas modelos \textit{LightFM}}{l l l l l}{5}{lightfm}
+{\textbf{Modelo} & \textbf{Precisión k} & \textbf{AUC Score} & \textbf{Recall k} & \textbf{Ranking recíproco} \\}{
+	Colaborativo & 0,1879 & 0,8675 & 0,1218 & 0,4304 \\
+	Híbrido & 0,1759 & 0,8655 & 0,1160 & 0,4017 \\
+	Por contenido & 0,1746 & 0,8640 & 0,1143 & 0,3910 \\
+}
+
+Como se puede observar, el modelo colaborativo es el que mejor sale evaluado. Esto contrasta con la teoría, ya que el modelo híbrido debería ser mejor por utilizar tanto las valoraciones como las features de los usuarios y de los ítems.
+
+Se tendría que repetir las pruebas con otros conjuntos de datos distintos para ver si la tendencia es esa o cambia.
+
+\tablaSinColores{Métricas modelos \textit{Spotlight}}{l l l l l}{5}{spotlight}
+{\textbf{Modelo} & \textbf{RMSE} & \textbf{MRR} & \textbf{Precisión k} & \textbf{Recall k} \\}{
+	Fact. expl. time & 1,1457 & 0,0102 & 0,0424 & 0,0168 \\
+	Fact. expl. & 1,1471 & 0,0114 & 0,0409 & 0,0177 \\
+	Fact. impl. time & - & 0,0625 & 0,2317 & 0,1380 \\
+	Fact. impl. & - & 0,0671 & 0,2367 & 0,1482 \\
+	Secuencia impl. - & 0,0304 & - & - \\
+}
+
+Como se puede observar, los mejores modelos son los que no hacen uso de los timestamps. Entre ellos, el que mejor sale parado es el modelo de factorización implícito sin timestamps (tampoco hace uso de las valoraciones).
+
+Si comparamos ambos modelos:
+
+\tablaSinColores{\textit{LightFM} vs \textit{Spotlight}}{l l l l}{4}{versus}
+{\textbf{Modelo} & \textbf{Precisión k} & \textbf{Recall k} & \textbf{MRR} \\}{
+	Colaborativo & 0,1879 & 0,1218 & 0,4304 \\
+	Fact. impl. & 0,2367 & 0,1482 & 0,0671 \\
+}
+
+Como se puede observar, el modelo de factorización implícito obtiene mejores valores de precisión y recall que el modelo colaborativo, pero sale perdiendo, y por mucho, en el ranking recíproco.
+
+Con estos resultados, se lleva a la conclusión de que el mejor modelo de \textit{LightFM} es el que solo utiliza las valoraciones para recomendar, mientras que el mejor modelo de \textit{Spotlight} es uno de los que no utilizan las valoraciones para nada.
+
+A parte de estos resultados evidentes, se ha podido comparar el tiempo que tarda uno de los sistemas de \textit{LightFM} en leer el conjunto de \textit{Dating Agency}, obtener, entrenar y evaluar el modelo frente a lo que tarda un modelo de \textit{Spotlight} en hacer lo mismo. Mientras que el modelo clásico tardaba unas 12 horas en completar las tareas, el modelo basado en aprendizaje profundo lo ha hecho en unas 4 horas. Esto es lo que podemos esperar de los modelos de deep learning gracias al uso de \textit{CUDA}.
 
 \section{Líneas de trabajo futuras}\label{lineas-futuras}
 Dado que no se han podido obtener las predicciones para el modelo de secuencia, se podría plantear como futura línea de trabajo obtenerlas.
