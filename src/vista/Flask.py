@@ -11,8 +11,8 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from .Forms import *
-from src.modelo import Entrada
-from src.controlador import SistemaLightFM, SistemaSpotlight
+from modelo import Entrada
+from controlador import SistemaLightFM, SistemaSpotlight
 
 # Constantes
 UPLOAD_FOLDER = './uploads'

@@ -1,1 +1,1 @@
-web: gunicorn src.vista.Flask:app
+web: gunicorn __main__:app
