@@ -1,1 +1,1 @@
-web: gunicorn vista/Flask:app
+web: gunicorn ./vista/Flask:app
