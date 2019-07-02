@@ -37,7 +37,7 @@ A continuación se detalla como instalar estas herramientas:
 Lenguaje de programación escogido para llevar a cabo el proyecto. Se puede descargar la última versión desde el siguiente enlace: \href{https://www.python.org/downloads/}{Descargar Python}.
 
 \subsection{IDE}
-Se puede utilizar el IDE que más guste. En este caso, se ha utilizado tanto \textit{Spyder} como \textit{Sublime Text}, además de los notebooks de \textit{Jupyter}.
+En este caso, se ha utilizado tanto \textit{Spyder} como \textit{Sublime Text}, además de los notebooks de \textit{Jupyter}.
 
 \textit{Spyder} y \textit{Jupyter} vienen dentro del paquete de \textit{Anaconda} (que también incluye Python). \href{https://www.datacamp.com/community/tutorials/installing-anaconda-windows}{Guía para instalar Anaconda en Windows}. En este otro enlace se descarga \textit{Anaconda} directamente para cualquier sistema operativo: \href{https://www.anaconda.com/distribution/}{Descargar Anaconda}.
 
@@ -53,7 +53,7 @@ Librería utilizada para la obtención de los modelos de recomendación basados 
 Con \textit{Flask} se obtiene la interfaz web. Tan solo hay que ejecutar el comando \textbf{pip install Flask} para instalarlo \cite{instalacion-flask}.
 
 \subsection{WTForms}
-Esta librería se utiliza para poder generar todos los formularios que componen la interfaz web. Para instalarla vale con ejecutar \textbf{pip install WTForms} \cite{instalacion-flask}.
+Esta librería se utiliza para poder generar todos los formularios que componen la interfaz web. Para instalarla vale con ejecutar \textbf{pip install WTForms} \cite{instalacion-wtforms}.
 
 \section{Compilación, instalación y ejecución del proyecto}
 \subsection{Obtención del código}
@@ -64,6 +64,8 @@ El código se encuentra disponible en el siguiente repositorio de GitHub: \href{
 \subsection{Instalación}
 Para poder compilar y ejecutar el proyecto es necesario tener instaladas todas las herramientas listadas anteriormente.
 
+No hace falta instalar una por una las librerías y herramientas anteriores. Basta con navegar hasta el directorio raíz del proyecto y ejecutar el comando \textbf{pip install -r requirements.txt}. Esto hará que se instalen de manera automática para el usuario todas las herramientas listadas en el arhcivo \textit{requirements.txt}.
+
 \subsection{Compilación y ejecución}
 Una vez descargado el repositorio e instaladas todas las herramientas necesarias, se puede proceder a ejecutar la aplicación. Para ello, navegamos desde la consola hasta la carpeta \textit{src} del proyecto:
 
@@ -71,11 +73,11 @@ Una vez descargado el repositorio e instaladas todas las herramientas necesarias
 
 Para ejecutar el proyecto basta con ejecutar el archivo \textit{\_\_main\_\_.py} que se encuentra dentro de \textit{src}:
 
-\imagen{ejecución_proyecto}{Ejecución del proyecto}
+\imagen{ejecucion_proyecto}{Ejecución del proyecto}
 
 Metiendo la opción \textit{2} ejecutamos la interfaz web obtenida gracias a \textit{Flask}. Se tiene que abrir el navegador e ir a la dirección: \textbf{http://localhost:5000/home}.
 
 \imagen{interfaz_web}{Interfaz web de la aplicación}
 
 \section{Pruebas del sistema}
--
+Debido a la falta de tiempo durante la realización del proyecto, no ha sido posible realizar tests sobre el código. Como ya se ha comentado en la memoria, este aspecto se deja como línea de trabajo futura.
