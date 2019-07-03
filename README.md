@@ -1,7 +1,7 @@
 # SistemaRecomendacionTFG
 Sistema de Recomendación basado en Aprendizaje Profundo. Trabajo de Fin de Grado en Ingeniería Informática. Universidad de Burgos.
 
-El tema principal del proyecto son los sistemas de recomendación. Estas herramientas generan predicciones sobre ítems que pueden ser relevantes para los usuarios. Tal es su importancia que, prácticamente, todas las grandes compañías que ofrecen algún tipo de servicio o pro- ducto utilizan estos sistemas para dar recomendaciones a los usuarios.   
+El tema principal del proyecto son los sistemas de recomendación. Estas herramientas generan predicciones sobre ítems que pueden ser relevantes para los usuarios. Tal es su importancia que, prácticamente, todas las grandes compañías que ofrecen algún tipo de servicio o producto utilizan estos sistemas para dar recomendaciones a los usuarios.   
 
 Los objetivos que se persiguen con la realización de este proyecto son:
 * Comprender el funcionamiento de un sistema de recomendación clásico. 
