@@ -77,7 +77,9 @@ En lugar de que la persona que vaya a probar la aplicación tenga que elegir el 
 Tampoco ha sido posible llevar a cabo la adición de más valoraciones por parte de usuarios ya existentes o nuevos. No queda muy claro cómo proceder con los métodos de \textit{fit\_partial} de los modelos. Además, según han comentado algunos usuarios de las librerías, parece que hay que tener en cuenta con antelación si se va a querer añadir nuevos usuarios, porque deberían existir en el conjunto de datos original (aunque no interactúen con nada) \cite{problema-mas-valoraciones}.
 
 \subsection{Heroku}\label{heroku}
+Se ha intentado desplegar la aplicación \textit{Flask} a través de \textit{Heroku} y \textit{Gunicorn}, pero no ha sido posible debido a que la aplicación de \textit{Heroku} no era capaz de trabajar con los paquetes del proyecto. Siempre daba fallo de \textit{ModuleNameNotFound}.
 
+Se ha intentado cambiar la forma de importar los paquetes sin suerte.
 
 \section{Documentación}\label{documentacion}
 Las opciones que se plantearon para realizar la documentación fueron \textit{Apache OpenOffice} y \textit{Texmaker}. Ya que el Trabajo Fin de Grado se puede ver como una forma de aprender conceptos nuevos que se desmarcan de lo visto durante la carrera, se optó por \textit{Texmaker} debido a la novedad y al querer aprender y usar \LaTeX{}.
