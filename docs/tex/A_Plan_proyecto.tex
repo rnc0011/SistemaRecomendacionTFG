@@ -91,20 +91,105 @@ Los costes se pueden dividir de la siguiente manera:
 
 \textbf{Costes humanos:}
 
-En este conjunto se incluye el sueldo de los trabajadores. Como el proyecto se ha podido llevar a cabo por una solo persona, se van a calcular los costes como si el equipo de trabajo estuviera compuesto por una persona. Además, la situación de esta persona sería la de recién graduado y sin experiencia laboral en este campo. La duración sería de unos 5 meses. 
+En este apartado se incluye el sueldo de los trabajadores. Como el proyecto se ha podido llevar a cabo por una solo persona, se van a calcular los costes como si el equipo de trabajo estuviera compuesto por una persona. Además, la situación de esta persona sería la de recién graduado y sin experiencia laboral en este campo. La duración sería de unos 5 meses. 
 
-Según un informe de \textit{Adecco} en 2015 \cite{sueldo-junior}, los informáticos junior cobraban alrededor de 17.248€ brutos al año. Sabiendo esto, el desglose quedaría:
+Según un informe de \textit{Adecco} en 2015 \cite{sueldo-junior}, los informáticos junior cobraban alrededor de \EUR{17.248} brutos al año. Sabiendo esto, el desglose quedaría:
 
 \tablaSinColores{Coste de personal}{l l}{2}{coste-personal}
 {\textbf{Concepto} & \textbf{Coste} \\}{
-	Salario mensual neto & 662,61€ \\
-	Seguridad Social (29,9\%) & 429,76€ \\ 
-	Retención IRPF (24\%) & 344,96€ \\
-	Salario mensual bruto & 1437.33€ \\
+	Salario mensual neto & \EUR{1.202,76} \\
+	Seguridad Social & \EUR{91,27} \\ 
+	Retención IRPF & \EUR{143,31} \\
+	Salario mensual bruto & \EUR{1.437,33} \\
 	\midrule
-	Total 5 meses & 7.186,65€ \\
+	\textbf{Total 5 meses} & \EUR{7.186,65} \\
 }
 
+Los datos se han calculado gracias a una herramienta proporcionada por la sección de \textit{El País Economía} \cite{calculo-sueldo}. Para ello, se tiene en cuanto el salario bruto anteriormente proporcionado así como la categoría profesional del trabajador, su edad y la comunidad en la que reside.
+
+\textbf{Coste hardware:}
+
+En este apartado se tiene en cuenta el coste de todos los elementos hardware que se han necesitado durante la realización del proyecto. Normalmente, estos elementos se amortizan a los 5 años.
+
+\tablaSinColores{Coste hardware}{l l l}{3}{coste-hardware}
+{\textbf{Concepto} & \textbf{Coste} & \textbf{Coste amortizado 5 meses} \\}{
+	Ordenador Personal (Bundle) & \EUR{1.200} & \EUR{100} \\
+	Hardware alquilado (al mes) & \EUR{437,34} & - \\
+	\midrule
+	\textbf{Total} & \EUR{3.386,7} & \EUR{2.286,7} \\
+}
+
+Ya que el proyecto involucra al aprendizaje profundo, sería interesante alquier un buen hardware en el que ejecutar la aplicación.
+
+A decir verdad, esta es la peor situación posible, ya que se está pagando de continuo por un hardware \cite{calquilar-hardware} que va a estar apagado la mayor parte del tiempo. Sería más rentable alquilarlo por semanas o minutos. 
+
+\textbf{Coste software:}
+
+En este apartado se tiene el cuenta el software no gratuito. La amortización del software suele estar por los 2 años.
+
+\tablaSinColores{Coste software}{l l l}{3}{coste-software}
+{\textbf{Concepto} & \textbf{Coste} & \textbf{Coste amortizado 5 meses} \\}{
+	Windows 10 Pro & \EUR{259} & \EUR{53,96} \\
+	\midrule
+	\textbf{Total} & \EUR{259} & \EUR{53,96} \\
+}
+
+Este caso también es poco favorable, ya que con el equipo comprado anteriormente podría venir Windows instalado. Además, se podría optar por un equipo con Linux y ahorrarse directamente el coste del S.O.
+
+\textbf{Costes varios:}
+
+Resto de costes que no tienen un grupo dedicado para ellos solos.
+
+\tablaSinColores{Costes varios}{l l}{2}{costes-varios}
+{\textbf{Concepto} & \textbf{Coste} \\}{
+	Alquiler oficina al mes & \EUR{450} \\
+	Conexión a internet al mes & \EUR{80} \\
+	Material de ofician & \EUR{150} \\
+	\midrule
+	\textbf{Total} & \EUR{11.800} \\
+}
+
+\textbf{Coste total:}
+
+Teniendo en cuenta todos los costes anteriores, desarrollar este proyecto costaría \EUR{21.327,31}.
+
+\tablaSinColores{Coste total}{l l}{2}{coste-total}
+{\textbf{Concepto} & \textbf{Coste} \\}{
+	Humano & \EUR{7.186,65} \\
+	Hardware & \EUR{2.286,7} \\
+	Software & \EUR{53,96} \\
+	Varios & \EUR{11.800} \\
+	\midrule
+	\textbf{Total} & \EUR{21.327,31} \\
+}
+
+Esta cifra podría verse reducida mucho si se elige otro tipo de plan al alquilar el hardware.
+
+\subsection{Beneficios}\label{beneficios}
+Una buena manera de poner precio a los sistemas de recomendación sería cobrar por predicción. Al poder utilizar casi cualquier conjunto de datos, cualquier cliente podría utilizar el sistema y obtener predicciones para los usuarios de su plataforma.
+
+A estos clientes se les podría cobrar a \textit{x} céntimos la predicción. O incluso se podría ofrecer un contrato para que el cliente no tuviera que pagar cada vez que quisiera predicciones, sino que pagara un tipo de suscripción.
+
 \subsection{Viabilidad legal}
+Al desarrollar software, hay que tener muy presente qué herramientas se están utilizando y bajo qué licencias se han publicado.
 
+En este proyecto, todas las librerías y herramientas que se han utilizado han sido gratuitas. A continuación se listan todas ellas junto con su tipo de licencia:
 
+\tablaSinColores{Herramientas y sus licencias}{l l l}{3}{licencias}
+{\textbf{Software} & \textbf{Descripción} & \textbf{Licencia} \\}{
+	LightFM & Librería de modelos clásicos & Apache 2.0 \\
+	Spotlight & Librería de modelos de deep learning & MIT \\
+	NumPy & Paquete de Python utlizado en ciencia computacional & BSD \\
+	Pandas & Herramienta usada para tratar los .csv & BSD \\
+	PyTorch & Librería de deep learning & BSD \\
+	CUDA & Librería de programación paralela de nVidia & Propietario,Free \\
+	Python & Lenguaje de programación usado en el proyecto &  PSFL \\
+	Flask & Herramienta utilizada para la interfaz web & BSD \\
+	WTForms & Herramienta con la que poder obtener formularios web & BSD \\
+	Werkzeug & Asegura el nombre de los ficheros a guardar & BSD \\
+	Gunicorn & Servidor Web para Python & MIT \\
+	Sublime Text & Editor de Texto & Propietario, Free \\
+	Texmaker & Editor para la documentación & GNU GPL \\
+	\LaTeX{} & Utilizado en la documentación & LPPL \\
+	Anaconda & Utilizado con Juyter y Spyder & BSD \\
+}
