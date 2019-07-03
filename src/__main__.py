@@ -14,7 +14,7 @@ if opcion == 1:
 	Interfaz.main()
 elif opcion == 2:
 	from vista import Flask
-	Flask.app.run(debug=True)
+	Flask.app.run()
 else:
 	print("No has introducido una opción válida")
 

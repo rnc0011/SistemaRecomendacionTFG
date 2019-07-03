@@ -28,5 +28,71 @@ Metiendo la opción \textit{2} se ejecuta la interfaz web obtenida gracias a \te
 \imagen{interfaz_web}{Interfaz web de la aplicación}
 
 \section{Manual del usuario}
+Como se ha comentado en el apartado anterior, hay que navegar hasta el directorio \textit{src} y ejecutar \textbf{python \_\_main\_\_.py}. La interfaz de texto se creó en su momento para comprobar el funcionamiento de los sistemas cuando aún no había ninguna interfaz gráfica. En cuanto se generó la interfaz web, la de texto se dejó de lado y ahora no cumple todas las funcionalidades que debería (y que sí cumple la interfaz de \textit{Flask}). Es por eso que se recomienda encarecidamente el uso de la interfaz gráfica.
 
+Una vez seleccionada la \textit{GUI}, se debe ir a la aplicación web con la dirección \textbf{localhost:5000/home}.
+
+\imagen{pagina_principal_gui}{Página principal de la GUI}
+
+En este primera página se puede construir un modelo de recomendación de 0, ya sea con un conjunto de datos nuevo como con uno ya guardado de ante mano; y cargar modelos para evaluar sus métricas y obtener predicciones.
+
+Aunque la opción de añadir valoraciones a conjunto existente parezca estar disponible, no se ha logrado obtener esa funcionalidad. Así pues, el usuario solo tiene dos opciones desde la página principal.
+
+\subsection{Construir modelo}\label{construir-modelo}
+Si la opción escogida por el usuario es la primera, se va a encontrar con lo siguiente:
+
+\imagen{elegir_tipo_modelo}{Elegir entre modelo clásico o basado en Aprendizaje Profundo}
+
+Ahora tendrá que decidir qué tipo de modelo quiere obtener. Si escoge el modelo clásico, se le preguntará por el tipo de modelo clásico:
+
+\imagen{tipo_modelo_clasico}{Elegir 1 de los 3 modelos clásicos}
+
+Escoja el que escoja, el usuario tendrá a continuación que elegir los parámetros con los que se va a obtener el modelo. Si no selecciona ninguno, se usarán los que salen por defecto:
+
+\imagen{parametros_clasico}{Parte de los parámetros disponibles para los modelos clásicos}
+
+En la siguiente página, se pedirá al usuario que escoja entre crear el modelo con un dataset nuevo o con uno ya guardado de antes:
+
+\imagen{dataset_nuevo_o_no}{Página donde elegir si usar un dataset nuevo o no}
+
+Si el usuario decide utilizar un dataset nuevo, tendrá que seleccionar cada archivo (el de valoraciones, el de ítems y el de usuarios), además de indicar qué encoding y separador utilizan:
+
+\imagen{nuevo_dataset}{Página donde elegir si usar un dataset nuevo o no}
+
+Una vez seleccionados, la aplicación se quedará pensando un rato mientras leer los archivos de datos, obtiene las matrices, obtiene el modelo y lo entrena. Segñun va haciendo todo esto irá preguntando al usuario cómo quiere guardar los datos intermedios. Cuando el proceso acabe, se volverá a la página principal automáticamente.
+
+Si en el paso de usar un dataset nuevo o no, se escoge la segunda opción, el usuario se encontraría con lo siguiente:
+
+\imagen{dataset_viejos}{Página donde seleccionar los datasets ya guardados}
+
+En caso de escoger uno entre \textit{Movielens} y \textit{Dating Agency}, la aplicación busca directamente las matrices, las carga y solo pregunta al usuario dónde guardar y con qué nombre el modelo resultante. Si, en cambio, se escoge otro dataset, la aplicación pide al usuario las ruta de las matrices que se debieron guardar cuando se metió ese dataset por primera vez.
+
+Todo esto es completamente igual si al principio se escoge un modelo basado en aprendizaje profundo y no uno clásico, con la excepción, que una vez escogido el modelo de deep learnin se pregunta al usuario si quiere utilizar los timestamps de los dataset o no. Si el modelo que se escoge es el de secuencia, los timestamps tiene que estar sí o sí.
+
+\imagen{timestamps}{Se pregunta si se quieren utilizar los timestamps o no}
+
+\subsection{Cargar modelo}\label{cargar-modelo}
+Si se escoge esta opción, la aplicación volverá a preguntar el tipo de modelo, si clásico o no. Una vez escogido, se tendrá que ir seleccionando las matrices que utiliza el modelo:
+
+\imagen{matrices_clasico}{Se pide seleccionar las matrices}
+
+Una vez las matrices se han seleccionado, el usuario puede ver las métricas y los datos del modelo:
+
+\imagen{metricas}{Métricas del modelo y datos de los datasets}
+
+Al ver las métricas también se pide al usuario un nombre y una localización para guardar el archivo \textit{.csv} que las guardará.
+
+Si se escoge la opción de ver predicciones, saldrá la siguiente página:
+
+\imagen{elegir_usuario}{Elegir usuario cuyas predicciones se quieren ver}
+
+Una ves introducido el usuario, se verán las 20 mejores predicciones:
+
+\imagen{predicciones}{Predicciones del usuario}
+
+Hay que tener en cuenta que las predicciones para el modelo de secuencia de \textit{Spotlight} no se pueden obtener.
+
+También hay que tener en cuenta que \textit{LightFM} y \textit{Spotlight} van de los índices del 0 al máximo - 1.
+
+Es recomendable dar nombres muy significativos a los modelos, matrices, etc,.
 
