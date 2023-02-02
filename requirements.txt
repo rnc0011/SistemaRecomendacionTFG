@@ -12,5 +12,5 @@ pathlib2==2.2.1
 pickleshare==0.7.4
 spotlight==0.1.5
 unicodecsv==0.14.1
-Werkzeug==0.15.4
+Werkzeug==0.15.5
 WTForms==2.2.1
